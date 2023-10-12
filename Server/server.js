@@ -1,25 +1,30 @@
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
-const cors = require('cors')
-require('dotenv').config()
-const routes = require("./src/routes")
+// const express = require('express')
+// const app = express()
+// const bodyParser = require('body-parser')
+// const cors = require('cors')
+// require('dotenv').config()
+// const routes = require("./src/routes")
 
 
-const port = process.env.PORT
-const hostname = process.env.HOST_NAME
+// const port = process.env.PORT
+// const hostname = process.env.HOST_NAME
 
-// parse application/json
-app.use(bodyParser.json())
+// // parse application/json
+// app.use(bodyParser.json())
 
-app.use(cors())
-
-
-routes(app)
+// app.use(cors())
 
 
+// routes(app)
 
 
-app.listen(port, hostname, () => {
-    console.log(`Server up and running on port ${port}`)
+
+
+// app.listen(port, hostname, () => {
+//     console.log(`Server up and running on port ${port}`)
+// })
+const Video = require('../Server/src/services/video_service');
+Video.getAllVideos()
+.then(data => {
+    console.log(data);
 })
