@@ -23,8 +23,8 @@
 // app.listen(port, hostname, () => {
 //     console.log(`Server up and running on port ${port}`)
 // })
-const Video = require('../Server/src/services/video_service');
-Video.getAllVideos()
+const Test = require('../Server/src/models/cart_items_models');
+Test.findAll()
 .then(data => {
     console.log(data);
 })

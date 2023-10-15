@@ -18,7 +18,11 @@ const Account = sequelize.define('Account', {
             key: 'id'
         }
     }
-});
+},
+{
+    tableName: 'account', // Tên của bảng trong cơ sở dữ liệu
+    timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
+  });
 
 // Đồng bộ hóa model với cơ sở dữ liệu
 Account.sync()

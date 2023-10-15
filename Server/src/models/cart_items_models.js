@@ -2,6 +2,8 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 // Khởi tạo kết nối đến cơ sở dữ liệu MySQL
 const sequelize = require('../database/database');
+const Cart = require('./cart_models');
+const Product = require('./product_models');
 
 // Định nghĩa mô hình cho bảng "cart_items"
 const CartItem = sequelize.define('CartItem', {
@@ -17,7 +19,8 @@ const CartItem = sequelize.define('CartItem', {
   tableName: 'cart_items', // Tên của bảng trong cơ sở dữ liệu
   timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
 });
-
+CartItem.belongsTo(Cart, { foreignKey: 'cart_id', targetKey: 'id' });
+CartItem.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
 // Synchronize mô hình với cơ sở dữ liệu
 sequelize.sync()
   .then(() => {

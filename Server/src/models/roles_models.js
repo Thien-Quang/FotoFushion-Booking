@@ -11,8 +11,9 @@ const Role = sequelize.define('role', {
         allowNull: false,
     },
 }, {
-    timestamps: false, // Tắt cột createdAt và updatedAt
-});
+    tableName: 'roles', // Tên của bảng trong cơ sở dữ liệu
+    timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
+  });
 
 Role.sync()
     .then(() => {
