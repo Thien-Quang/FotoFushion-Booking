@@ -1,10 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-
-// Khởi tạo kết nối đến cơ sở dữ liệu MySQL
-const sequelize = new Sequelize('fotofusion', 'root', 'ThieN181201@', {
-  host: 'localhost', // Địa chỉ máy chủ MySQL của bạn
-  dialect: 'mysql'
-});
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database/database'); // Import từ file cấu hình kết nối
 
 // Định nghĩa mô hình cho bảng "comments"
 const Comment = sequelize.define('Comment', {
@@ -26,13 +21,7 @@ const Comment = sequelize.define('Comment', {
   timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
 });
 
-// Synchronize mô hình với cơ sở dữ liệu
-sequelize.sync()
-  .then(() => {
-    console.log('Mô hình Comment đã được đồng bộ hóa với cơ sở dữ liệu.');
-  })
-  .catch(error => {
-    console.error('Lỗi khi đồng bộ hóa mô hình Comment:', error);
-  });
+
+
 
 module.exports = Comment;
