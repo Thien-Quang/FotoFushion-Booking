@@ -4,11 +4,11 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME = "fotofusion",
-    process.env.DB_USER = "root",
-    process.env.DB_PASSWORD = "ThieN181201@",
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
     {
-        host: process.env.DB_HOST = 'localhost',
+        host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         dialect: 'mysql', // Loại cơ sở dữ liệu
         pool: {

@@ -1,40 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
+const Order = require('./orders_models'); // Import mô hình Order
+const Product = require('./product_models'); // Import mô hình Product
 
-const Order = require('./orders_models');
-const Product = require('./product_models');
-
-const OrderDetail = sequelize.define('order_detail', {
+const OrderDetail = sequelize.define('OrderDetail', {
     id: {
         type: DataTypes.STRING(50),
         primaryKey: true,
     },
-    order_id: {
-        type: DataTypes.STRING(50),
-        references: {
-            model: Order,
-            key: 'id',
-        },
-    },
-    prod_id: {
-        type: DataTypes.STRING(50),
-        references: {
-            model: Product,
-            key: 'id',
-        },
-    },
-    quantity: {
-        type: DataTypes.INTEGER,
-    },
-    unit_price: {
-        type: DataTypes.DECIMAL(18, 3),
-    },
-    shipping_fee: {
-        type: DataTypes.DECIMAL(18, 3),
-    },
-    total_price: {
-        type: DataTypes.DECIMAL(18, 3),
-    },
+    order_id: DataTypes.STRING(50),
+    prod_id: DataTypes.STRING(50),
+    quantity: DataTypes.INTEGER,
+    unit_price: DataTypes.DECIMAL(18, 3),
+    shipping_fee: DataTypes.DECIMAL(18, 3),
+    total_price: DataTypes.DECIMAL(18, 3),
 }, {
     tableName: 'order_detail',
     timestamps: false,
@@ -42,5 +21,13 @@ const OrderDetail = sequelize.define('order_detail', {
 
 OrderDetail.belongsTo(Order, { foreignKey: 'order_id', targetKey: 'id' });
 OrderDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
+
+OrderDetail.sync()
+    .then(() => {
+        console.log('Mô hình OrderDetail đã được đồng bộ hóa với cơ sở dữ liệu.');
+    })
+    .catch(error => {
+        console.error('Lỗi khi đồng bộ hóa mô hình OrderDetail:', error);
+    });
 
 module.exports = OrderDetail;

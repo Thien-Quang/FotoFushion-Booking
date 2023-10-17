@@ -1,22 +1,54 @@
-const express = require('express');
-const router = express.Router();
-
-
-
-const account = require('./account.js')
-const role = require('./role.js')
-const blogPost = require('./blog_post.js')
-const user = require('./user_routes.js')
-
+// Import các tệp route cho các bảng khác
+const account = require('./account_routes.js')
+const blogPost = require('./blog_post_routes.js')
+const bookingDetails = require('./booking_details_routes.js')
+const calendar = require('./calendar_routes.js')
+//const cart = require('./cart_routes.js')
+const cart_items = require('./cart_items_routes.js')
+const comment = require('./comment_routes.js')
+const costumeRoutes = require('./costume_routes');
+const equipmentRoutes = require('./equipment_routes');
+const historyPaymentRoutes = require('./history_payment_routes');
+const orderDetailRoutes = require('./orders_details_routes.js');
+const ordersRoutes = require('./orders_routes');
+const photoAlbumsRoutes = require('./photo_albums_routes');
+const photosRoutes = require('./photo_routes.js');
+const photographyRoomRoutes = require('./photography_room_routes');
+const priceListRoutes = require('./price_list_routes');
+const productsRoutes = require('./products_routes');
+const promotionEventRoutes = require('./promotion_event_routes');
+const requestRoutes = require('./request_routes');
+const rolesRoutes = require('./roles_routes');
+const usersRoutes = require('./users_routes');
+const videoAlbumsRoutes = require('./video_albums_routes');
+const videoRoutes = require('./video_routes');
+const voucherRoutes = require('./voucher_routes');
 
 const index = (app) => {
-
     app.use("/", account);
-    app.use("/", role);
     app.use("/", blogPost);
-    app.use("/", user);
+    app.use("/", bookingDetails);
+    app.use("/", calendar);
+    //app.use("/", cart);
+    app.use("/", cart_items);
+    app.use("/", comment);
+    app.use("/", costumeRoutes);
+    app.use("/", equipmentRoutes);
+    app.use("/", historyPaymentRoutes);
+    app.use("/", orderDetailRoutes);
+    app.use("/", ordersRoutes);
+    app.use("/", photoAlbumsRoutes);
+    app.use("/", photosRoutes);
+    app.use("/", photographyRoomRoutes);
+    app.use("/", priceListRoutes);
+    app.use("/", productsRoutes);
+    app.use("/", promotionEventRoutes);
+    app.use("/", requestRoutes);
+    app.use("/", rolesRoutes);
+    app.use("/", usersRoutes);
+    app.use("/", videoAlbumsRoutes);
+    app.use("/", videoRoutes);
+    app.use("/", voucherRoutes);
+};
 
-
-}
-
-module.exports = index
+module.exports = index;

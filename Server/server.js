@@ -1,21 +1,21 @@
-// const express = require('express')
-// const app = express()
-// const bodyParser = require('body-parser')
-// const cors = require('cors')
-// require('dotenv').config()
-// const routes = require("./src/routes")
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
+require('dotenv').config()
+const routes = require("./src/routes")
 
 
-// const port = process.env.PORT
-// const hostname = process.env.HOST_NAME
+const port = process.env.PORT
+const hostname = process.env.HOST_NAME
 
-// // parse application/json
-// app.use(bodyParser.json())
+// parse application/json
+app.use(bodyParser.json())
 
-// app.use(cors())
+app.use(cors())
 
 
-// routes(app)
+routes(app)
 
 
 
