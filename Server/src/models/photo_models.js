@@ -1,14 +1,14 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 
-const Costume = require('./costume_models');
+const Costume = require('./costume');
 const PhotoAlbum = require('./photo_Albums_models');
-const PromotionEvent = require('./promotion_even_models');
-const PhotographyRoom = require('./photography_room_models');
+const PromotionEvent = require('./promotion_event');
+const PhotographyRoom = require('./photography_room');
 const User = require('./users_models');
 const Product = require('./product_models');
 const BlogPost = require('./blog_post_models');
-const Equipment = require('./equipment_models');
+const Equipment = require('./equipment');
 
 const Photo = sequelize.define('photo', {
     id: {
