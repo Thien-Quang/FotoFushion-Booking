@@ -21,5 +21,5 @@ routes(app)
 
 
 app.listen(port, hostname, () => {
-    console.log(`Server up and running on port ${port}`)
+  console.log(`Server up and running on port ${port}`)
 })
