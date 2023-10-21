@@ -1,0 +1,60 @@
+.mainContainerTopSeller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .tableTopSeller {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 46px;
+
+
+        @media screen and (max-width: 1365px) {
+            gap: 20px;
+        }
+
+
+    }
+}
+
+.menuTopSeller {
+    display: flex;
+    height: 60px;
+    flex-direction: row;
+    gap: 46px;
+    margin-bottom: 30px;
+
+    .linkCategory {
+        text-decoration: none;
+        height: 40px;
+        color: #FFF;
+        text-align: center;
+        font-family: Inter;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        &:hover {
+            border-bottom: 1px solid #C7905D;
+        }
+
+        .activeTab {
+            width: 8px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #C7905D;
+        }
+    }
+}
