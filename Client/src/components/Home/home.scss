@@ -1,0 +1,198 @@
+.bgHome {
+    width: 1920px;
+    height: 1059px;
+    object-fit: cover;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.homeContainter {
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+.partOverview {
+    .homeFotofusion {
+        color: #fff;
+        position: absolute;
+        top: 37%;
+        left: 13%;
+        display: flex;
+        flex-direction: column;
+
+        .textfotofusion {
+            color: #FFF;
+            font-family: Montserrat;
+            font-size: 128px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+        }
+
+        .textPlace {
+            margin-top: 20px;
+            color: #FFF;
+            font-family: Montserrat;
+            font-size: 32px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .btnGet {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 203px;
+            height: 61px;
+            flex-shrink: 0;
+            border: 2px solid #D3924C;
+            background: rgba(0, 0, 0, 0.30);
+
+            span {
+                color: #FFF;
+                font-family: Montserrat;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+    }
+
+    .chatBox {
+        width: 357px;
+        height: 177px;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 17px;
+        top: 77%;
+        right: 3%;
+
+        .messegeDemo {
+            border-radius: 20px;
+            background: #FFF;
+            width: 320px;
+            padding: 11px 20px;
+            // border: 1px solid #5e3e1c;
+
+            span {
+                color: #000;
+                font-family: Montserrat;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
+            .iconCollapse {
+                color: #000;
+                position: absolute;
+                right: 0px;
+                bottom: 157px;
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background-color: #FFF;
+                box-shadow: 3px 5px 9px -3px rgba(0, 0, 0, 0.43);
+                -webkit-box-shadow: 3px 5px 9px -3px rgba(0, 0, 0, 0.43);
+                -moz-box-shadow: 3px 5px 9px -3px rgba(0, 0, 0, 0.43);
+
+                .divide {
+                    width: 16px;
+                    height: 2px;
+                    background: #000;
+                    position: relative;
+                }
+            }
+        }
+
+        img {
+            width: 86px;
+            height: 86px;
+            flex-shrink: 0;
+        }
+    }
+}
+
+.partMiddle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+}
+
+.partCategory {
+    width: 100%;
+    padding: 100px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 45px;
+}
+
+.namePart {
+    display: flex;
+    height: 49px;
+
+    .textTiltle {
+        color: #FFF;
+        font-family: Montserrat;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+    }
+
+    .textTiltleYellow {
+        color: #C7905D;
+        font-family: Montserrat;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 800;
+        line-height: normal;
+        margin-left: 20px;
+    }
+
+}
+
+.tablePart {
+    width: 68%;
+}
+
+
+
+.partTopSeller {}
+
+.partFolow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    color: #ffffff;
+    font-family: Montserrat;
+    font-size: 20px;
+    text-align: left;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    .linkFollow {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+}

@@ -1,0 +1,76 @@
+.homeTableProduct {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 73px;
+
+
+
+    @media screen and (max-width: 1365px) {
+        gap: 20px;
+    }
+
+    .itemForm {
+        cursor: pointer;
+        border-radius: 5px;
+        width: 380.91px;
+        height: 610.169px;
+        background: #C4C4C4;
+
+        transition-property: transform;
+        transition-duration: 300ms;
+
+        &:hover {
+            transform: rotate(2deg);
+            box-shadow: 5px 4px 21px 1px rgba(255, 255, 255, 0.21);
+            -webkit-box-shadow: 5px 4px 21px 1px rgba(255, 255, 255, 0.21);
+            -moz-box-shadow: 5px 4px 21px 1px rgba(255, 255, 255, 0.21);
+        }
+
+        img {
+            width: 380.91px;
+            height: 560px;
+            border-radius: 5px;
+            object-fit: cover;
+
+        }
+
+        .content {
+            width: 298.599px;
+            height: 101.695px;
+            flex-shrink: 0;
+
+            border-radius: 10px 10px 0px 0px;
+            background: rgba(255, 255, 255, 0.80);
+
+            position: relative;
+            top: -56px;
+            left: 50px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            gap: 10px;
+
+            .textCategory {
+                color: #000;
+                font-family: Montserrat;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+            }
+
+            .textType {
+                color: #747474;
+                font-family: Montserrat;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                width: 76.284px;
+                height: 29.492px;
+            }
+        }
+    }
+}

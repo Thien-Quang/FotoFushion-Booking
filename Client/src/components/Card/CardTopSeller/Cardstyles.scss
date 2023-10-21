@@ -1,0 +1,82 @@
+  .mainCard {
+      cursor: pointer;
+
+      .itemForm {
+          border-radius: 5px;
+          width: 287.91px;
+          background: #1111;
+          cursor: pointer;
+
+          img {
+              width: 285.91px;
+              height: 377px;
+              border-radius: 5px;
+              object-fit: cover;
+              cursor: pointer;
+              transition-property: transform;
+              transition-duration: 300ms;
+
+              &:hover {
+
+                  transform: rotate(2deg);
+                  box-shadow: 5px 4px 21px 1px rgba(255, 255, 255, 0.21);
+                  -webkit-box-shadow: 5px 4px 21px 1px rgba(255, 255, 255, 0.21);
+                  -moz-box-shadow: 5px 4px 21px 1px rgba(255, 255, 255, 0.21);
+              }
+          }
+
+          .content {
+              cursor: pointer;
+              flex-shrink: 0;
+
+              border-radius: 10px 10px 0px 0px;
+
+
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              justify-content: flex-start;
+              gap: 10px;
+              margin-top: 30px;
+
+              .textCategory {
+                  color: #ffffff;
+                  font-family: Montserrat;
+                  font-size: 25px;
+                  text-align: left;
+                  font-style: normal;
+                  font-weight: 700;
+                  line-height: normal;
+              }
+
+              .textType {
+                  color: #747474;
+                  font-family: Montserrat;
+                  font-size: 18px;
+                  font-style: normal;
+                  font-weight: 900;
+                  line-height: normal;
+              }
+
+              .priceConainer {
+                  font-family: Montserrat;
+                  font-size: 18px;
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: normal;
+
+                  display: flex;
+                  gap: 10px;
+
+                  .textPrice {
+                      color: #747474;
+                      text-decoration: line-through;
+                  }
+
+                  .textPriceSale {
+                      color: #D3924C;
+                  }
+              }
+          }
+      }
+  }
