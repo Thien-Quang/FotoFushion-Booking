@@ -1,5 +1,6 @@
-import { Home } from '../pages/index'
+import { Home, Calendar } from "../pages/index";
 const router = [
-    { path: '/', component: Home },
-]
-export { router }
+  { path: "/", component: Home },
+  { path: "/calender", component: Calendar },
+];
+export { router };
