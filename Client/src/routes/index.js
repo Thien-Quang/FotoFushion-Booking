@@ -6,3 +6,4 @@ const router = [
   { path: "/equiment", component: Equipment },
 ];
 export { router };
+
