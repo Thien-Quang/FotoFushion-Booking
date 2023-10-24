@@ -1,8 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from "react";
+import "./App.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/header";
-import Footer from './components/Footer/footer';
-import { router } from '../src/routes/index';
+import Footer from "./components/Footer/footer";
+import { router } from "../src/routes/index";
 
 function App() {
   return (
@@ -12,7 +14,11 @@ function App() {
         <main className="flex-grow">
           <Routes>
             {router.map((route) => (
-              <Route key={route.path} path={route.path} element={<route.component />} />
+              <Route
+                key={route.path}
+                path={route.path}
+                element={<route.component />}
+              />
             ))}
           </Routes>
         </main>
