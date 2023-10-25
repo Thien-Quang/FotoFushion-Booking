@@ -1,0 +1,276 @@
+// @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+// $white: #fff;
+// $google-blue: #4285f4;
+// $button-active-blue: #1669F2;
+
+// .loginContainer {
+//     display: block;
+//     position: absolute;
+//     top: 161px;
+//     left: 204px;
+//     width: 35%;
+
+//     h1 {
+//         color: #FFF;
+//         font-family: Overpass;
+//         font-size: 35px;
+//         font-style: normal;
+//         font-weight: 800;
+//         line-height: normal;
+//         letter-spacing: 4px;
+//     }
+
+//     .loginForm {
+//         width: 100%;
+//         font-size: 14;
+
+//         .inputEmail {
+//             margin-top: 10px;
+//             margin-bottom: 20px;
+//             width: 300px;
+//             display: flex;
+//             padding: 10px 32px;
+//             align-items: flex-start;
+//             gap: 10px;
+//             align-self: stretch;
+//             border-radius: 80px;
+//             border: 2px solid var(--dark-blue-18, #789ADE);
+//             background: #FFF;
+//             border-radius: 80px;
+//         }
+
+//         .passwordInput {
+//             margin-top: 10px;
+//             margin-bottom: 20px;
+//             display: flex;
+//             align-items: flex-start;
+//             gap: 10px;
+//             width: 360px;
+//             align-self: stretch;
+//             border-radius: 80px;
+//             border: 2px solid var(--dark-blue-18, #789ADE);
+//             background: #FFF;
+
+//             input {
+//                 background-color: transparent;
+//                 border: none;
+//                 padding: 10px 32px;
+//                 border-radius: 80px;
+
+//                 &:active {
+//                     border: none;
+//                     outline: none;
+//                 }
+
+//                 &:focus {
+//                     outline: none;
+//                     background-color: transparent;
+//                 }
+
+//                 &::before {
+//                     outline: none;
+//                     background-color: transparent;
+//                 }
+
+//                 &:placeholder {
+//                     color: var(--blue-19, #C8D3F9);
+//                     font-family: Nunito;
+//                     font-size: 24px;
+//                     font-style: normal;
+//                     font-weight: 400;
+//                     line-height: normal;
+//                     letter-spacing: 2.4px;
+//                 }
+//             }
+
+//             .buttonPw {
+//                 border: none;
+//                 background-color: transparent;
+//             }
+
+//         }
+
+//         span {
+//             color: #FFF;
+//             font-family: Nunito;
+//             font-size: 28px;
+//             font-style: normal;
+//             font-weight: 600;
+//             line-height: normal;
+//             letter-spacing: 2.8px;
+//         }
+
+//         .forgotPassword {
+//             margin-top: 10px;
+//             display: flex;
+//             align-items: flex-end;
+//             justify-content: flex-end;
+
+//             .linkTO {
+//                 color: rgba(255, 194, 27, 0.25);
+//                 margin-left: 10px;
+//                 text-decoration: none;
+//             }
+
+//             span {
+//                 font-size: 14px;
+//                 height: 34px;
+//                 flex-shrink: 0;
+//                 color: #b6b7bd;
+//                 font-family: Nunito;
+//                 font-style: normal;
+//                 font-weight: 400;
+//                 line-height: normal;
+//                 letter-spacing: 2.4px;
+//             }
+
+//         }
+
+
+//         .btnSubmit {
+//             margin-top: 25px;
+//             margin-bottom: 30px;
+//             display: flex;
+//             width: 370px;
+
+//             height: 49.736px;
+//             padding: 12px 32px;
+//             text-align: center;
+//             justify-content: center;
+//             align-items: center;
+//             flex-shrink: 0;
+
+//             border-radius: 80px;
+//             background: #D3924C;
+//             box-shadow: 4px 8px 12px 0px rgba(78, 99, 141, 0.06), 0px 4px 12px 0px rgba(200, 211, 249, 0.60) inset;
+
+
+//             color: var(--white, #FFF);
+//             font-family: Nunito;
+//             font-size: 28px;
+//             font-style: normal;
+//             font-weight: 800;
+//             line-height: normal;
+//             letter-spacing: 2.8px;
+//         }
+
+//         .Or {
+//             color: #FFF;
+//             font-family: Nunito;
+//             font-size: 24px;
+//             font-style: normal;
+//             font-weight: 400;
+//             line-height: normal;
+//             letter-spacing: 2.4px;
+//         }
+//     }
+// }
+
+// .google-btn {
+//     margin-top: 20px;
+//     margin-left: 10px;
+//     width: 340px;
+//     height: 52px;
+//     background-color: $google-blue;
+//     border-radius: 2px;
+//     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .25);
+
+//     .google-icon-wrapper {
+//         position: absolute;
+//         margin-top: 1px;
+//         margin-left: 1px;
+//         width: 50px;
+//         height: 50px;
+//         border-radius: 2px;
+//         background-color: $white;
+//     }
+
+//     .google-icon {
+//         position: absolute;
+//         margin-top: 11px;
+//         margin-left: 11px;
+//         width: 28px;
+//         height: 28px;
+//     }
+
+//     .btn-text {
+//         float: left;
+//         margin-top: 0px;
+//         padding: 6px 18px 10px 80px;
+//         color: $white;
+//         font-size: 27px;
+//         letter-spacing: 0.2px;
+//         font-family: "Roboto";
+//     }
+
+//     &:hover {
+//         box-shadow: 0 0 6px $google-blue;
+//     }
+
+//     &:active {
+//         background: $button-active-blue;
+//     }
+// }
+
+// .bgContainerLogin {
+//     width: 1920px;
+// }
+
+// .mainLogin {
+//     overflow: hidden;
+// }
+
+// .imageContainer {
+//     width: 558px;
+//     height: 500px;
+//     position: absolute;
+//     top: 270px;
+//     right: 222px;
+//     display: flex;
+
+//     .text {
+//         display: flex;
+//         flex-direction: column;
+//         color: #FFF;
+//         font-family: Montserrat;
+//         font-size: 44px;
+//         font-style: normal;
+//         font-weight: 800;
+//         line-height: normal;
+//         position: absolute;
+//         top: 151px;
+//         right: 6px;
+//         z-index: 4;
+
+//         .text1 {
+//             text-align: end;
+//         }
+
+//         .text2 {
+//             display: flex;
+//             gap: 15px;
+//             color: #D3924C;
+
+//             .text2-2 {
+//                 color: #fff;
+//             }
+//         }
+//     }
+
+//     .imgEarth {
+//         width: 610px;
+//         height: 391px;
+//         position: absolute;
+//         top: 51px;
+//         left: -54px;
+//         z-index: 1;
+//     }
+
+//     .imgPeople {
+//         width: 211px;
+//         height: 268px;
+//         position: relative;
+//         left: 30px;
+//         z-index: 3;
+//     }
+// }

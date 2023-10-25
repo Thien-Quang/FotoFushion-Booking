@@ -11,6 +11,12 @@ import {
     AiOutlineEyeInvisible,
     AiFillPlusCircle,
     AiFillEdit,
+    AiOutlineMail,
+    AiOutlineFacebook,
+    AiOutlineYoutube,
+    AiOutlineDown,
+    AiOutlineSearch,
+    AiOutlineUnorderedList,
 } from "react-icons/ai";
 import {
     FaUserCircle,
@@ -66,6 +72,12 @@ import { SiExpress, SiTailwindcss } from "react-icons/si";
 import { GiSkeletonKey } from "react-icons/gi";
 
 export const icons = {
+    AiOutlineMail,
+    AiOutlineFacebook,
+    AiOutlineYoutube,
+    AiOutlineDown,
+    AiOutlineSearch,
+    AiOutlineUnorderedList,
     FiSearch,
     BiSolidUser,
     BiSolidBank,

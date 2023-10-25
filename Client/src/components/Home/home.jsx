@@ -4,9 +4,7 @@ import FollowImg from '../../assets/images/followImage.png'
 import BgHome from '../../assets/images/bg-home.png'
 
 import IconMessenger from '../../assets/images/messenger.png';
-import IcTiktok from '../../assets/icon/ic-tiktok';
-import IcInsta from '../../assets/icon/ic-ins';
-import IcFb from '../../assets/icon/ic-fb';
+
 
 
 import MemberTakePhotos from '../ImageGroup/MemberTakePhotos/MemberTakePhotos';

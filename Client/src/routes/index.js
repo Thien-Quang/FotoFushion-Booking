@@ -1,9 +1,15 @@
-import { Home, Calendar, Profile, Equipment } from "../pages/index";
+import { Home, Calendar, Profile, Equipment, BookingAlbums, ForgotPassWord, AlbumsPhotoPage, Login, SignUp } from "../pages/index";
 const router = [
   { path: "/", component: Home },
   { path: "/calendar", component: Calendar },
   { path: "/profile", component: Profile },
   { path: "/equiment", component: Equipment },
+  { path: "/bookingAlbums", component: BookingAlbums },
+  { path: "/forgotpassword", component: ForgotPassWord },
+  { path: "/albumsphoto", component: AlbumsPhotoPage },
+  { path: "/login", component: Login },
+  { path: "/signup", component: SignUp },
+
 ];
 export { router };
 
