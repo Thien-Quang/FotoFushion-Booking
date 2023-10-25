@@ -14,7 +14,6 @@ const Home = () => {
   return (
     <div className='homeContainter'>
       <img className='bgHome' src={BgHome} alt='bgHOme' />
-
       <div className='partOverview' >
         <div className='homeFotofusion'>
           <span className='textfotofusion'>FOTOFUSION</span>
@@ -50,7 +49,6 @@ const Home = () => {
         </div>
 
         {/* TOP SELLER PRODUCTs */}
-
         <div className='partCategory'>
           <span className='namePart'>
             <span className='textTiltle'>Top Seller</span>
@@ -60,10 +58,7 @@ const Home = () => {
             <TopSellerProducts />
           </div>
         </div>
-
-        {/* MEMBERS TAKE PHOTOS */}
-
-        <div className='partCategory'>
+        <div className='partCategory' >
           <span className='namePart'>
             <span className='textTiltle'>MEMBERS</span>
             <span className='textTiltleYellow'>TAKE PHOTOS</span>
@@ -72,11 +67,11 @@ const Home = () => {
             <MemberTakePhotos data={[]} />
           </div>
         </div>
+      </div>
 
-        <div className='partCategory' style={{ padding: '100px 0px 0px 0px' }}>
-          <img src={FollowImg} alt='follow' />
-        </div>
-
+      {/* MEMBERS TAKE PHOTOS */}
+      <div className='partCategory' style={{ padding: '100px 0px 0px 0px' }}>
+        <img src={FollowImg} alt='follow' />
       </div>
     </div>
   );

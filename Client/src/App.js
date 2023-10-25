@@ -9,8 +9,10 @@ import { router } from "../src/routes/index";
 function App() {
   return (
     <Router>
-      <div className="h-screen min-w-[680px] flex flex-col">
+      <div className="fixed top-0 w-full z-50">
         <Header />
+      </div>
+      <div className="h-screen min-w-[680px] flex flex-col">
         <main className="flex-grow">
           <Routes>
             {router.map((route) => (

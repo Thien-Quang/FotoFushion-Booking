@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import LoginBG from '../../assets/images/login-bg.png'
 import VectaryTexture from '../../assets/images/VectaryTexture.png'
 import Vectary from '../../assets/images/Vectary.png'
@@ -6,31 +6,43 @@ import './Login.scss'
 import { Form } from 'antd';
 import { EyeTwoTone, EyeInvisibleTwoTone } from '@ant-design/icons';
 import useWindowSize from '../Card/hook/use-window-size'
-
+import AuthContext from '../../context/authProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+
 const Login = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const { _, height } = useWindowSize()
+    const { _, height } = useWindowSize();
+    const { setIsLogin } = useContext(AuthContext);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     function onSubmit() {
-        console.log(email)
-        console.log(password)
-        navigate("/home");
+        console.log(email);
+        console.log(password);
+        if (setIsLogin) {
+            setIsLogin(true);
+            navigate("/");
+        } else {
+            console.error("setIsLogin is not defined.");
+        }
     }
+
     function linkToSignup() {
         navigate("/signup");
     }
+
     function linkToForgotPass() {
         navigate("/forgot-password");
     }
     return (
+
         <div className='mainLogin' style={{ height: height }}>
             <img className='bgContainerLogin' style={{ height: height }} src={LoginBG} alt={'loginbg'} />
             <div className='loginContainer'>
@@ -95,6 +107,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 

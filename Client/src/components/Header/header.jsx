@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logoFushion from "../../public/img/logoFushion.jpg";
 import { icons } from "../../utils/icons";
-
-
+import AuthContext from '../../context/authProvider';
 
 import { CiLocationOn } from "react-icons/ci";
 import { BiUser } from "react-icons/bi";
 import { IoInformationCircleOutline, IoAlbumsOutline } from "react-icons/io5";
-
-
 import { BsInstagram, BsTwitter, BsFillPenFill } from "react-icons/bs";
 
 function Header() {
   const navigate = useNavigate();
 
-  const [isLogin, setIsLogin] = useState(true);
+  const { isLogin, setIsLogin } = useContext(AuthContext);
   const [isMenuUserOpen, setIsMenuUserOpen] = useState(false);
   const [isMenuAlbumOpen, setIsMenuAlbumOpen] = useState(false);
   const [isMenuPriceOpen, setIsMenuPriceOpen] = useState(false);
-  const [isMenuServicesOpen, setIsMenuServicesOpen] = useState(false);
 
 
   const handleMouseUserEnter = () => {
@@ -44,17 +40,13 @@ function Header() {
   const handleMousePriceLeave = () => {
     setIsMenuPriceOpen(false);
   };
-  const handleMouseServicesEnter = () => {
-    setIsMenuServicesOpen(true);
+  const handleLogout = () => {
+    setIsLogin(false); // Đặt isLogin thành false
+    // Thực hiện các hành động khác sau khi đăng xuất (nếu cần)
   };
-
-  const handleMouseServicesLeave = () => {
-    setIsMenuServicesOpen(false);
-  };
-
   return (
-    <div className="bg-black w-full">
-      <div className="w-full flex m-2">
+    <div className="bg-black w-full z-50 ">
+      <div className="w-full flex p-2">
         <div className="w-1/2 text-white flex justify-center items-center font-sans text-xs">
           <ul className="flex justify-center items-center">
             <li className="flex justify-center items-center mr-4 ">
@@ -102,7 +94,7 @@ function Header() {
           <a href="/" class="flex items-center">
             <img src={logoFushion} class="h-8 mr-3" alt=" Fushion Logo" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">
-              FutoFusion
+              FotoFusion
             </span>
           </a>
         </div>
@@ -134,7 +126,7 @@ function Header() {
                   <icons.AiOutlineDown />
                 </span>
                 {isMenuAlbumOpen && (
-                  <div className="absolute bg-white text-black mt-[160px] p-4 rounded-lg shadow-lg">
+                  <div className="absolute bg-black text-white mt-[100px] p-4 rounded-lg shadow-lg z-50">
                     {/* Nội dung của bảng menu */}
                     <ul>
                       <li className="pb-2">
@@ -149,20 +141,25 @@ function Header() {
               </a>
             </li>
             <li>
-              <a
-                className="m-4 flex items-center justify-center"
+              <div
+                className="p-4 flex items-center justify-center hover: cursor-pointer"
                 onMouseEnter={handleMousePriceEnter}
                 onMouseLeave={handleMousePriceLeave}
-                href="#"
               >
-                BẢNG GIÁ
+                DỊCH VỤ
                 <span className="m-1">
                   <icons.AiOutlineDown />
                 </span>
                 {isMenuPriceOpen && (
-                  <div className="absolute bg-black text-white mt-[265px] p-4 rounded-lg shadow-lg">
+                  <div className="absolute bg-black text-white mt-[310px] p-4 rounded-lg shadow-lg">
                     {/* Nội dung của bảng menu */}
                     <ul>
+                      <li className="pb-2">
+                        <a href="#">Cửa hàng</a>
+                      </li>
+                      <li className="pb-2">
+                        <a href="#">Yêu cầu chỉnh sửa</a>
+                      </li>
                       <li className="pb-2">
                         <a href="#">Chụp ảnh</a>
                       </li>
@@ -184,7 +181,7 @@ function Header() {
                     </ul>
                   </div>
                 )}
-              </a>
+              </div>
             </li>
             <li>
               <a className="m-4" href="#">
@@ -199,44 +196,11 @@ function Header() {
               </a>
             </li>
             <li>
-              <a
-                className="m-4 flex items-center justify-center"
-                onMouseEnter={handleMousePriceEnter}
-                onMouseLeave={handleMousePriceLeave}
-                href="#"
-              >
-                DỊCH VỤ
-                <span className="m-1">
-                  <icons.AiOutlineDown />
-                </span>
-                {isMenuPriceOpen && (
-                  <div className="absolute bg-black text-white mt-[265px] p-4 rounded-lg shadow-lg">
-                    {/* Nội dung của bảng menu */}
-                    <ul>
-                      <li className="pb-2">
-                        <a href="#">Chụp ảnh</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Quay phim</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Trang phục</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Thiết bị</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Make-up</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Phòng studio</a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+              <a className="m-4" href="#">
+                LIÊN HỆ
               </a>
             </li>
-            <Link to="/bookingAlbums">
+            <Link to="/bookingOnline">
               <button className="bg-btnprimary text-white rounded-2xl py-2 px-4">
                 BOOKING
               </button>
@@ -322,15 +286,16 @@ function Header() {
                     </span>
                   </li>
                   <li
-                    onClick={() => navigate("/profile")}
                     className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
                   >
                     <span>
                       <BiUser />
                     </span>
-                    <span className="text-white font-medium hover:text-red ml-4">
-                      Đăng Xuất
-                    </span>
+                    <Link to='/login' onClick={handleLogout} >
+                      <span className="text-white font-medium hover:text-red ml-4">
+                        Đăng Xuất
+                      </span>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -340,14 +305,18 @@ function Header() {
           <div className="w-1/4 flex justify-center items-center ">
             <ul className="flex justify-center items-center ">
               <li>
-                <a className="text-red-500 mr-5" href="">
-                  ĐĂNG NHẬP
-                </a>
+                <Link to="/login">
+                  <a className="text-red-500 mr-5" href="">
+                    ĐĂNG NHẬP
+                  </a>
+                </Link>
               </li>
               <li>
-                <button className="bg-btnaccess text-white rounded-2xl py-2 px-4">
-                  ĐĂNG KÍ
-                </button>
+                <Link to="/signup">
+                  <button className="bg-btnaccess text-white rounded-2xl py-2 px-4">
+                    ĐĂNG KÍ
+                  </button>
+                </Link>
               </li>
             </ul>
           </div>
