@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logoFushion from "../../public/img/logoFushion.jpg";
 import { icons } from "../../utils/icons";
 
@@ -19,6 +19,8 @@ function Header() {
   const [isMenuUserOpen, setIsMenuUserOpen] = useState(false);
   const [isMenuAlbumOpen, setIsMenuAlbumOpen] = useState(false);
   const [isMenuPriceOpen, setIsMenuPriceOpen] = useState(false);
+  const [isMenuServicesOpen, setIsMenuServicesOpen] = useState(false);
+
 
   const handleMouseUserEnter = () => {
     setIsMenuUserOpen(true);
@@ -41,6 +43,13 @@ function Header() {
 
   const handleMousePriceLeave = () => {
     setIsMenuPriceOpen(false);
+  };
+  const handleMouseServicesEnter = () => {
+    setIsMenuServicesOpen(true);
+  };
+
+  const handleMouseServicesLeave = () => {
+    setIsMenuServicesOpen(false);
   };
 
   return (
@@ -151,7 +160,7 @@ function Header() {
                   <icons.AiOutlineDown />
                 </span>
                 {isMenuPriceOpen && (
-                  <div className="absolute bg-white text-black mt-[270px] p-4 rounded-lg shadow-lg">
+                  <div className="absolute bg-black text-white mt-[265px] p-4 rounded-lg shadow-lg">
                     {/* Nội dung của bảng menu */}
                     <ul>
                       <li className="pb-2">
@@ -190,14 +199,48 @@ function Header() {
               </a>
             </li>
             <li>
-              <a className="m-4" href="#">
-                {" "}
-                LIÊN HỆ
+              <a
+                className="m-4 flex items-center justify-center"
+                onMouseEnter={handleMousePriceEnter}
+                onMouseLeave={handleMousePriceLeave}
+                href="#"
+              >
+                DỊCH VỤ
+                <span className="m-1">
+                  <icons.AiOutlineDown />
+                </span>
+                {isMenuPriceOpen && (
+                  <div className="absolute bg-black text-white mt-[265px] p-4 rounded-lg shadow-lg">
+                    {/* Nội dung của bảng menu */}
+                    <ul>
+                      <li className="pb-2">
+                        <a href="#">Chụp ảnh</a>
+                      </li>
+                      <li className="pb-2">
+                        <a href="#">Quay phim</a>
+                      </li>
+                      <li className="pb-2">
+                        <a href="#">Trang phục</a>
+                      </li>
+                      <li className="pb-2">
+                        <a href="#">Thiết bị</a>
+                      </li>
+                      <li className="pb-2">
+                        <a href="#">Make-up</a>
+                      </li>
+                      <li className="pb-2">
+                        <a href="#">Phòng studio</a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </a>
             </li>
-            <button className="bg-btnprimary text-white rounded-2xl py-2 px-4">
-              BOOKING
-            </button>
+            <Link to="/bookingAlbums">
+              <button className="bg-btnprimary text-white rounded-2xl py-2 px-4">
+                BOOKING
+              </button>
+            </Link>
           </ul>
         </div>
         {isLogin ? (
