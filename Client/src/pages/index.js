@@ -6,6 +6,7 @@ export { default as BookingAlbums } from "./bookingAlbums.jsx";
 export { default as BookingOnline } from "./bookingOnline.jsx";
 export { default as ForgotPassWord } from "./forgotPassword.jsx";
 export { default as AlbumsPhotoPage } from "./albumsPhoto.jsx";
+export { default as BlogPage } from "./blog.jsx";
 export { default as Login } from "./login.jsx";
 export { default as SignUp } from "./signup.jsx";
 

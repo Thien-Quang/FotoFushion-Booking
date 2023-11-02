@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.10.2",
     "react": "^18.2.0",
-    "react-big-calendar": "^1.8.4",
+    "react-big-calendar": "^1.8.5",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
@@ -32,8 +32,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
@@ -49,7 +48,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "autoprefixer": "^10.4.16",
+    "eslint": "^8.0.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3"
   }
