@@ -6,12 +6,9 @@ import ChangePasswordPage from "./changePassword"
 import Order from "./order"
 
 
-
-
-
 const Profile = () => {
 
-    const [activeTab, setActiveTab] = useState("");
+    const [activeTab, setActiveTab] = useState("profile");
     const handleTabClick = (tabName) => {
         setActiveTab(tabName); // Cập nhật trạng thái khi nhấn vào thẻ li
     };

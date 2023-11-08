@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './home.scss'
 import FollowImg from '../../assets/images/followImage.png'
 import BgHome from '../../assets/images/bg-home.png'
 
 import IconMessenger from '../../assets/images/messenger.png';
-import IcTiktok from '../../assets/icon/ic-tiktok';
-import IcInsta from '../../assets/icon/ic-ins';
-import IcFb from '../../assets/icon/ic-fb';
-
 
 import MemberTakePhotos from '../ImageGroup/MemberTakePhotos/MemberTakePhotos';
 import CategoryProductGroup from '../ImageGroup/CategoryProductGroup/CategoryProductGroup';
 import TopSellerProducts from '../ImageGroup/TopSellerProducts/TopSellerProducts';
+
+import SlidePhoto from '../SlidePhoto/SlidePhoto';
+
+
 const Home = () => {
+  const topRef = useRef(null); // Define topRef with an initial value of null
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
   return (
     <div className='homeContainter'>
       <img className='bgHome' src={BgHome} alt='bgHOme' />
-
       <div className='partOverview' >
         <div className='homeFotofusion'>
           <span className='textfotofusion'>FOTOFUSION</span>
@@ -52,7 +58,6 @@ const Home = () => {
         </div>
 
         {/* TOP SELLER PRODUCTs */}
-
         <div className='partCategory'>
           <span className='namePart'>
             <span className='textTiltle'>Top Seller</span>
@@ -62,10 +67,7 @@ const Home = () => {
             <TopSellerProducts />
           </div>
         </div>
-
-        {/* MEMBERS TAKE PHOTOS */}
-
-        <div className='partCategory'>
+        <div className='partCategory' >
           <span className='namePart'>
             <span className='textTiltle'>MEMBERS</span>
             <span className='textTiltleYellow'>TAKE PHOTOS</span>
@@ -74,11 +76,11 @@ const Home = () => {
             <MemberTakePhotos data={[]} />
           </div>
         </div>
+      </div>
 
-        <div className='partCategory' style={{ padding: '100px 0px 0px 0px' }}>
-          <img src={FollowImg} alt='follow' />
-        </div>
-
+      {/* MEMBERS TAKE PHOTOS */}
+      <div>
+        <SlidePhoto />
       </div>
     </div>
   );

@@ -1,30 +1,23 @@
-import React from "react";
-import "./App.css";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./components/Header/header";
-import Footer from "./components/Footer/footer";
-import { router } from "../src/routes/index";
+import { Routes, Route } from 'react-router-dom';
+import { router } from './routes/index';
+import { Layout } from './pages/index';
+//import LayoutAdmin from './pages/LayoutAdmin';
 
 function App() {
   return (
-    <Router>
-      <div className="h-screen min-w-[680px] flex flex-col">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            {router.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))}
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <>
+      <Routes>
+        <Route element={<Layout hideHeaderPaths={['/login', '/signup',]} />}>
+          {router.map((route, index) => {
+            return <Route key={index} path={route.path} element={
+              //<LayoutAdmin>
+              <route.component />
+              // </LayoutAdmin>
+            }></Route>;
+          })}
+        </Route>
+      </Routes>
+    </>
   );
 }
 
