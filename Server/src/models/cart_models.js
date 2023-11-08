@@ -17,12 +17,12 @@ const Cart = sequelize.define('Cart', {
 
 Cart.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
 
-Cart.sync()
-    .then(() => {
-        console.log('Mô hình Cart đã được đồng bộ hóa với cơ sở dữ liệu.');
-    })
-    .catch(error => {
-        console.error('Lỗi khi đồng bộ hóa mô hình Cart:', error);
-    });
+// Cart.sync()
+//     .then(() => {
+//         console.log('Mô hình Cart đã được đồng bộ hóa với cơ sở dữ liệu.');
+//     })
+//     .catch(error => {
+//         console.error('Lỗi khi đồng bộ hóa mô hình Cart:', error);
+//     });
 
 module.exports = Cart;

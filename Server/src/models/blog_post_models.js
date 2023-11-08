@@ -26,12 +26,12 @@ const BlogPost = sequelize.define('blog_post', {
 });
 
 // Đồng bộ hóa model với cơ sở dữ liệu
-BlogPost.sync()
-    .then(() => {
-        console.log('blog post đã được đồng bộ hóa với cơ sở dữ liệu.');
-    })
-    .catch(error => {
-        console.error('Lỗi khi đồng bộ hóa model blog post :', error);
-    });
+// BlogPost.sync()
+//     .then(() => {
+//         console.log('blog post đã được đồng bộ hóa với cơ sở dữ liệu.');
+//     })
+//     .catch(error => {
+//         console.error('Lỗi khi đồng bộ hóa model blog post :', error);
+//     });
 
 module.exports = BlogPost;

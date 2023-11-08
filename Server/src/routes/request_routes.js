@@ -6,11 +6,15 @@ const { getAllRequests,
     updateRequestById,
     deleteRequestById } = require('../controllers/request_controllers');
 
+const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
+
+
 // Định tuyến các yêu cầu tới controller
-router.get('/api/getAllRequests', getAllRequests);
-router.get('/api/getRequestById/:id', getRequestById);
-router.post('/api/createRequest', createNewRequest);
-router.put('/api/updateRequest/:id', updateRequestById);
-router.delete('/api/deleteRequest/:id', deleteRequestById);
+router.get('/api/getAllRequests', verifyToken, isAdminSystem, getAllRequests);
+router.get('/api/getRequestById/:id', verifyToken, getRequestById);
+
+router.post('/api/createRequest', verifyToken, createNewRequest);
+router.put('/api/updateRequest/:id', verifyToken, updateRequestById);
+router.delete('/api/deleteRequest/:id', verifyToken, deleteRequestById);
 
 module.exports = router;

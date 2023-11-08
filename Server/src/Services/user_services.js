@@ -11,6 +11,17 @@ class UserService {
             throw error;
         }
     }
+    async getUserByEmail(email) {
+        try {
+            const user = await User.findOne({
+                where: { email: email }
+            });
+            return user;
+        } catch (error) {
+            console.error('Lỗi khi lấy bài viết:', error);
+            throw error;
+        }
+    }
 
     async getAllUsers() {
         try {
@@ -47,6 +58,7 @@ class UserService {
             throw error;
         }
     }
+
 
     async deleteUser(id) {
         try {

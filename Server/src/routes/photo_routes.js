@@ -4,13 +4,17 @@ const { getAllPhotos,
     getPhotoById,
     createNewPhoto,
     updatePhotoById,
-    deletePhotoById } = require('../controllers/photo_controllers');
+    deletePhotoById, getAllPhotosByAlbumsId } = require('../controllers/photo_controllers');
+const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
+
 
 // Định tuyến các yêu cầu tới controller
-router.get('/api/getAllPhotos', getAllPhotos);
-router.get('/api/getPhotoById/:id', getPhotoById);
-router.post('/api/createPhoto', createNewPhoto);
-router.put('/api/updatePhoto/:id', updatePhotoById);
-router.delete('/api/deletePhoto/:id', deletePhotoById);
+router.get('/api/getAllPhotos', verifyToken, isAdminSystem, getAllPhotos);
+router.get('/api/getPhotoById/:id', verifyToken, isAdminSystem, getPhotoById);
+router.post('/api/createPhoto', verifyToken, isAdminSystem, createNewPhoto);
+router.put('/api/updatePhoto/:id', verifyToken, isAdminSystem, updatePhotoById);
+router.delete('/api/deletePhoto/:id', verifyToken, isAdminSystem, deletePhotoById);
+router.get('/api/getAllPhotosByAlbumsId/:albums_id', getAllPhotosByAlbumsId);
+
 
 module.exports = router;

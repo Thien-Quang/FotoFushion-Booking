@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const UserService = require('../services/user_services');
+const UserService = require('../Services/user_services');
 
 // Lấy danh sách tất cả người dùng
 const getAllUsers = async (req, res) => {
@@ -21,6 +21,20 @@ const getUserById = async (req, res) => {
             return res.status(404).json({ error: 'Không tìm thấy người dùng.' });
         }
 
+        res.json(user);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin người dùng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin người dùng.' });
+    }
+};
+
+const getUserByEmail = async (req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await UserService.getUserByEmail(email);
+        if (!user) {
+            return res.status(404).json({ error: 'Không tìm thấy người dùng.' });
+        }
         res.json(user);
     } catch (error) {
         console.error('Lỗi khi lấy thông tin người dùng:', error);
@@ -82,5 +96,6 @@ module.exports = {
     getUserById,
     createNewUser,
     updateUserById,
-    deleteUserById
+    deleteUserById,
+    getUserByEmail
 };

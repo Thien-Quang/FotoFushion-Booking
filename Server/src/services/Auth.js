@@ -1,22 +1,23 @@
-const db = require("../models");
+const Account = require("../models/account_models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
-const sendMail = require("../utils/sendMail");
+//const sendMail = require("../utils/sendMail");
 const crypto = require("crypto");
 const { Op } = require("sequelize");
 
-const register = async ({ email, password, fullname, address, phone }, res) => {
+
+const register = async ({ email, password, phone_number }, res) => {
     try {
         const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8));
-        const [user, created] = await db.User.findOrCreate({
+        const [account, created] = await Account.findOrCreate({
             where: { email },
             defaults: {
-                id: uuidv4(),
-                fullname,
+                //id: uuidv4(),
                 email,
                 password: hashPassword,
-                roleId: 2,
+                role_id: "75ae40df-dd1a-4d49-be2f-b6c7af885b4c",
+                phone_number,
             },
         });
         const status = created ? 201 : 409;
@@ -30,29 +31,29 @@ const register = async ({ email, password, fullname, address, phone }, res) => {
 
 const login = async ({ email, password }, res) => {
     try {
-        const user = await db.User.findOne({
+        const account = await Account.findOne({
             where: { email },
         });
-        const role = user && (await user.getRole());
-        const isChecked = user && bcrypt.compareSync(password, user.password);
+        const role = account && (await account.getRole());
+        const isChecked = account && bcrypt.compareSync(password, account.password);
 
         const accessToken = isChecked
-            && jwt.sign({ id: user.id, email: user.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "2d" })
+            && jwt.sign({ email: account.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "2d" })
         const refreshToken = isChecked
-            && jwt.sign({ id: user.id }, process.env.JWT_SECRET_REFRESH_TOKEN, { expiresIn: "7d" })
+            && jwt.sign({ email: account.email }, process.env.JWT_SECRET_REFRESH_TOKEN, { expiresIn: "7d" })
 
         if (refreshToken) {
-            await db.User.update({
+            await Account.update({
                 refreshToken: refreshToken
             }, {
-                where: { id: user.id },
+                where: { email: account.email },
             })
         }
         res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
 
-        const status = accessToken ? 200 : user ? 401 : 404;
+        const status = accessToken ? 200 : account ? 401 : 404;
         return res.status(status).json({
-            message: accessToken ? "Login is successfully" : user ? "Password was incorrect" : "Email hasn't been registered",
+            message: accessToken ? "Login is successfully" : account ? "Password was incorrect" : "Email hasn't been registered",
             accessToken: accessToken ? accessToken : null
         });
     } catch (error) {
@@ -63,18 +64,18 @@ const login = async ({ email, password }, res) => {
 const refreshToken = async (refreshToken, res) => {
     try {
         let response, status;
-        const user = await db.User.findOne({
+        const account = await Account.findOne({
             where: { refreshToken: refreshToken }
         })
-        const role = user && (await user.getRole());
-        if (user) {
+        const role = account && (await account.getRole());
+        if (account) {
             jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH_TOKEN, (error) => {
                 if (error) {
                     return res.status(401).json({
                         message: "Refresh token has expired. Require login again",
                     });
                 } else {
-                    const accessToken = jwt.sign({ id: user.id, email: user.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "5d" })
+                    const accessToken = jwt.sign({ email: account.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "5d" })
                     status = accessToken ? 200 : 500;
                     response = {
                         message: accessToken ? "Generate access token successfully" : "Fail to generate new access token. Let's try more time",
@@ -91,7 +92,7 @@ const refreshToken = async (refreshToken, res) => {
 
 const logout = async (refreshToken, res) => {
     // Delete refresh token in db
-    await db.User.update({ refreshToken: '' }, {
+    await Account.update({ refreshToken: '' }, {
         where: {
             refreshToken: refreshToken
         }
@@ -107,73 +108,73 @@ const logout = async (refreshToken, res) => {
     }
 }
 
-const forgotPassword = async (email, res) => {
-    try {
-        const user = await db.User.findOne({
-            where: { email: email }
-        })
-        if (!user) {
-            console.log(user);
-            return res.status(404).json({
-                message: "Email hasn't been registered"
-            });
-        }
+// const forgotPassword = async (email, res) => {
+//     try {
+//         const account = await Account.findOne({
+//             where: { email: email }
+//         })
+//         if (!account) {
+//             console.log(account);
+//             return res.status(404).json({
+//                 message: "Email hasn't been registered"
+//             });
+//         }
 
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        const resetExpires = Date.now() + 5 * 60 * 1000;
-        await db.User.update({
-            resetExpires: resetExpires,
-            otpCode: otp
-        }, {
-            where: { email: email }
-        })
+//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//         const resetExpires = Date.now() + 5 * 60 * 1000;
+//         await Account.update({
+//             resetExpires: resetExpires,
+//             otpCode: otp
+//         }, {
+//             where: { email: email }
+//         })
 
-        const html = `
-          <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-        <div style="margin:50px auto;width:70%;padding:20px 0">
-          <div style="border-bottom:1px solid #eee">
-            <a href="" style="display:block;font-size:1.9em;color: #7fad39;text-decoration:none;font-weight:600;text-align:center">GreenEco</a>
-          </div>
-          <p style="font-size:1.1em">Hi, ${user.fullname}</p>
-          <p>Thank you for choosing GreenEco website. Please get the OTP below to reset your password. This OTP will expire 5 minutes from now.</p>
-          <h2 style="background: #7fad39;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
-          <p style="font-size:0.9em;">Regards,<br />GreenEco</p>
-          <hr style="border:none;border-top:1px solid #eee" />
-          <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-            <p>GreenEco Inc</p>
-            <p>254, Nguyen Van Linh Street, Thanh Khue District, Da Nang City</p>
-            <p>Vietnam</p>
-          </div>
-        </div>
-      </div>
-    `
-        const rs = await sendMail({
-            email,
-            html,
-            subject: "Forgot password",
-        });
-        return res.status(200).json({
-            message: "Send to your email successfully",
-            otp: otp,
-        });
-    } catch (error) {
-        throw new Error(error);
-    }
-};
+//         const html = `
+//           <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+//         <div style="margin:50px auto;width:70%;padding:20px 0">
+//           <div style="border-bottom:1px solid #eee">
+//             <a href="" style="display:block;font-size:1.9em;color: #7fad39;text-decoration:none;font-weight:600;text-align:center">GreenEco</a>
+//           </div>
+//           <p style="font-size:1.1em">Hi, ${account.fullname}</p>
+//           <p>Thank you for choosing GreenEco website. Please get the OTP below to reset your password. This OTP will expire 5 minutes from now.</p>
+//           <h2 style="background: #7fad39;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
+//           <p style="font-size:0.9em;">Regards,<br />GreenEco</p>
+//           <hr style="border:none;border-top:1px solid #eee" />
+//           <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+//             <p>GreenEco Inc</p>
+//             <p>254, Nguyen Van Linh Street, Thanh Khue District, Da Nang City</p>
+//             <p>Vietnam</p>
+//           </div>
+//         </div>
+//       </div>
+//     `
+//         const rs = await sendMail({
+//             email,
+//             html,
+//             subject: "Forgot password",
+//         });
+//         return res.status(200).json({
+//             message: "Send to your email successfully",
+//             otp: otp,
+//         });
+//     } catch (error) {
+//         throw new Error(error);
+//     }
+// };
 
 const resetPassword = async ({ password, otp }, res) => {
     try {
         const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8));
-        const user = await db.User.update({
+        const account = await Account.update({
             password: hashPassword,
             otpCode: null,
             resetExpires: null,
         }, {
             where: { otpCode: otp, resetExpires: { [Op.gt]: Date.now() } }
         })
-        const status = user[0] === 1 ? 200 : 404;
+        const status = account[0] === 1 ? 200 : 404;
         return res.status(status).json({
-            message: user[0] === 1 ? "Reset password successfully" : "OTP code is incorrect or expired"
+            message: account[0] === 1 ? "Reset password successfully" : "OTP code is incorrect or expired"
         });
     } catch (error) {
         throw new Error(error);
@@ -185,6 +186,6 @@ module.exports = {
     register,
     refreshToken,
     logout,
-    forgotPassword,
+    //forgotPassword,
     resetPassword
 };
