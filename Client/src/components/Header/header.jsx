@@ -1,74 +1,59 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logoFushion from "../../public/img/logoFushion.jpg";
 import { icons } from "../../utils/icons";
 import AuthContext from '../../context/authProvider';
 
-import { CiLocationOn } from "react-icons/ci";
-import { BiUser } from "react-icons/bi";
-import { IoInformationCircleOutline, IoAlbumsOutline } from "react-icons/io5";
-import { BsInstagram, BsTwitter, BsFillPenFill } from "react-icons/bs";
+import { Avatar, Dropdown, Navbar, Button } from 'flowbite-react';
+
 
 function Header() {
   const navigate = useNavigate();
 
-  const { isLogin, setIsLogin } = useContext(AuthContext);
-  const [isMenuUserOpen, setIsMenuUserOpen] = useState(false);
-  const [isMenuAlbumOpen, setIsMenuAlbumOpen] = useState(false);
-  const [isMenuPriceOpen, setIsMenuPriceOpen] = useState(false);
+  const { auth, setAuth } = useContext(AuthContext);
+  const [hasUser, setHasUser] = useState(false);
 
+  useEffect(() => {
+    if (Object.keys(auth).length === 0) {
+      setHasUser(false);
+    } else {
+      setHasUser(true);
+    }
 
-  const handleMouseUserEnter = () => {
-    setIsMenuUserOpen(true);
-  };
+  }, [auth]);
 
-  const handleMouseUserLeave = () => {
-    setIsMenuUserOpen(false);
-  };
-  const handleMouseAlbumEnter = () => {
-    setIsMenuAlbumOpen(true);
-  };
-
-  const handleMouseAlbumLeave = () => {
-    setIsMenuAlbumOpen(false);
-  };
-
-  const handleMousePriceEnter = () => {
-    setIsMenuPriceOpen(true);
-  };
-
-  const handleMousePriceLeave = () => {
-    setIsMenuPriceOpen(false);
-  };
-  const handleLogout = () => {
-    setIsLogin(false); // Đặt isLogin thành false
-    // Thực hiện các hành động khác sau khi đăng xuất (nếu cần)
+  const handleLogOut = () => {
+    setAuth({});
+    localStorage.removeItem('auth');
+    setHasUser(false);
+    navigate('/');
   };
   return (
-    <div className="bg-black w-full z-50 ">
-      <div className="w-full flex p-2">
-        <div className="w-1/2 text-white flex justify-center items-center font-sans text-xs">
+    <div className="fixed top-0 left-0 right-0 w-full z-50 ">
+      <div className="w-full flex p-2 bg-black text-white bg-opacity-50">
+
+        <div className="w-1/2 flex justify-center items-center font-sans text-xs">
           <ul className="flex justify-center items-center">
             <li className="flex justify-center items-center mr-4 ">
-              <span className="text-btnprimary mr-2">
-                <CiLocationOn />
+              <span className="text-orange-400 mr-2 font-bold">
+                <icons.CiLocationOn />
               </span>
-              <span>254 Nguyen Van Linh, Hai Chau, DaNang</span>
+              <span className="max-sm:hidden max-md:hidden">254 Nguyen Van Linh, Hai Chau, DaNang</span>
             </li>
             <li className="flex justify-center items-center ">
-              <span className="text-btnprimary mr-2">
+              <span className="text-btnprimary mr-2 font-bold" >
                 <icons.AiOutlineMail />
               </span>
-
               <span>FotoFusion@gmail.com</span>
             </li>
           </ul>
         </div>
+
         <div className="w-1/2 text-white flex justify-center items-center font-sans text-xs">
-          <ul className="flex justify-center items-center">
+          <ul className="flex justify-center items-center cursor-pointer">
             <li className="flex justify-center items-center mr-1 ">
               <a>
-                <BsInstagram />
+                <icons.BsInstagram />
               </a>
             </li>
             <li className="flex justify-center items-center mr-1 ">
@@ -78,7 +63,7 @@ function Header() {
             </li>
             <li className="flex justify-center items-center mr-1 ">
               <a>
-                <BsTwitter />
+                <icons.BsTwitter />
               </a>
             </li>
             <li className="flex justify-center items-center mr-1 ">
@@ -89,238 +74,139 @@ function Header() {
           </ul>
         </div>
       </div>
-      <div class=" border-gray-200 flex text-sm font-sans">
-        <div class="w-1/4 flex items-center justify-center max-w-screen-xl mx-auto p-4">
-          <a href="/" class="flex items-center">
-            <img src={logoFushion} class="h-8 mr-3" alt=" Fushion Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">
-              FotoFusion
-            </span>
-          </a>
-        </div>
-        <div className="w-1/2 flex justify-center items-center">
-          <ul className="flex justify-center items-center text-white ">
-            <li>
-              <a className="m-4" href="#">
-                {" "}
-                <span>
-                  <icons.AiOutlineSearch />
-                </span>
-              </a>
-            </li>
-            <li>
-              <a className="m-4" href="/">
-                {" "}
-                TRANG CHỦ
-              </a>
-            </li>
-            <li>
-              <a
-                className="m-4 h-full flex items-center justify-center"
-                onMouseEnter={handleMouseAlbumEnter}
-                onMouseLeave={handleMouseAlbumLeave}
-                href="#"
-              >
-                ALBUMS
-                <span className="m-1">
-                  <icons.AiOutlineDown />
-                </span>
-                {isMenuAlbumOpen && (
-                  <div className="absolute bg-black text-white mt-[100px] p-4 rounded-lg shadow-lg z-50">
-                    {/* Nội dung của bảng menu */}
-                    <ul>
-                      <li className="pb-2">
-                        <a href="#">Albums ảnh</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Albums video</a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </a>
-            </li>
-            <li>
-              <div
-                className="p-4 flex items-center justify-center hover: cursor-pointer"
-                onMouseEnter={handleMousePriceEnter}
-                onMouseLeave={handleMousePriceLeave}
-              >
-                DỊCH VỤ
-                <span className="m-1">
-                  <icons.AiOutlineDown />
-                </span>
-                {isMenuPriceOpen && (
-                  <div className="absolute bg-black text-white mt-[310px] p-4 rounded-lg shadow-lg">
-                    {/* Nội dung của bảng menu */}
-                    <ul>
-                      <li className="pb-2">
-                        <a href="#">Cửa hàng</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Yêu cầu chỉnh sửa</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Chụp ảnh</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Quay phim</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Trang phục</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Thiết bị</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Make-up</a>
-                      </li>
-                      <li className="pb-2">
-                        <a href="#">Phòng studio</a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+      <div className="flex items-center justify-center">
+        <div className=" w-[90%] bg-black rounded-lg shadow-2xl">
+          <div className="w-full border border-white rounded-lg">
+            <Navbar className="w-full z-50 shadow-lg bg-opacity-10 rounded-lg">
+
+              <Navbar.Brand >
+                <img src={logoFushion} className="mr-6 h-6 sm:h-9" alt="Logo" />
+                <span className="self-center whitespace-nowrap text-xl font-semibold text-white">FotoFusion</span>
+              </Navbar.Brand>
+              <div className="flex md:order-2">
+                <Button className="bg-btnprimary">BOOKING</Button>
+                <Navbar.Toggle />
               </div>
-            </li>
-            <li>
-              <a className="m-4" href="#">
-                {" "}
-                KHUYẾN MÃI
-              </a>
-            </li>
-            <li>
-              <a className="m-4" href="#">
-                {" "}
-                BÀI VIẾT
-              </a>
-            </li>
-            <li>
-              <a className="m-4" href="#">
-                LIÊN HỆ
-              </a>
-            </li>
-            <Link to="/bookingOnline">
-              <button className="bg-btnprimary text-white rounded-2xl py-2 px-4">
-                BOOKING
-              </button>
-            </Link>
-          </ul>
-        </div>
-        {isLogin ? (
-          <div
-            className="w-1/4 flex items-center justify-center cursor-pointer"
-            onMouseEnter={handleMouseUserEnter}
-            onMouseLeave={handleMouseUserLeave}
-          >
-            <img
-              src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp"
-              className="w-14 rounded-full shadow-lg"
-              alt="Avatar"
-            />
-            <span className="text-white text-base ml-4 font-dancing">
-              Liêu Thiện Quang
-              <br />
-              <div className="text-xs text-yellow-600 flex">
-                <BsFillPenFill />
-                <span className="ml-2">VIP</span>
-              </div>
-            </span>
-            {isMenuUserOpen && (
-              <div className="absolute bg-black text-white mt-[370px] p-4 rounded-lg shadow-lg z-50 ">
-                {/* Nội dung của bảng menu */}
-                <ul>
-                  <li
-                    onClick={() => navigate("/profile")}
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
-                    <span>
-                      <BiUser />
-                    </span>
-                    <span className="text-white font-medium hover:text-red ml-4">
-                      Thông tin Cá Nhân
-                    </span>
-                  </li>
-                  <li
-                    onClick={() => navigate("/profile")}
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
-                    <span>
-                      <IoInformationCircleOutline />
-                    </span>
-                    <span className="text-white font-medium hover:text-red ml-4">
-                      Thông Báo
-                    </span>
-                  </li>
-                  <li
-                    onClick={() => navigate("/profile")}
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
-                    <span>
-                      <IoAlbumsOutline />
-                    </span>
-                    <span className="text-white font-medium hover:text-red ml-4">
-                      Album của tôi
-                    </span>
-                  </li>
-                  <li
-                    onClick={() => navigate("/profile")}
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
-                    <span>
-                      <icons.AiOutlineUnorderedList />
-                    </span>
-                    <span className="text-white font-medium hover:text-red ml-4">
-                      Đơn Hàng
-                    </span>
-                  </li>
-                  <li
-                    onClick={() => navigate("/profile")}
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
-                    <span>
-                      <BiUser />
-                    </span>
-                    <span className="text-white font-medium hover:text-red ml-4">
-                      Voucher của tôi
-                    </span>
-                  </li>
-                  <li
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
-                    <span>
-                      <BiUser />
-                    </span>
-                    <Link to='/login' onClick={handleLogout} >
-                      <span className="text-white font-medium hover:text-red ml-4">
-                        Đăng Xuất
-                      </span>
+              <Navbar.Collapse className="text-white">
+                <div className="text-white hover:text-red-500">
+                  <Link to='/' >
+                    TRANG CHỦ
+                  </Link>
+                </div>
+
+                <div className="text-white hover:text-red-500">
+                  <Dropdown label="ALBUMS" inline>
+                    <Link to='/albumspage' >
+                      <Dropdown.Item>Albums Ảnh</Dropdown.Item>
                     </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
+                    <Link to='/' >
+                      <Dropdown.Item>Albums Video</Dropdown.Item>
+                    </Link>
+                  </Dropdown>
+                </div>
+
+                <div className="text-white hover:text-red-500">
+                  <Dropdown label="DỊCH VỤ" inline>
+                    <Link to='/' >
+                      <Dropdown.Item>Cửa hàng</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Yêu cầu chỉnh sửa</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Chụp ảnh</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Phòng studio</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Quay phim</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Thiết bị</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Make-up</Dropdown.Item>
+                    </Link>
+                  </Dropdown>
+                </div>
+                <div className="text-white hover:text-red-500">
+                  <Link to='/' >
+                    KHUYỄN MÃI
+                  </Link>
+                </div>
+                <div className="text-white hover:text-red-500">
+                  <Link to='/' >
+                    BÀI VIẾT
+                  </Link>
+                </div>
+                <div className="text-white hover:text-red-500">
+                  <Link to='/' >
+                    LIÊN HỆ
+                  </Link>
+                </div>
+              </Navbar.Collapse>
+              {hasUser ? (
+
+                <div className="flex md:order-2 text-white">
+                  <Dropdown
+                    arrowIcon={true}
+                    inline
+                    label={
+                      <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+                    }
+                  >
+                    <Dropdown.Header>
+                      <span className="flex items-center justify-center text-xl m-2 ">{auth.fullName}</span>
+                      <span className="block truncate text-sm font-medium">{auth.email}</span>
+                    </Dropdown.Header>
+                    <Link to='/profile' >
+                      <Dropdown.Item>Thông Tin cá Nhân</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Thông Báo</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Albums Của Tôi</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Đơn Hàng</Dropdown.Item>
+                    </Link>
+                    <Link to='/' >
+                      <Dropdown.Item>Voucher Của Tôi</Dropdown.Item>
+                    </Link>
+                    <Dropdown.Divider />
+                    <Link to='/' onClick={handleLogOut}>
+                      <Dropdown.Item>Đăng Xuất</Dropdown.Item>
+                    </Link>
+                  </Dropdown>
+                </div>
+              ) : (
+                <Navbar.Collapse>
+                  <div className="flex justify-center items-center">
+                    <ul className="flex justify-center items-center ">
+                      <li>
+                        <Link to="/login">
+                          <a className="text-red-500 mr-5 " href="">
+                            ĐĂNG NHẬP
+                          </a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/signup">
+                          <button className="bg-btnaccess text-gray-700 rounded-2xl py-2 px-4 ">
+                            ĐĂNG KÍ
+                          </button>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+
+                </Navbar.Collapse>
+              )}
+            </Navbar>
           </div>
-        ) : (
-          <div className="w-1/4 flex justify-center items-center ">
-            <ul className="flex justify-center items-center ">
-              <li>
-                <Link to="/login">
-                  <a className="text-red-500 mr-5" href="">
-                    ĐĂNG NHẬP
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link to="/signup">
-                  <button className="bg-btnaccess text-white rounded-2xl py-2 px-4">
-                    ĐĂNG KÍ
-                  </button>
-                </Link>
-              </li>
-            </ul>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

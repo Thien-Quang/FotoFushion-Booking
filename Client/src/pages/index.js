@@ -8,6 +8,14 @@ export { default as ForgotPassWord } from "./forgotPassword.jsx";
 export { default as AlbumsPhotoPage } from "./albumsPhoto.jsx";
 export { default as Login } from "./login.jsx";
 export { default as SignUp } from "./signup.jsx";
+export { default as testUpdate } from "./testUpdateImageFB.jsx";
+export { default as PhotoOfAlbums } from "./photoOfAlbums.jsx";
+export { default as AlbumsPage } from "./albumsPage.jsx";
+export { default as Layout } from "./Layout.jsx";
+
+
+
+
 
 
 

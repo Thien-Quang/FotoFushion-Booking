@@ -6,6 +6,8 @@ import {
     MdOutlineDoNotDisturbAlt,
     MdDeleteForever,
 } from "react-icons/md";
+import { CiLocationOn } from "react-icons/ci";
+
 import {
     AiOutlineEye,
     AiOutlineEyeInvisible,
@@ -17,6 +19,7 @@ import {
     AiOutlineDown,
     AiOutlineSearch,
     AiOutlineUnorderedList,
+
 } from "react-icons/ai";
 import {
     FaUserCircle,
@@ -49,6 +52,8 @@ import {
     BsFillPhoneVibrateFill,
     BsMessenger,
     BsFillPersonPlusFill,
+    BsEyeSlashFill,
+    BsInstagram, BsTwitter, BsFillPenFill,
 } from "react-icons/bs";
 import {
     IoArrowUndoCircleOutline,
@@ -61,9 +66,10 @@ import {
     IoCheckmarkSharp,
     IoCloseSharp,
     IoShirtSharp,
+    IoInformationCircleOutline, IoAlbumsOutline,
 } from "react-icons/io5";
 
-import { BiChevronUp, BiChevronDown, BiLoaderCircle, BiSolidUser, BiSolidBank } from "react-icons/bi";
+import { BiChevronUp, BiChevronDown, BiLoaderCircle, BiSolidUser, BiSolidBank, BiUser } from "react-icons/bi";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { DiMongodb } from "react-icons/di";
@@ -72,6 +78,11 @@ import { SiExpress, SiTailwindcss } from "react-icons/si";
 import { GiSkeletonKey } from "react-icons/gi";
 
 export const icons = {
+    BsEyeSlashFill,
+    BsInstagram, BsTwitter, BsFillPenFill,
+    IoInformationCircleOutline, IoAlbumsOutline,
+    CiLocationOn,
+    BiUser,
     AiOutlineMail,
     AiOutlineFacebook,
     AiOutlineYoutube,

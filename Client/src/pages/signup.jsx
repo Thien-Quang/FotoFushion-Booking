@@ -1,5 +1,5 @@
 import React from 'react'
-import SignUp from '../components/Signup/Signup';
+import SignUp from '../components/Auth/Register';
 
 const signup = () => {
     document.title = "đăng kí ";

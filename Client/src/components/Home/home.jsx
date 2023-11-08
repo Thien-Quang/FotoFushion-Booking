@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './home.scss'
 import FollowImg from '../../assets/images/followImage.png'
 import BgHome from '../../assets/images/bg-home.png'
 
 import IconMessenger from '../../assets/images/messenger.png';
 
-
-
 import MemberTakePhotos from '../ImageGroup/MemberTakePhotos/MemberTakePhotos';
 import CategoryProductGroup from '../ImageGroup/CategoryProductGroup/CategoryProductGroup';
 import TopSellerProducts from '../ImageGroup/TopSellerProducts/TopSellerProducts';
+
+import SlidePhoto from '../SlidePhoto/SlidePhoto';
+
+
 const Home = () => {
+  const topRef = useRef(null); // Define topRef with an initial value of null
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
   return (
     <div className='homeContainter'>
       <img className='bgHome' src={BgHome} alt='bgHOme' />
@@ -70,8 +79,8 @@ const Home = () => {
       </div>
 
       {/* MEMBERS TAKE PHOTOS */}
-      <div className='partCategory' style={{ padding: '100px 0px 0px 0px' }}>
-        <img src={FollowImg} alt='follow' />
+      <div>
+        <SlidePhoto />
       </div>
     </div>
   );
