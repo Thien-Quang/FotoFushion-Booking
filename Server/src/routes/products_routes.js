@@ -5,12 +5,16 @@ const { getAllProducts,
     createNewProduct,
     updateProductById,
     deleteProductById } = require('../controllers/product_controllers');
+const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
+
 
 // Định tuyến các yêu cầu tới controller
 router.get('/api/getAllProducts', getAllProducts);
 router.get('/api/getProductById/:id', getProductById);
-router.post('/api/createProduct', createNewProduct);
-router.put('/api/updateProduct/:id', updateProductById);
-router.delete('/api/deleteProduct/:id', deleteProductById);
+
+//Admin
+router.post('/api/createProduct', verifyToken, isAdminSystem, createNewProduct);
+router.put('/api/updateProduct/:id', verifyToken, isAdminSystem, updateProductById);
+router.delete('/api/deleteProduct/:id', verifyToken, isAdminSystem, deleteProductById);
 
 module.exports = router;

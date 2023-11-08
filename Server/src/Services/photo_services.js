@@ -46,6 +46,17 @@ class PhotoService {
             throw error;
         }
     }
+    async getPhotosByAlbumId(albumId) {
+        try {
+            const photos = await Photo.findAll({
+                where: { albums_id: albumId },
+            });
+            return photos;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            throw error;
+        }
+    }
 
     async deletePhoto(id) {
         try {

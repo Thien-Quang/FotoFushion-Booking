@@ -5,12 +5,15 @@ const { getAllPhotoAlbums,
     createNewPhotoAlbum,
     updatePhotoAlbumById,
     deletePhotoAlbumById } = require('../controllers/photo_albums_controllers');
+const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
+
 
 // Định tuyến các yêu cầu tới controller
 router.get('/api/getAllPhotoAlbums', getAllPhotoAlbums);
 router.get('/api/getPhotoAlbumById/:id', getPhotoAlbumById);
-router.post('/api/createPhotoAlbum', createNewPhotoAlbum);
-router.put('/api/updatePhotoAlbum/:id', updatePhotoAlbumById);
-router.delete('/api/deletePhotoAlbum/:id', deletePhotoAlbumById);
+//Admin
+router.post('/api/createPhotoAlbum', verifyToken, isAdminSystem, createNewPhotoAlbum);
+router.put('/api/updatePhotoAlbum/:id', verifyToken, isAdminSystem, updatePhotoAlbumById);
+router.delete('/api/deletePhotoAlbum/:id', verifyToken, isAdminSystem, deletePhotoAlbumById);
 
 module.exports = router;

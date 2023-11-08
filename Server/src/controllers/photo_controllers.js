@@ -11,6 +11,19 @@ const getAllPhotos = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
     }
 };
+const getAllPhotosByAlbumsId = async (req, res) => {
+    try {
+        const albums_id = req.params.albums_id;
+        console.log(albums_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const photos = await PhotoService.getPhotosByAlbumId(albums_id);
+        res.json(photos);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
+    }
+};
 
 // Lấy thông tin ảnh bằng ID
 const getPhotoById = async (req, res) => {
@@ -31,9 +44,9 @@ const getPhotoById = async (req, res) => {
 // Tạo ảnh mới
 const createNewPhoto = async (req, res) => {
     try {
-        const { img_name, url_photo, costume_id, albums_id, event_id, room_id, user_id, prod_id, blog_id, equip_id } = req.body;
+        const inputData = req.body;
         const id = uuidv4();
-        const photoData = { id, img_name, url_photo, costume_id, albums_id, event_id, room_id, user_id, prod_id, blog_id, equip_id };
+        const photoData = { id, ...inputData };
         const photo = await PhotoService.createPhoto(photoData);
         res.status(201).json(photo);
     } catch (error) {
@@ -82,5 +95,6 @@ module.exports = {
     getPhotoById,
     createNewPhoto,
     updatePhotoById,
-    deletePhotoById
+    deletePhotoById,
+    getAllPhotosByAlbumsId
 };

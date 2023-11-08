@@ -31,9 +31,9 @@ const getPhotoAlbumById = async (req, res) => {
 // Tạo album ảnh mới
 const createNewPhotoAlbum = async (req, res) => {
     try {
-        const { name, user_id, cover_photo, sum_photo, category, location, date_create } = req.body;
+        const inputData = req.body;
         const id = uuidv4();
-        const photoAlbumData = { id, name, user_id, cover_photo, sum_photo, category, location, date_create };
+        const photoAlbumData = { id, ...inputData };
         const photoAlbum = await PhotoAlbumsService.createPhotoAlbum(photoAlbumData);
         res.status(201).json(photoAlbum);
     } catch (error) {

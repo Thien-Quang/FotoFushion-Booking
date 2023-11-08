@@ -1,4 +1,5 @@
 // Import các tệp route cho các bảng khác
+const auth = require('./auth')
 const account = require('./account_routes.js')
 const blogPost = require('./blog_post_routes.js')
 const bookingDetails = require('./booking_details_routes.js')
@@ -25,6 +26,8 @@ const videoRoutes = require('./video_routes');
 const voucherRoutes = require('./voucher_routes');
 
 const index = (app) => {
+    app.use("/", auth);
+
     app.use("/", account);
     app.use("/", blogPost);
     app.use("/", bookingDetails);

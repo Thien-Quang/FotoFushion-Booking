@@ -5,12 +5,18 @@ const { getAllOrderDetails,
     createNewOrderDetail,
     updateOrderDetailById,
     deleteOrderDetailById } = require('../controllers/orders_details_controllers');
+const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
+
 
 // Định tuyến các yêu cầu tới controller
-router.get('/api/getAllOrderDetails', getAllOrderDetails);
-router.get('/api/getOrderDetailById/:id', getOrderDetailById);
-router.post('/api/createNewOrderDetail', createNewOrderDetail);
-router.put('/api/updateOrderDetailById/:id', updateOrderDetailById);
-router.delete('/api/deleteOrderDetailById/:id', deleteOrderDetailById);
+
+
+
+//Admin
+router.get('/api/getAllOrderDetails', verifyToken, isAdminSystem, getAllOrderDetails);
+router.get('/api/getOrderDetailById/:id', verifyToken, isAdminSystem, getOrderDetailById);
+router.post('/api/createNewOrderDetail', verifyToken, isAdminSystem, createNewOrderDetail);
+router.put('/api/updateOrderDetailById/:id', verifyToken, isAdminSystem, updateOrderDetailById);
+router.delete('/api/deleteOrderDetailById/:id', verifyToken, isAdminSystem, deleteOrderDetailById);
 
 module.exports = router;

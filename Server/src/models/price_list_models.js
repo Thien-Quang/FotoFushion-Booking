@@ -20,6 +20,12 @@ const PriceList = sequelize.define('PriceList', {
     number_camera: DataTypes.TEXT,
     number_photo: DataTypes.TEXT,
     light_equip: DataTypes.TEXT,
+    location: DataTypes.TEXT,
+    number_photographer: DataTypes.TEXT,
+    number_assistant_pgotographer: DataTypes.TEXT,
+    camera_equipment: DataTypes.TEXT,
+    decription: DataTypes.TEXT,
+    additional_info: DataTypes.TEXT,
 }, {
     tableName: 'price_List',
     timestamps: false,

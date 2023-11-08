@@ -37,12 +37,12 @@ BookingDetail.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id
 BookingDetail.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
 BookingDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' }); // Thêm quan hệ cho prod_id
 
-BookingDetail.sync()
-  .then(() => {
-    console.log('Mô hình BookingDetail đã được đồng bộ hóa với cơ sở dữ liệu.');
-  })
-  .catch(error => {
-    console.error('Lỗi khi đồng bộ hóa mô hình BookingDetail:', error);
-  });
+// BookingDetail.sync()
+//   .then(() => {
+//     console.log('Mô hình BookingDetail đã được đồng bộ hóa với cơ sở dữ liệu.');
+//   })
+//   .catch(error => {
+//     console.error('Lỗi khi đồng bộ hóa mô hình BookingDetail:', error);
+//   });
 
 module.exports = BookingDetail;
