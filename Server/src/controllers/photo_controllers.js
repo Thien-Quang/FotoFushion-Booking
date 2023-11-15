@@ -24,6 +24,59 @@ const getAllPhotosByAlbumsId = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
     }
 };
+const getAllPhotosByCostumerId = async (req, res) => {
+    try {
+        const costumer_id = req.params.costumer_id;
+        console.log(costumer_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const photos = await PhotoService.getPhotosByCostumerId(costumer_id);
+        res.json(photos);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
+    }
+};
+const getAllPhotosByRoomId = async (req, res) => {
+    try {
+        const costumer_id = req.params.costumer_id;
+        console.log(costumer_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const photos = await PhotoService.getAllPhotosByRoomId(costumer_id);
+        res.json(photos);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
+    }
+};
+const getAllPhotosByProductId = async (req, res) => {
+    try {
+        const prod_id = req.params.prod_id;
+        console.log(prod_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const photos = await PhotoService.getAllPhotosByProductId(prod_id);
+        res.json(photos);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
+    }
+};
+const getAllPhotosByBlogId = async (req, res) => {
+    try {
+        const blog_id = req.params.blog_id;
+        console.log(blog_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const photos = await PhotoService.getAllPhotosByBlogId(blog_id);
+        res.json(photos);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
+    }
+};
+
 
 // Lấy thông tin ảnh bằng ID
 const getPhotoById = async (req, res) => {
@@ -96,5 +149,9 @@ module.exports = {
     createNewPhoto,
     updatePhotoById,
     deletePhotoById,
-    getAllPhotosByAlbumsId
+    getAllPhotosByAlbumsId,
+    getAllPhotosByCostumerId,
+    getAllPhotosByRoomId,
+    getAllPhotosByProductId,
+    getAllPhotosByBlogId
 };

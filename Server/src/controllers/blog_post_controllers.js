@@ -33,9 +33,10 @@ const getBlogPostById = async (req, res) => {
 // Tạo bài viết mới
 const createNewBlogPost = async (req, res) => {
     try {
-        const { title, content, author, date } = req.body;
+        const inputData = req.body;
         const id = uuidv4();
-        const blogPostData = { id, title, content, author, date };
+        const blogPostData = { id, ...inputData };
+
         const blogPost = await BlogPostService.createBlogPost(blogPostData);
         res.status(201).json(blogPost);
     } catch (error) {
@@ -48,8 +49,9 @@ const createNewBlogPost = async (req, res) => {
 const updateBlogPostById = async (req, res) => {
     try {
         const id = req.params.id;
-        const { title, content, author, date } = req.body;
-        const blogPostData = { title, content, author, date };
+        const inputData = req.body;
+        const blogPostData = { ...inputData };
+
         const updatedBlogPost = await BlogPostService.updateBlogPost(id, blogPostData);
         if (!updatedBlogPost) {
             return res.status(404).json({ error: 'Bài viết không tồn tại' });

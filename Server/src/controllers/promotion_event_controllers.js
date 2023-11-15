@@ -31,10 +31,11 @@ const getPromotionEventById = async (req, res) => {
 // Tạo sự kiện khuyến mãi mới
 const createNewPromotionEvent = async (req, res) => {
     try {
-        const { name, description, status, start_day, end_day, type } = req.body;
         const id = uuidv4();
-        const event = { id, name, description, status, start_day, end_day, type };
-        const createdEvent = await PromotionEventService.createPromotionEvent(event);
+        const inputData = req.body;
+        const eventData = { id, ...inputData };
+
+        const createdEvent = await PromotionEventService.createPromotionEvent(eventData);
         res.status(201).json(createdEvent);
     } catch (error) {
         console.error('Lỗi khi tạo sự kiện khuyến mãi mới:', error);
@@ -46,7 +47,8 @@ const createNewPromotionEvent = async (req, res) => {
 const updatePromotionEventById = async (req, res) => {
     try {
         const id = req.params.id;
-        const eventData = req.body;
+        const inputData = req.body;
+        const eventData = { ...inputData };
         const updatedEvent = await PromotionEventService.updatePromotionEvent(id, eventData);
 
         if (!updatedEvent) {

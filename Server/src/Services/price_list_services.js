@@ -21,6 +21,17 @@ class PriceListService {
         }
     }
 
+    async getAllPriceListByAlbumsId(albumId) {
+        try {
+            const priceLists = await PriceList.findAll({
+                where: { photo_album_id: albumId },
+            });
+            return priceLists;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách giá theo albumId:', error);
+            throw error;
+        }
+    }
     async createPriceList(priceListData) {
         try {
             const priceList = await PriceList.create(priceListData);

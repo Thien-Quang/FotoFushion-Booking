@@ -31,9 +31,10 @@ const getProductById = async (req, res) => {
 // Tạo sản phẩm mới
 const createNewProduct = async (req, res) => {
     try {
-        const { name, description, category, price, discounted_price } = req.body;
         const id = uuidv4();
-        const productData = { id, name, description, category, price, discounted_price };
+        const inputData = req.body;
+        const productData = { id, ...inputData };
+
         const product = await ProductService.createProduct(productData);
         res.status(201).json(product);
     } catch (error) {
@@ -46,7 +47,9 @@ const createNewProduct = async (req, res) => {
 const updateProductById = async (req, res) => {
     try {
         const id = req.params.id;
-        const productData = req.body;
+
+        const inputData = req.body;
+        const productData = { id, ...inputData };
         const updatedProduct = await ProductService.updateProduct(id, productData);
 
         if (!updatedProduct) {

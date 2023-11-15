@@ -31,9 +31,9 @@ const getPhotographyRoomById = async (req, res) => {
 // Tạo phòng chụp ảnh mới
 const createNewPhotographyRoom = async (req, res) => {
     try {
-        const { name, is_status, category, price } = req.body;
         const id = uuidv4();
-        const photographyRoomData = { id, name, is_status, category, price };
+        const inputData = req.body;
+        const photographyRoomData = { id, ...inputData };
         const photographyRoom = await PhotographyRoomService.createPhotographyRoom(photographyRoomData);
         res.status(201).json(photographyRoom);
     } catch (error) {
@@ -46,7 +46,8 @@ const createNewPhotographyRoom = async (req, res) => {
 const updatePhotographyRoomById = async (req, res) => {
     try {
         const id = req.params.id;
-        const photographyRoomData = req.body;
+        const inputData = req.body;
+        const photographyRoomData = { ...inputData };
         const updatedPhotographyRoom = await PhotographyRoomService.updatePhotographyRoom(id, photographyRoomData);
 
         if (!updatedPhotographyRoom) {
@@ -82,5 +83,5 @@ module.exports = {
     getPhotographyRoomById,
     createNewPhotographyRoom,
     updatePhotographyRoomById,
-    deletePhotographyRoomById
+    deletePhotographyRoomById,
 };

@@ -57,6 +57,50 @@ class PhotoService {
             throw error;
         }
     }
+    async getAllPhotosByBlogId(blog_id) {
+        try {
+            const photos = await Photo.findAll({
+                where: { blog_id: blog_id },
+            });
+            return photos;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            throw error;
+        }
+    }
+    async getPhotosByCostumerId(albumId) {
+        try {
+            const photos = await Photo.findAll({
+                where: { costume_id: albumId },
+            });
+            return photos;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            throw error;
+        }
+    }
+    async getPhotosByRoomId(roomid) {
+        try {
+            const photos = await Photo.findAll({
+                where: { room_id: roomid },
+            });
+            return photos;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            throw error;
+        }
+    }
+    async getAllPhotosByProductId(prod_id) {
+        try {
+            const photos = await Photo.findAll({
+                where: { prod_id: prod_id },
+            });
+            return photos;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            throw error;
+        }
+    }
 
     async deletePhoto(id) {
         try {
