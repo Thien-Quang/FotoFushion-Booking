@@ -84,7 +84,9 @@ function Header() {
                 <span className="self-center whitespace-nowrap text-xl font-semibold text-white">FotoFusion</span>
               </Navbar.Brand>
               <div className="flex md:order-2">
-                <Button className="bg-btnprimary">BOOKING</Button>
+                <Link to='/bookingonline' >
+                  <Button className="bg-btnprimary">BOOKING</Button>
+                </Link>
                 <Navbar.Toggle />
               </div>
               <Navbar.Collapse className="text-white">
@@ -136,12 +138,12 @@ function Header() {
                   </Link>
                 </div>
                 <div className="text-white hover:text-red-500">
-                  <Link to='/' >
+                  <Link to='/blogpost' >
                     BÀI VIẾT
                   </Link>
                 </div>
                 <div className="text-white hover:text-red-500">
-                  <Link to='/' >
+                  <Link to='/contactus' >
                     LIÊN HỆ
                   </Link>
                 </div>

@@ -7,6 +7,8 @@ import {
     MdDeleteForever,
 } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
+import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+
 
 import {
     AiOutlineEye,
@@ -19,6 +21,7 @@ import {
     AiOutlineDown,
     AiOutlineSearch,
     AiOutlineUnorderedList,
+    AiOutlineComment,
 
 } from "react-icons/ai";
 import {
@@ -69,7 +72,7 @@ import {
     IoInformationCircleOutline, IoAlbumsOutline,
 } from "react-icons/io5";
 
-import { BiChevronUp, BiChevronDown, BiLoaderCircle, BiSolidUser, BiSolidBank, BiUser } from "react-icons/bi";
+import { BiChevronUp, BiChevronDown, BiLoaderCircle, BiSolidUser, BiSolidBank, BiUser, BiShare } from "react-icons/bi";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { DiMongodb } from "react-icons/di";
@@ -78,10 +81,10 @@ import { SiExpress, SiTailwindcss } from "react-icons/si";
 import { GiSkeletonKey } from "react-icons/gi";
 
 export const icons = {
-    BsEyeSlashFill,
+    BsEyeSlashFill, FcLike, FcLikePlaceholder,
     BsInstagram, BsTwitter, BsFillPenFill,
     IoInformationCircleOutline, IoAlbumsOutline,
-    CiLocationOn,
+    CiLocationOn, BiShare, AiOutlineComment,
     BiUser,
     AiOutlineMail,
     AiOutlineFacebook,

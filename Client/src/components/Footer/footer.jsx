@@ -52,7 +52,7 @@ const footer = () => {
                         <div class="mb-6 md:mb-0">
                             <a href="/" class="flex items-center">
                                 <img src={logoFushion} class="h-8 mr-3" alt=" Fushion Logo" />
-                                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">FutoFusion</span>
+                                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white max-sm:text-sm">FutoFusion</span>
                             </a>
                         </div>
                     </div>
@@ -62,7 +62,7 @@ const footer = () => {
                                 <div class="h-14 w-14 rounded-full flex items-center justify-center bg-[#4C4D52] text-3xl">
                                     <AiFillPhone />
                                 </div>
-                                <div className='ml-2'>
+                                <div className='ml-2 max-sm:hidden'>
                                     <span>Số Điện Thoại</span>
                                     <br />
                                     <span>+84 12345697698</span>
@@ -76,7 +76,7 @@ const footer = () => {
                                 <div class="h-14 w-14 rounded-full flex items-center justify-center bg-[#4C4D52] text-3xl">
                                     <AiOutlineMail />
                                 </div>
-                                <div className='ml-2'>
+                                <div className='ml-2 max-sm:hidden'>
                                     <span>Email</span>
                                     <br />
                                     <span>fotofushion@gmail.com</span>
@@ -90,7 +90,7 @@ const footer = () => {
                                 <div class="h-14 w-14 rounded-full flex items-center justify-center bg-[#4C4D52] text-3xl">
                                     <CiLocationOn />
                                 </div>
-                                <div className='ml-2'>
+                                <div className='ml-2 max-sm:hidden'>
                                     <span>Địa Chỉ</span>
                                     <br />
                                     <span>245-Nguyễn Văn Linh Hải Châu Đà Nắng</span>
@@ -104,7 +104,7 @@ const footer = () => {
                 <div class="flex justify-center ">
                     <div className='w-[90%] flex text-white justify-center items-center'>
                         <div className='w-1/2 justify-items-center align-items-center m-10'>
-                            <span>The world without photography will be meaningless to us if there is no light and color, which opens up our minds and expresses passion.</span>
+                            <span className='max-sm:hidden'>The world without photography will be meaningless to us if there is no light and color, which opens up our minds and expresses passion.</span>
                             <br />
                             <span className='text-3xl font-dancing flex justify-center items-center mt-10'> Latest photo</span>
                             <div className='flex items-center justify-center mt-5'>
