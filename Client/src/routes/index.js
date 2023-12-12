@@ -21,6 +21,8 @@ import {
   AddProduct,
   Store,
   CartPage,
+  Promotion,
+  // Payment,
 } from "../pages/index";
 
 const router = [
@@ -49,5 +51,7 @@ const router = [
   // Tri-router
   { path: "/store", component: Store },
   { path: "/cart", component: CartPage },
+  { path: "/promotion", component: Promotion },
+  // { path: "/payment", component: Payment },
 ];
 export { router };

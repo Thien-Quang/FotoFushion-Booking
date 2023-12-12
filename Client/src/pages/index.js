@@ -22,3 +22,5 @@ export { default as AddProduct } from "./DashBoard/addProduct.jsx";
 
 export { default as Store } from "./storePage.jsx";
 export { default as CartPage } from "./cartPage.jsx";
+export { default as Promotion } from "./promotionPage.jsx";
+// export { default as Payment } from "./paymentPage.jsx";
