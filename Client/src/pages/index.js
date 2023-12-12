@@ -20,19 +20,4 @@ export { default as AddRoomPhoto } from "./DashBoard/updateRoom.jsx";
 export { default as AddPriceList } from "./DashBoard/updatePriceList.jsx";
 export { default as AddProduct } from "./DashBoard/addProduct.jsx";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export { default as Store } from "./storePage.jsx";

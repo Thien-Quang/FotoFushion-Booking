@@ -1,10 +1,26 @@
 import {
-  Home, Calendar, Profile, Equipment, BookingAlbums,
-  ForgotPassWord, AlbumsPhotoPage, Login, SignUp, BookingOnline,
-  testUpdate, PhotoOfAlbums, AlbumsPage, PriceList, ContactUs, BlogPost, UpdateCostumer, AddRoomPhoto, AddPriceList, AddProduct
+  Home,
+  Calendar,
+  Profile,
+  Equipment,
+  BookingAlbums,
+  ForgotPassWord,
+  AlbumsPhotoPage,
+  Login,
+  SignUp,
+  BookingOnline,
+  testUpdate,
+  PhotoOfAlbums,
+  AlbumsPage,
+  PriceList,
+  ContactUs,
+  BlogPost,
+  UpdateCostumer,
+  AddRoomPhoto,
+  AddPriceList,
+  AddProduct,
+  Store,
 } from "../pages/index";
-
-
 
 const router = [
   { path: "/", component: Home },
@@ -29,10 +45,8 @@ const router = [
   { path: "/updatePricelist", component: AddPriceList },
   { path: "/addproduct", component: AddProduct },
 
-
-
-
-
+  // Tri-router
+  { path: "/store", component: Store },
+  // { path: "/cart", component: CartPage },
 ];
 export { router };
-
