@@ -20,6 +20,7 @@ import {
   AddPriceList,
   AddProduct,
   Store,
+  CartPage,
 } from "../pages/index";
 
 const router = [
@@ -47,6 +48,6 @@ const router = [
 
   // Tri-router
   { path: "/store", component: Store },
-  // { path: "/cart", component: CartPage },
+  { path: "/cart", component: CartPage },
 ];
 export { router };

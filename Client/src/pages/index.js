@@ -21,3 +21,4 @@ export { default as AddPriceList } from "./DashBoard/updatePriceList.jsx";
 export { default as AddProduct } from "./DashBoard/addProduct.jsx";
 
 export { default as Store } from "./storePage.jsx";
+export { default as CartPage } from "./cartPage.jsx";
