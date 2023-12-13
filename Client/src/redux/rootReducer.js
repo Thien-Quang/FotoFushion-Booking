@@ -6,7 +6,7 @@ import authReducer from "./features/authSlice";
 import productReducer from "./features/productSlice";
 import cartReducer from "./features/cartSlice";
 import checkoutReducer from "./features/checkoutSlice";
-// import addressReducer from "./features/addressSlice";
+import addressReducer from "./features/addressSlice";
 // import orderReducer from "./features/orderSlice";
 
 const commonConfig = {
@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   cart: cartReducer,
   // order: orderReducer,
-  // address: addressReducer,
+  address: addressReducer,
   checkout: persistReducer(userConfig, checkoutReducer),
   auth: persistReducer(userConfig, authReducer), //TO
 });

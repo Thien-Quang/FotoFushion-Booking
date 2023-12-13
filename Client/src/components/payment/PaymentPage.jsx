@@ -6,21 +6,22 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 import { icons } from "../../utils/icons";
-import Button from "../../components/Button";
-import Loading from "../../components/Loading";
+import Button from "../../components/ButtonLabelLoadingModelCheckbox/Button";
+import Loading from "../Store/Loading";
 import { authSelect } from "../../redux/features/authSlice";
 import { checkoutSelect } from "../../redux/features/checkoutSlice";
+
 import { convertVNDtoUSD, numberWithCommas } from "../../utils/fn";
 import { getAddressDefaultApi } from "../../apis/address";
-import Modal from "../../components/Modal";
-import AddressPage from "../profile/AddressPage";
+import Modal from "../ButtonLabelLoadingModelCheckbox/Modal";
+import AddressPage from "../Profile/address";
 import { addressSelect } from "../../redux/features/addressSlice";
 import { getListDeliveriesByUserApi } from "../../apis/delivery";
 import { createOrderApi } from "../../apis/order";
 import { senMailOTPApi } from "../../apis/mail";
 import { removeCartThunkAction } from "../../redux/features/cartSlice";
-import MapboxMap from "../../components/MapboxMap";
-import MapContainer from "../../components/MapContainer";
+// import MapboxMap from "../../components/MapboxMap";
+// import MapContainer from "../../components/MapContainer";
 
 const PaymentPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -288,9 +289,9 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="mx-auto w-[80%] flex flex-col gap-8 mt-32">
       {isLoading && <Loading />}
-      <div className="flex items-center justify-between pr-10">
+      <div className="mx-auto w-[80%] flex items-center justify-between pr-10">
         <h4 className="uppercase font-extrabold text-lg text-emerald-700">
           Thanh Toán
         </h4>
@@ -316,7 +317,7 @@ const PaymentPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full grid grid-cols-11 gap-2">
+      <div className="mx-auto w-[80%] grid grid-cols-11 gap-2">
         <div className="col-span-8 flex flex-col gap-2">
           <div className="flex flex-col bg-white rounded-sm overflow-hidden border shadow-sm">
             <div className=" flex items-center gap-4 py-2 px-4 bg-slate-200 ">
@@ -368,10 +369,10 @@ const PaymentPage = () => {
               </div>
             </div>
           </div>
-          <div className="h-[400px]">
-            <MapboxMap address={addressDefault} setIsLoading={setIsLoading} />
-            {/* <MapContainer address={addressDefault} /> */}
-          </div>
+          {/* <div className="h-[400px]"> */}
+          {/* <MapboxMap address={addressDefault} setIsLoading={setIsLoading} /> */}
+          {/* <MapContainer address={addressDefault} /> */}
+          {/* </div> */}
           <div className="shadow-sm rounded-sm overflow-hidden border bg-white">
             <table className="w-full text-sm text-left text-gray-400 cursor-pointer">
               <thead className="text-xs border-b text-teal-700 uppercase bg-slate-200">

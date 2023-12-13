@@ -22,7 +22,7 @@ import {
   Store,
   CartPage,
   Promotion,
-  // Payment,
+  Payment,
 } from "../pages/index";
 
 const router = [
@@ -52,6 +52,6 @@ const router = [
   { path: "/store", component: Store },
   { path: "/cart", component: CartPage },
   { path: "/promotion", component: Promotion },
-  // { path: "/payment", component: Payment },
+  { path: "/payment", component: Payment },
 ];
 export { router };
