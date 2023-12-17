@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 // import PayPalButton from 'react-paypal-button-v3'
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+
+
 import { icons } from "../../utils/icons";
 import Button from "../../components/ButtonLabelLoadingModelCheckbox/Button";
 import Loading from "../Store/Loading";
@@ -14,7 +20,10 @@ import { checkoutSelect } from "../../redux/features/checkoutSlice";
 import { convertVNDtoUSD, numberWithCommas } from "../../utils/fn";
 import { getAddressDefaultApi } from "../../apis/address";
 import Modal from "../ButtonLabelLoadingModelCheckbox/Modal";
+
 import AddressPage from "../Profile/Address";
+
+
 import { addressSelect } from "../../redux/features/addressSlice";
 import { getListDeliveriesByUserApi } from "../../apis/delivery";
 import { createOrderApi } from "../../apis/order";
@@ -185,7 +194,9 @@ const PaymentPage = () => {
             amount: {
               value: `${convertVNDtoUSD(
                 Number(totalPrice) +
+
                 Number(deliveryUnitDefault?.price?.$numberDecimal)
+
               )}`,
             },
           },
@@ -211,7 +222,9 @@ const PaymentPage = () => {
       if (
         totalQuantity > 50 ||
         totalPrice + Number(deliveryUnitDefault?.price?.$numberDecimal) >
+
         10000000
+
       ) {
         if (!OTPFromMail || !OTPValue || OTPFromMail !== OTPValue) {
           setIsOTPValid(false);
@@ -523,19 +536,23 @@ const PaymentPage = () => {
           <div className="flex flex-col gap-4 p-2">
             <div className="col-span-3 flex flex-col gap-2">
               <button
+
                 className={`outline-none px-4 py-3 text-sm font-bold text-gray-500 ${paymentMethod === "COD"
                   ? "border-l-4 border-green-500 bg-green-100/70"
                   : "bg-slate-100"
                   }`}
+
                 onClick={() => setPaymentMethod("COD")}
               >
                 Thanh toán khi nhận hàng
               </button>
               <button
+
                 className={` outline-none px-4 py-3 text-sm font-bold text-gray-500 ${paymentMethod === "PayPal"
                   ? "border-l-4 border-green-500 bg-green-100/70"
                   : "bg-slate-100"
                   }`}
+
                 onClick={() => setPaymentMethod("PayPal")}
               >
                 Thanh toán bằng PayPal
@@ -581,7 +598,9 @@ const PaymentPage = () => {
                       {" "}
                       {numberWithCommas(
                         Number(totalPrice) +
+
                         Number(deliveryUnitDefault?.price?.$numberDecimal)
+
                       )}{" "}
                       <span className="ml-2 text-sm text-black"> VND</span>
                     </span>
@@ -590,6 +609,7 @@ const PaymentPage = () => {
                     Number(deliveryUnitDefault?.price?.$numberDecimal) >
                     10000000 ||
                     totalQuantity > 50) && (
+
                       <div className="flex flex-col mx-auto gap-2 my-2">
                         {isOTPValid ? (
                           <span className="text-xs text-green-500 font-semibold">
@@ -618,6 +638,7 @@ const PaymentPage = () => {
                         </div>
                       </div>
                     )}
+
                   <Button
                     primary
                     className="w-full"
@@ -667,7 +688,9 @@ const PaymentPage = () => {
                       {numberWithCommas(
                         convertVNDtoUSD(
                           Number(totalPrice) +
+
                           Number(deliveryUnitDefault?.price?.$numberDecimal)
+
                         )
                       )}
                       <span className="ml-2 text-sm text-black"> $</span>
@@ -677,6 +700,7 @@ const PaymentPage = () => {
                     Number(deliveryUnitDefault?.price?.$numberDecimal) >
                     10000000 ||
                     totalQuantity > 50) && (
+
                       <div className="flex flex-col mx-auto gap-2 my-2">
                         {isOTPValid ? (
                           <span className="text-xs text-green-500 font-semibold">
@@ -707,6 +731,38 @@ const PaymentPage = () => {
                     )}
                   <div className="col-span-4 relative z-10">
                     {/* <PayPalButton
+=======
+                    <div className="flex flex-col mx-auto gap-2 my-2">
+                      {isOTPValid ? (
+                        <span className="text-xs text-green-500 font-semibold">
+                          Mã OTP hợp lệ. Đặt hàng ngay!
+                        </span>
+                      ) : (
+                        <span className="text-xs text-red-500 font-semibold">
+                          Bạn đã đặt số lượng hoặc số tiền lớn, hãy nhập mã OTP
+                          từ email của bạn để tiếp tục đặt hàng
+                        </span>
+                      )}
+                      <div className="bg-white p-2 rounded-sm flex items-center justify-between">
+                        <input
+                          type="text"
+                          placeholder="Nhập mã OTP"
+                          className="outline-none"
+                          value={OTPValue}
+                          onChange={(e) => setOTPValue(e.target.value)}
+                        />
+                        <button
+                          className="text-xs outline-none font-bold text-white rounded-sm bg-slate-700 px-2 py-1"
+                          onClick={handleSendOTPMail}
+                        >
+                          Gửi mail
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className="col-span-4 relative z-10">
+                    <PayPalButton
+>>>>>>> 2ae0416d259481a425a5795df86e4edc66884cba
                       createOrder={(data, actions) =>
                         handlePayPalCreateOrder(data, actions)
                       }
@@ -718,7 +774,11 @@ const PaymentPage = () => {
                         clientId: process.env.REACT_APP_PAYPAL_ID,
                         currency: "USD",
                       }}
+<<<<<<< HEAD
                     /> */}
+=======
+                    />
+>>>>>>> 2ae0416d259481a425a5795df86e4edc66884cba
                   </div>
                 </div>
               )}
