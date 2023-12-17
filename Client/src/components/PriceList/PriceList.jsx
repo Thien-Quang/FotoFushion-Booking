@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import * as price from '../../apis/priceList'
 import { useLocation } from 'react-router-dom';
+import BookingAlbums from '../Booking/bookingAlbums';
+import { Modal } from 'flowbite-react';
 
 const PriceList = () => {
 
     const [priceLists, setPriceLists] = useState([])
     const location = useLocation();
     const albumsid = location.pathname.split('/').pop();
-
     console.log(albumsid);
-
     useEffect(() => {
         const fetchAdd = async () => {
             try {
@@ -24,12 +24,20 @@ const PriceList = () => {
 
 
     }, []);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const openBookingModal = (priceList) => {
+        setSelectedItem(priceList);
+        document.getElementById('my_modal_1').showModal()
+    };
 
     useEffect(() => { console.log(priceLists); }, [priceLists]);
+
     return (
         <div>
+            <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fbgprilice.png?alt=media&token=65e6f565-b049-44b1-adda-d888c962b1ab" alt="" />
             <div class="sm:flex sm:flex-col sm:align-center p-10 bg-black">
-                <div class="mt-12 space-y-3 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-1 sm:gap-6 md:grid-cols-2 md:max-w-5xl md:mx-auto xl:grid-cols-2">
+                <div class="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-1 sm:gap-6 md:grid-cols-2 md:max-w-5xl md:mx-auto xl:grid-cols-2 ">
                     {priceLists.map((pricelist) => {
                         return (
                             <div class="border border-slate-200 rounded-lg shadow-sm divide-y divide-slate-200 bg-white">
@@ -42,11 +50,14 @@ const PriceList = () => {
                                     <p class="mt-2 text-base text-slate-700 leading-tight">Số lượng thợ chụp : {pricelist.number_photographer} ; Số lượng thợ phụ : {pricelist.number_assistant_photographer} </p>
                                     <p class="mt-2 text-base text-slate-700 leading-tight" style={{ whiteSpace: 'pre-line' }}>{pricelist.description}  </p>
                                     <p class="mt-8">
-                                        <span class="text-4xl font-bold text-slate-900 tracking-tighter">{pricelist.price}</span>
-
+                                        <span class="text-4xl font-bold text-red-400 animate-bounce'">{pricelist.price}</span>
                                         <span class="text-base font-medium text-slate-500"> VND</span>
-                                    </p><a href="/bookingalbums"
-                                        class="mt-8 block w-full bg-slate-900 rounded-md py-2 text-sm font-semibold text-white text-center">Sử dụng dịch vụ này</a>
+                                    </p>
+                                    <button
+                                        class="mt-8 block w-full bg-btnprimary rounded-md py-4 text-xl text-white text-center font-semibold"
+                                        onClick={() => openBookingModal(pricelist)}>
+                                        SỬ DỤNG COMBO NÀY
+                                    </button>
                                 </div>
                                 <div class="pt-6 pb-8 px-6">
                                     <h3 class="text-sm font-bold text-slate-900 tracking-wide uppercase">Bạn sẽ nhận được</h3>
@@ -60,6 +71,20 @@ const PriceList = () => {
 
                 </div>
             </div>
+            <dialog id="my_modal_1" className="modal">
+                <div className="modal-box w-11/12 max-w-5xl">
+                    <div className="flex items-center justify-center">
+                        <BookingAlbums priceList={selectedItem} />
+
+                    </div>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
 
         </div>
     )

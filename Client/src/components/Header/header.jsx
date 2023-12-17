@@ -115,20 +115,20 @@ function Header() {
                     <Link to='/' >
                       <Dropdown.Item>Yêu cầu chỉnh sửa</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Chụp ảnh</Dropdown.Item>
-                    </Link>
-                    <Link to='/' >
+                    <Link to='/studioroom' >
                       <Dropdown.Item>Phòng studio</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Quay phim</Dropdown.Item>
+                    <Link to='/costumer' >
+                      <Dropdown.Item>Trang phục</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/equipment' >
                       <Dropdown.Item>Thiết bị</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/makeup' >
                       <Dropdown.Item>Make-up</Dropdown.Item>
+                    </Link>
+                    <Link to='/combotakephoto' >
+                      <Dropdown.Item>Combo Chụp Hình</Dropdown.Item>
                     </Link>
                   </Dropdown>
                 </div>
@@ -181,6 +181,7 @@ function Header() {
                     <Link to='/' onClick={handleLogOut}>
                       <Dropdown.Item>Đăng Xuất</Dropdown.Item>
                     </Link>
+                    { }
                   </Dropdown>
                 </div>
               ) : (

@@ -7,11 +7,11 @@ import {
     listAll,
     list,
 } from "firebase/storage";
-import { storage } from '../../config/firebase.config';
+
 import { v4 } from "uuid";
 
 
-
+import * as firebase from '../../apis/firebase'
 
 
 
@@ -19,7 +19,23 @@ const UpdateImage = () => {
     const [imageUploads, setImageUpload] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
     const [progress, setProgress] = useState(0);
-    const imagesListRef = ref(storage, "/Blog/4");
+    // const imagesListRef = ref(storage, "/Blog/4");
+
+    const imagePathToDelete = 'https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/test%2F172975d4ce1cfdd437071cf44a0a3cbd.jpg?alt=media&token=7f47bef7-8e5b-4e5c-8b40-8ef0743bb3dd';
+    useEffect(() => {
+        const handleDeleteImage = async () => {
+            try {
+                await firebase.deleteImage(imagePathToDelete);
+                console.log('Component đã xóa hình ảnh thành công.');
+            } catch (error) {
+                console.error('Lỗi khi xóa hình ảnh trong component:', error);
+            }
+        };
+
+        // Gọi hàm xóa ảnh khi component được render
+        handleDeleteImage();
+    }, [imagePathToDelete]);
+
 
     // const handleChange = (e) => {
     //     for (let i = 0; i < e.target.files.length; i++) {
@@ -48,21 +64,21 @@ const UpdateImage = () => {
     //     );
     // }
 
-    useEffect(() => {
-        // imageUrls.map((imgurl) => {
-        //     console.log(imgurl);
-        // })
+    // useEffect(() => {
+    // imageUrls.map((imgurl) => {
+    //     console.log(imgurl);
+    // })
 
-        listAll(imagesListRef).then((response) => {
-            const urls = [];
-            response.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                    setImageUrls((prev) => [...prev, url]);
-                    urls.push(url);
-                });
-            });
-        });
-    }, []);
+    //     listAll(imagesListRef).then((response) => {
+    //         const urls = [];
+    //         response.items.forEach((item) => {
+    //             getDownloadURL(item).then((url) => {
+    //                 setImageUrls((prev) => [...prev, url]);
+    //                 urls.push(url);
+    //             });
+    //         });
+    //     });
+    // }, []);
 
 
     return (
@@ -75,7 +91,7 @@ const UpdateImage = () => {
             <button onClick={uploadFile}>Upload</button>
             <br /> */}
 
-
+            {/* 
             <div>
                 <h3>Total URLs: {imageUrls.length}</h3>
                 <ul>
@@ -86,7 +102,7 @@ const UpdateImage = () => {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> */}
             {/* {
                 imageUrls.map((url) => {
                     <span>{url}</span>

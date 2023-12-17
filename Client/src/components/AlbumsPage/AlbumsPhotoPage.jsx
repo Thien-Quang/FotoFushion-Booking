@@ -3,18 +3,14 @@ import SlideHeader from '../SlidePhoto/SlideHeader'
 import { getListPhotoByAlbumsId } from '../../apis/photo'
 import { Link, useLocation } from 'react-router-dom';
 import '../helples/AlbumsPhotoPage.scss'
-import { Button, Modal } from 'flowbite-react';
+import { Button } from 'flowbite-react';
 
 const AlbumsPhotoPage = () => {
-    const topRef = useRef(null); // Define topRef with an initial value of null
-
     useEffect(() => {
-        if (topRef.current) {
-            topRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
+        window.scrollTo(0, 0);
     }, []);
     const [photos, setPhotos] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
+
     const [urlImg, setUrlImg] = useState('');
 
     const location = useLocation();
@@ -52,7 +48,7 @@ const AlbumsPhotoPage = () => {
                 <div className="gallerys w-3/4">
                     {photos.map((photo, index) => {
                         return (
-                            <div className="pics scale-100 hover:scale-110" key={index} onClick={() => { setOpenModal(true); setUrlImg(photo.url_photo) }}>
+                            <div className="pics scale-100 hover:scale-110" key={index} onClick={() => { document.getElementById('my_modal_2').showModal(); setUrlImg(photo.url_photo) }}>
                                 <img src={photo.url_photo}
                                     alt={`Hình ảnh ${index + 1}`}
                                     style={{ width: '100%' }} />
@@ -61,21 +57,16 @@ const AlbumsPhotoPage = () => {
                     })}
                 </div>
             </div>
-            <Modal show={openModal} onClose={() => setOpenModal(false)}>
-                <Modal.Header></Modal.Header>
-                <Modal.Body>
+            <dialog id="my_modal_2" className="modal">
+                <div className="modal-box">
                     <div className="flex items-center justify-center">
-                        <img src={urlImg} alt="Hình ảnh" />
+                        <img src={urlImg} alt="Hình ảnh" className='object-cover w-full h-full' />
                     </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button color="gray" onClick={() => setOpenModal(false)}>
-                        Thoát
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </div>
     );
 };

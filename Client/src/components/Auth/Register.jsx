@@ -1,21 +1,14 @@
-
 import { icons } from "../../utils/icons";
-
 import { ToastContainer, toast } from 'react-toastify';
 import { Spinner } from '@material-tailwind/react';
 import 'react-toastify/dist/ReactToastify.css';
-
 import React, { useContext, useEffect, useState } from 'react';
-// import * as registerServices from '../../services/registerServices';
-// import * as authServices from '../../services/authServices';
-
 import * as authApis from '../../apis/auth'
-
-
-import { Link, useNavigate } from 'react-router-dom';
+import Countdown from '../helples/Countdown';
+import { Link } from 'react-router-dom';
 import AuthContext from '../../context/authProvider';
 import { Carousel } from 'flowbite-react';
-
+import { Button, Modal } from 'flowbite-react';
 
 const Register = () => {
     const { setAuth } = useContext(AuthContext);
@@ -27,7 +20,17 @@ const Register = () => {
     const [rePassword, setRePassword] = useState('');
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const [isCountdownActive, setIsCountdownActive] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
+
+    const [otp, setOtp] = useState('');
+    const [confirm, setConfirm] = useState(false);
+
+
+    const handleTimeout = () => {
+        setIsCountdownActive(false);
+        // Thực hiện các hành động khi countdown hết giờ, ví dụ: gửi lại mã OTP
+    };
 
     const notify = (message, type) => {
         const toastType = type === "success" ? toast.success : toast.error
@@ -47,42 +50,62 @@ const Register = () => {
         const username = email
             .split('@')[0]
             .toLowerCase()
-            .replace(/[^a-z0-9]/gi, '');
+            .replace(/[^a-z0-9.]/gi, '');
         return email.replace(/^[^@]+/, username);
+    };
+    const handlePhoneNumberChange = (e) => {
+        const inputValue = e.target.value;
+        const sanitizedInput = inputValue.replace(/\D/g, '');
+        const limitedInput = sanitizedInput.slice(0, 10);
+        setPhoneNumber(limitedInput);
     };
 
     useEffect(() => {
         if (submit) {
             const fetchRegister = async () => {
-
                 const register = await authApis.register(email, password, phoneNumber);
                 if (register.statusCode === 201) {
-                    const authentication = await authApis.loginApi(email, password);
-                    if (authentication.statusCode === 200) {
-                        const accessToken = authentication.response.accessToken;
-                        setAuth({ email, password, accessToken, phoneNumber });
-                        setLoading(false);
-                        navigate('/');
-                    } else {
-                        notify(authentication.error.response.data.message);
-                        setLoading(false);
-                        setSubmit(false);
-                    }
+                    notify("Mã OTP đã được gửi đến Gmail của bạn", 'success')
+                    setOpenModal(true)
                 } else {
-                    notify(register.error.response.data.message);
+                    notify("Gmail đã được sử dụng");
                     setLoading(false);
                     setSubmit(false);
                 }
             };
             fetchRegister();
         }
-    }, [email, navigate, password, phoneNumber, setAuth, submit]);
+    }, [email, password, phoneNumber, setAuth, submit]);
+
+    // useEffect(() => {
+    //     if (confirm) {
+    //         const fetchConfirm = async () => {
+    //             const confirm = await authApis.confirmOtp(email, otp)
+    //             if (confirm.statusCode === 200) {
+    //                 const authentication = await authApis.loginApi(email, password);
+    //                 if (authentication.statusCode === 200) {
+    //                     const accessToken = authentication.response.accessToken;
+    //                     setAuth({ email, password, accessToken, phoneNumber });
+    //                 } else {
+    //                     notify(authentication.error.response.data.message);
+    //                     setLoading(false);
+    //                     setSubmit(false);
+    //                 }
+    //             } else {
+    //                 notify("Mã OTP không phù hợp");
+    //                 setLoading(false);
+    //                 setSubmit(false);
+    //             }
+    //         };
+    //         fetchConfirm();
+    //     }
+
+    // }, [confirm])
 
     const handleCheckInput = () => {
         const emailRegex = /\S+@\S+\.\S+/;
         const isEmailValid = emailRegex.test(email);
         if (isEmailValid && email.endsWith('@gmail.com')) {
-            // email is valid and ends with "@gmail.com"
             if (rePassword === password) {
                 setLoading(true);
                 setSubmit(true);
@@ -91,7 +114,6 @@ const Register = () => {
                 setSubmit(false);
             }
         } else {
-            // email is not valid or does not end with "@gmail.com"
             notify('Email phải bao gồm đuôi "@gmail.com"');
             setSubmit(false);
         }
@@ -100,6 +122,30 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         handleCheckInput();
+    };
+    const handleConfirm = async (e) => {
+        try {
+            const confirmResponse = await authApis.confirmOtp(email, otp);
+            if (confirmResponse.statusCode === 200) {
+                const authentication = await authApis.loginApi(email, password);
+                if (authentication.statusCode === 200) {
+                    const accessToken = authentication.response.accessToken;
+                    setAuth({ email, password, accessToken, phoneNumber });
+                } else {
+                    notify("Bạn đã đăng kí tài khoản thành công", 'success');
+                    //setLoading(false);
+                    ///setSubmit(false);
+                }
+                setOpenModal(false)
+            } else {
+                notify("Mã OTP không phù hợp");
+                setLoading(false);
+                //setSubmit(false);
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+            console.error("Error in handleConfirm:", error);
+        }
     };
 
     return (
@@ -112,18 +158,19 @@ const Register = () => {
                         <h1 className="text-white text-3xl font-bold py-6">Đăng Kí</h1>
                         <div className="w-[70%] m-auto text-white">
                             <form action="" onSubmit={(e) => handleSubmit(e)}>
-
                                 <div className="flex flex-col mb-2">
                                     <label className="font-medium text-left text-lg mb-2 " htmlFor="">
                                         Địa Chỉ Email
                                     </label>
                                     <input
-                                        className="text-gray-500 px-4 py-2 border-2 border-[#afafaf] rounded-lg shadow-lg outline-none focus:border-primaryColor placeholder:text-lg text-lg"
-                                        type="email"
-                                        placeholder="youraccount@gmail.com"
-                                        onChange={(e) => setEmail(replaceEmail(e.target.value))}
-                                        value={email}
+                                        id="emailInput"
+                                        className="px-4 py-3 border-2 border-[#afafaf] rounded-lg shadow-lg outline-none focus:border-primaryColor placeholder:text-lg text-lg text-black"
                                         required
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder="youraccount@gmail.com"
+                                        onChange={(event) => setEmail(replaceEmail(event.target.value))}
+                                        value={email}
                                     />
                                 </div>
                                 <div className="flex flex-col mb-2">
@@ -132,9 +179,9 @@ const Register = () => {
                                     </label>
                                     <input
                                         className="text-gray-500 px-4 py-2 border-2 border-[#afafaf] rounded-lg shadow-lg outline-none focus:border-primaryColor placeholder:text-lg text-lg"
-                                        type=""
+                                        type="text"
                                         placeholder="Số điện thoại của bạn"
-                                        onChange={(e) => setPhoneNumber((e.target.value))}
+                                        onChange={handlePhoneNumberChange}
                                         value={phoneNumber}
                                         required
                                     />
@@ -214,15 +261,54 @@ const Register = () => {
                     </div>
                     <div className="hidden lg:block h-full w-full col-span-6 bg-black">
                         <div className="h-full w-full object-cover lg:rounded-r-[20px] ">
-                            <Carousel slideInterval={3000}>
-                                <img src="https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/346804316_1708398109573396_4930974549931971745_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=llA8Zm2dVPUAX9tkYwm&_nc_ht=scontent.fsgn2-11.fna&cb_e2o_trans=t&oh=00_AfBdlyAKsJ8DWGzXdDNmaAMfI0TPVus3EXg-Z-3Tkzd6iA&oe=654D9823" alt="..." />
-                                <img src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/313383795_690765426085262_3320058881456267337_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=fQ-2H4dIzW0AX81YtSX&_nc_ht=scontent.fsgn2-6.fna&cb_e2o_trans=t&oh=00_AfBHbdKD3xqy7R2fcxVjB39TlKhMkUBVR3z6XiENB4lp2w&oe=654C49C8" alt="..." />
-                                <img src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/294340839_617457030082769_7304421650753286022_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=fclnroZiTukAX-GLxFX&_nc_ht=scontent.fsgn2-4.fna&cb_e2o_trans=t&oh=00_AfA4i5YJcJhbsfw9rHfIpPygdEjLXRW0fsnhS9Ter2CjoA&oe=654CF17E" alt="..." />
-                                <img src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/271764871_4717464278342095_3568007753134653748_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=BrPFR9HrCCoAX_04jru&_nc_ht=scontent.fsgn2-9.fna&cb_e2o_trans=t&oh=00_AfDSAGHxzY3qBWhURUHlUKKumX-8nEN46GWMvANBlYsIIg&oe=654DBB52" alt="..." />
-                                <img src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/260473629_4550140771741114_8690258067032479908_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=sSVZqARqvPYAX8y021o&_nc_ht=scontent.fsgn2-6.fna&cb_e2o_trans=t&oh=00_AfBcPx_XUfYoapeR9ryE1EmJnGzDbFwLzh_C9SaoHAXM4Q&oe=654C4988" alt="..." />
+                            <Carousel slideInterval={2000}>
+                                <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fslide-regis%2F409545090_1105994830843230_2157843334834832738_n.jpg?alt=media&token=c6f0af1d-c9d3-4170-97c7-7ae9d6a4b9cc" alt="..." />
+                                <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fslide-regis%2F409548079_2109107996105184_6936437252922352272_n.jpg?alt=media&token=54094487-e973-434f-a685-e65b4c133332" alt="..." />
+                                <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fslide-regis%2F409554895_24360487113597594_3118450683455908892_n.jpg?alt=media&token=091f7f9c-6a1b-4235-962b-3c12d4b82160" alt="..." />
+                                <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fslide-regis%2F409812054_1105994904176556_7732531811464827346_n.jpg?alt=media&token=158d8d71-680e-4592-9bd1-3f10a4dc3c3b" alt="..." />
+                                <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fslide-regis%2F409848838_2282567431934405_2556037988827419922_n.jpg?alt=media&token=8bc6aef8-65d1-44f7-9088-242ff08b64f9" alt="..." />
                             </Carousel>
                         </div>
                     </div>
+                    <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+                        <Modal.Header>
+                            <h1 className="font-semibold text-orange-500 text-3xl ">Email Verification</h1>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="flex items-center justify-center m-4">
+                                <h1 className="font-semibold text-black text-sm ">Mã otp được gửi đến Gmail : {email} </h1>
+                            </div>
+                            <div className="w-full flex items-center justify-center">
+                                <input
+                                    className="input input-bordered input-warning w-full max-w-xs"
+                                    required
+                                    type="text"
+                                    placeholder="Mã OTP của bạn"
+                                    onChange={(event) => setOtp(event.target.value)}
+                                    value={otp}
+                                />
+                            </div>
+                            <div className="w-full flex items-center justify-center">
+                                {isCountdownActive && <Countdown onTimeout={handleTimeout} />}
+                            </div>
+                            <div className="w-full flex items-center justify-center mt-4">
+                                <Button outline gradientDuoTone="greenToBlue" size="xl"
+                                    onClick={() => handleConfirm()}
+                                >
+                                    Xác thực tài khoản
+                                </Button>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <div className="flex items-center justify-center m-2">
+                                <p>Bạn không nhận được mã ? </p>
+                                <button class="flex flex-row items-center text-blue-600 m-2">Gửi lại</button>
+                            </div>
+
+                        </Modal.Footer>
+                    </Modal>
+
+
                 </div>
             </div>
         </>

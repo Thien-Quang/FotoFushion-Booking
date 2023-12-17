@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { icons } from "../../utils/icons";
-import Hoso from "./hoso"
-import Address from "./address"
-import ChangePasswordPage from "./changePassword"
-import Order from "./order"
+import HoSoCaNhan from './HoSoCaNhan';
+
 
 
 const Profile = () => {
@@ -14,21 +12,9 @@ const Profile = () => {
     };
 
     return (
-        <div className='w-full bg-black pt-4'>
-            <div className='flex justify-center'>
-                <div className='w-3/4 text-white flex items-center justify-center'>
-                    <div className='w-1/2 h-20 m-4 bg-white'>
-                        <span>Thông tin cá nhân </span>
-
-                    </div>
-                    <div className='w-1/2 h-20 m-4 bg-white'>
-                        <span>Thông tin cá nhân </span>
-
-                    </div>
-                </div>
-            </div>
-            <div className='flex justify-center'>
-                <div className='w-3/4 text-white flex items-center justify-center'>
+        <div className='w-full bg-black pt-40'>
+            <div className='flex justify-center items-start'>
+                <div className='w-3/4 text-white flex items-start justify-center'>
                     <div className='w-1/4 h-auto m-4 bg-white text-black flex items-center justify-center rounded-lg'>
                         <ul className='w-3/4'>
                             <li
@@ -39,17 +25,7 @@ const Profile = () => {
                                 <span className='mx-2'><icons.BiSolidUser /></span>
                                 Hồ Sơ
                             </li>
-                            <li
-                                className={`m-4 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "bank" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
-                                    }`}
-                                onClick={() => handleTabClick("bank")}
-                            >
 
-                                <span className='mx-2'><icons.BiSolidBank /></span>
-
-                                Ngân Hàng
-
-                            </li>
                             <li
                                 className={`m-4 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "address" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
                                     }`}
@@ -88,19 +64,30 @@ const Profile = () => {
                                     }`}
                                 onClick={() => handleTabClick("logout")}
                             >
-
                                 Đăng Xuất
-
                             </li>
                         </ul>
 
                     </div>
-                    <div className="w-3/4 m-4 bg-white rounded-xl">
-                        {activeTab === "address" && <Address />}
-                        {activeTab === "profile" && <Hoso />}
-                        {activeTab === "bank" && <Hoso />}
-                        {activeTab === "myorder" && <Order />}
-                        {activeTab === "ChangePassword" && <ChangePasswordPage />}
+                    <div className="w-3/4 m-4 bg-black rounded-xl">
+                        <div className='relative'>
+                            <img
+                                src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fbgprofile.jpg?alt=media&token=9b1d45dc-0459-4109-826d-3a79de3fac95"
+                                alt="Background"
+                                style={{
+                                    width: '100%', // Đặt chiều rộng theo mong muốn
+                                    height: 'auto', // Để tự động tính chiều cao dựa trên chiều rộng
+                                    borderRadius: '20px', // Đặt bo tròn theo mong muốn
+                                }}
+                            />
+                            <div className='absolute top-0 w-full'>
+                                {/* {activeTab === "address" && <Address />} */}
+                                {activeTab === "profile" && <HoSoCaNhan />}
+                                {/* {activeTab === "bank" && <Hoso />}
+                                {activeTab === "myorder" && <Order />}
+                                {activeTab === "ChangePassword" && <ChangePasswordPage />} */}
+                            </div>
+                        </div>
 
                     </div>
 

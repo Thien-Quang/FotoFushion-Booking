@@ -1,10 +1,9 @@
 import {
   Home, Calendar, Profile, Equipment, BookingAlbums,
   ForgotPassWord, AlbumsPhotoPage, Login, SignUp, BookingOnline,
-  testUpdate, PhotoOfAlbums, AlbumsPage, PriceList, ContactUs, BlogPost, UpdateCostumer, AddRoomPhoto, AddPriceList, AddProduct
+  testUpdate, PhotoOfAlbums, AlbumsPage, PriceList, ContactUs, BlogPost,
+  Studio, Costumer, DashBoard, MakeUp, ComboTakePhoto, ResetPassword
 } from "../pages/index";
-
-
 
 const router = [
   { path: "/", component: Home },
@@ -14,6 +13,8 @@ const router = [
   { path: "/bookingAlbums", component: BookingAlbums },
   { path: "/bookingOnline", component: BookingOnline },
   { path: "/forgotpassword", component: ForgotPassWord },
+  { path: "/resetpassword", component: ResetPassword },
+
   { path: "/albumsphoto", component: AlbumsPhotoPage },
   { path: "/login", component: Login },
   { path: "/signup", component: SignUp },
@@ -23,12 +24,11 @@ const router = [
   { path: "/pricelist/:albumsid", component: PriceList },
   { path: "/contactus", component: ContactUs },
   { path: "/blogpost", component: BlogPost },
-  { path: "/updateCostumer", component: UpdateCostumer },
-  { path: "/updateRoom", component: AddRoomPhoto },
-  { path: "/updateRoom", component: AddRoomPhoto },
-  { path: "/updatePricelist", component: AddPriceList },
-  { path: "/addproduct", component: AddProduct },
-
+  { path: "/dashboard", component: DashBoard },
+  { path: "/studioroom", component: Studio },
+  { path: "/costumer", component: Costumer },
+  { path: "/makeup", component: MakeUp },
+  { path: "/combotakephoto", component: ComboTakePhoto },
 
 
 

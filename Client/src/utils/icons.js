@@ -1,4 +1,4 @@
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiSend } from "react-icons/fi";
 import { HiReceiptPercent } from "react-icons/hi2";
 import {
     MdShoppingCart,
@@ -81,7 +81,7 @@ import { SiExpress, SiTailwindcss } from "react-icons/si";
 import { GiSkeletonKey } from "react-icons/gi";
 
 export const icons = {
-    BsEyeSlashFill, FcLike, FcLikePlaceholder,
+    BsEyeSlashFill, FcLike, FcLikePlaceholder, FiSend,
     BsInstagram, BsTwitter, BsFillPenFill,
     IoInformationCircleOutline, IoAlbumsOutline,
     CiLocationOn, BiShare, AiOutlineComment,

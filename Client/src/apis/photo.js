@@ -13,16 +13,122 @@ const getListPhotoByAlbumsId = async ({ albumsid }) => {
         throw error;
     }
 };
-//lấy hình ảnh từ bảng photo bắng blog-id
-
 const getListPhotoByBlogId = async ({ blog_id }) => {
     console.log(blog_id);
     try {
         const response = await axiosClient.get(`/getAllPhotosByBlogId/${blog_id}`)
 
         // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
-        if (response.data) {
-            return response.data;
+
+        return {
+            data: response.data,
+            urlphoto: response.url_photo
+        }
+
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getListPhotoByRoomid = async ({ room_id }) => {
+
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByRoomId/${room_id}`)
+        ///console.log(response);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getAllPhotosByLocationId = async ({ room_id }) => {
+
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByLocationId/${room_id}`)
+        ///console.log(response);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getListPhotoByCostumerId = async ({ costume_id }) => {
+
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByCostumerId/${costume_id}`)
+        // console.log(response);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getListPhotoByEquipmentId = async ({ equip_id }) => {
+    console.log(equip_id);
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByEquipmentId/${equip_id}`)
+        console.log(response.data);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getAllPhotosByUserId = async ({ user_id }) => {
+    console.log(user_id);
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByUserId/${user_id}`)
+        console.log(response.data);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getAllPhotosByEventId = async ({ event_id }) => {
+    console.log(event_id);
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByEvenId/${event_id}`)
+        console.log(response.data);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const getAllPhotosByProductId = async ({ prod_id }) => {
+    console.log(prod_id);
+    try {
+        const response = await axiosClient.get(`/getAllPhotosByProductId/${prod_id}`)
+        console.log(response.data);
+
+        // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
+        if (response) {
+            return response.data
         }
     } catch (error) {
         console.error('Lỗi khi lấy danh sách ảnh:', error);
@@ -50,7 +156,8 @@ const getAllPhoto = async ({ accessToken }) => {
     }
 };
 
-const CreateAPhoto = async (accessToken, img_name, url_photo, costume_id) => {
+
+const CreateAPhotoForCostumer = async (accessToken, img_name, url_photo, costume_id) => {
 
     try {
         const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, costume_id: costume_id }, {
@@ -90,6 +197,26 @@ const updateRoomPhoto = async (accessToken, img_name, url_photo, room_id) => {
         };
     }
 };
+const updateLocation = async (accessToken, img_name, url_photo, locations_id) => {
+
+    try {
+        const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, locations_id: locations_id }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
 const updateProductPhoto = async (accessToken, img_name, url_photo, prod_id) => {
 
     try {
@@ -110,11 +237,264 @@ const updateProductPhoto = async (accessToken, img_name, url_photo, prod_id) => 
         };
     }
 };
+const updateEquipmentPhoto = async (accessToken, img_name, url_photo, equip_id) => {
+
+    try {
+        const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, equip_id: equip_id }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updateBlogPhoto = async (accessToken, img_name, url_photo, blog_id) => {
+
+    try {
+        const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, blog_id: blog_id }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updateEventPhoto = async (accessToken, img_name, url_photo, event_id) => {
+
+    try {
+        const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, event_id: event_id }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updateUsertPhoto = async (accessToken, img_name, url_photo, user_id) => {
+
+    try {
+        const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, user_id: user_id }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updateAlbumsPhoto = async (accessToken, img_name, url_photo, albums_id) => {
+
+    try {
+        const response = await axiosClient.post('/createPhoto', { img_name: img_name, url_photo: url_photo, albums_id: albums_id }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+
+
+const deletePhotoByCostumerId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletephotobycostumerid/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByEquipmentId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletephotobyequipmentid/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByRoomId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByRoomId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByLocationId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByLocationId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByBlogId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByBlogId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByUserId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByUserId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByAlbumId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByAlbumId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+
+const deletePhotoByEventId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByEventId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+const deletePhotoByProductId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deletePhotoByProductId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
+
 export {
-    getListPhotoByAlbumsId,
-    getAllPhoto,
-    CreateAPhoto,
-    updateRoomPhoto,
+    getListPhotoByAlbumsId, deletePhotoByLocationId,
+    getAllPhoto, updateLocation, getAllPhotosByLocationId,
+    CreateAPhotoForCostumer,
+    updateRoomPhoto, updateAlbumsPhoto, updateBlogPhoto, updateEventPhoto,
+    updateUsertPhoto, getAllPhotosByEventId, getAllPhotosByProductId, getAllPhotosByUserId,
     updateProductPhoto,
-    getListPhotoByBlogId
+    getListPhotoByBlogId,
+    getListPhotoByRoomid,
+    getListPhotoByCostumerId,
+    updateEquipmentPhoto,
+    getListPhotoByEquipmentId,
+    deletePhotoByCostumerId,
+    deletePhotoByAlbumId,
+    deletePhotoByBlogId,
+    deletePhotoByEquipmentId,
+    deletePhotoByEventId,
+    deletePhotoByProductId,
+    deletePhotoByRoomId,
+    deletePhotoByUserId
 };

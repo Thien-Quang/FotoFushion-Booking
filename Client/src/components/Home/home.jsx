@@ -9,13 +9,8 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [albums, setAlbums] = useState([]);
-
-
-  const topRef = useRef(null); // Define topRef with an initial value of null
   useEffect(() => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
