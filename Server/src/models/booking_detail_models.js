@@ -6,7 +6,11 @@ const Price_List = require('./price_list_models');
 const Equipment = require('./equipment_models');
 const PhotographyRoom = require('./photography_room_models');
 const User = require('./users_models');
-const Product = require('./product_models'); // Thêm import cho mô hình Product
+const Location = require('./locations_models');
+const Photo = require('./photo_Albums_models');
+
+
+
 
 const BookingDetail = sequelize.define('BookingDetail', {
   id: {
@@ -17,14 +21,27 @@ const BookingDetail = sequelize.define('BookingDetail', {
     type: DataTypes.STRING(50),
     allowNull: false,
   },
-  price_list_id: DataTypes.STRING(50),
   room_id: DataTypes.STRING(50),
   costume_id: DataTypes.STRING(50),
   equipment_id: DataTypes.STRING(50),
   payment_status: DataTypes.STRING(100),
   price: DataTypes.DECIMAL(18, 3),
   booking_time: DataTypes.DATE,
-  prod_id: DataTypes.STRING(50), // Thêm trường prod_id
+  price_list_id: DataTypes.STRING(50),
+  status: DataTypes.STRING(100),
+  messenger: {
+    type: DataTypes.TEXT,
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_unicode_ci'
+  },
+  location: {
+    type: DataTypes.TEXT,
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_unicode_ci'
+  },
+  locations_id: DataTypes.STRING(50),
+  time_try_customer: DataTypes.DATE,
+  albums_id: DataTypes.STRING(50),
 }, {
   tableName: 'booking_detail',
   timestamps: false,
@@ -35,7 +52,11 @@ BookingDetail.belongsTo(Price_List, { foreignKey: 'price_list_id', targetKey: 'i
 BookingDetail.belongsTo(Equipment, { foreignKey: 'equipment_id', targetKey: 'id' });
 BookingDetail.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id' });
 BookingDetail.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
-BookingDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' }); // Thêm quan hệ cho prod_id
+BookingDetail.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id' });
+BookingDetail.belongsTo(Photo, { foreignKey: 'albums_id', targetKey: 'id' });
+
+
+
 
 // BookingDetail.sync()
 //   .then(() => {

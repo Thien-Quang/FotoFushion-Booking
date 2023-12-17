@@ -11,7 +11,15 @@ const getAllPhotographyRooms = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách phòng chụp ảnh.' });
     }
 };
-
+const getAllCategoryOfPhotographyRooms = async (req, res) => {
+    try {
+        const photographyRooms = await PhotographyRoomService.getAllCategoryOfRoom();
+        res.json(photographyRooms);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách phòng chụp ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách phòng chụp ảnh.' });
+    }
+};
 // Lấy thông tin phòng chụp ảnh bằng ID
 const getPhotographyRoomById = async (req, res) => {
     try {
@@ -84,4 +92,5 @@ module.exports = {
     createNewPhotographyRoom,
     updatePhotographyRoomById,
     deletePhotographyRoomById,
+    getAllCategoryOfPhotographyRooms
 };

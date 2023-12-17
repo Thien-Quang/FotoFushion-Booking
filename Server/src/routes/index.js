@@ -24,6 +24,8 @@ const usersRoutes = require('./users_routes');
 const videoAlbumsRoutes = require('./video_albums_routes');
 const videoRoutes = require('./video_routes');
 const voucherRoutes = require('./voucher_routes');
+const locationsRoutes = require('./locations_routes.js');
+
 
 const index = (app) => {
     app.use("/", auth);
@@ -52,6 +54,8 @@ const index = (app) => {
     app.use("/", videoAlbumsRoutes);
     app.use("/", videoRoutes);
     app.use("/", voucherRoutes);
+    app.use("/", locationsRoutes);
+
 };
 
 module.exports = index;

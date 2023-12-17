@@ -34,9 +34,9 @@ const getBookingDetailById = async (req, res) => {
 const createNewBookingDetail = async (req, res) => {
     try {
         // Lấy thông tin chi tiết đặt hàng từ request body
-        const { user_id, price_list_id, room_id, costume_id, equipment_id, payment_status, price, booking_time } = req.body;
-        const id = uuidv4(); // Tạo ID mới cho chi tiết đặt hàng
-        const bookingDetailData = { id, user_id, price_list_id, room_id, costume_id, equipment_id, payment_status, price, booking_time };
+        const id = uuidv4();
+        const inputData = req.body;
+        const bookingDetailData = { id, ...inputData };
 
         // Gọi service để tạo chi tiết đặt hàng
         const bookingDetail = await BookingDetailService.createBookingDetail(bookingDetailData);
@@ -53,7 +53,8 @@ const createNewBookingDetail = async (req, res) => {
 const updateBookingDetailById = async (req, res) => {
     try {
         const id = req.params.id;
-        const bookingDetailData = req.body;
+        const inputData = req.body;
+        const bookingDetailData = { id, ...inputData };
 
         // Gọi service để cập nhật chi tiết đặt hàng
         const updatedBookingDetail = await BookingDetailService.updateBookingDetail(id, bookingDetailData);

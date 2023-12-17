@@ -13,13 +13,17 @@ class PhotoAlbumService {
 
     async getAllPhotoAlbums() {
         try {
-            const photoAlbums = await PhotoAlbum.findAll();
+            const photoAlbums = await PhotoAlbum.findAll({
+                order: [['date_create', 'ASC']],
+            });
+
             return photoAlbums;
         } catch (error) {
             console.error('Lỗi khi lấy danh sách album ảnh:', error);
             throw error;
         }
     }
+
 
     async createPhotoAlbum(photoAlbumData) {
         try {

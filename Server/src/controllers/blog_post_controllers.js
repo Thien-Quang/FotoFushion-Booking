@@ -2,17 +2,20 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const BlogPostService = require('../services/blog_post_services');
+const PhotoService = require('../services/photo_services');
+
 
 // Lấy danh sách tất cả bài viết
 const getAllBlogPosts = async (req, res) => {
     try {
         const blogPosts = await BlogPostService.getAllBlogPosts();
-        res.json(blogPosts);
+        res.status(200).json(blogPosts);
     } catch (error) {
-        console.error('Lỗi khi lấy danh sách bài viết:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách bài viết.' });
+        console.error('Error in controller:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 // Lấy thông tin bài viết bằng ID
 const getBlogPostById = async (req, res) => {

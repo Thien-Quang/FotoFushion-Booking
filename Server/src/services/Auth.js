@@ -1,63 +1,125 @@
 const Account = require("../models/account_models");
+const User = require("../models/users_models");
+
+const AccountService = require("../Services/account_services")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
-//const sendMail = require("../utils/sendMail");
+const sendMail = require("../utils/sendMail");
 const crypto = require("crypto");
 const { Op } = require("sequelize");
 
 
-const register = async ({ email, password, phone_number }, res) => {
+const registerAndSendOTP = async ({ email, password, phone_number }, res) => {
     try {
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const resetExpires = Date.now() + 2 * 60 * 1000;
         const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+
+        // Tạo tài khoản với thông tin cơ bản và một số trường khác
         const [account, created] = await Account.findOrCreate({
             where: { email },
             defaults: {
-                //id: uuidv4(),
                 email,
                 password: hashPassword,
                 role_id: "75ae40df-dd1a-4d49-be2f-b6c7af885b4c",
                 phone_number,
+                passwordResetExpires: resetExpires,
+                otpCode: otp,
+                // Thêm trạng thái mặc định là "Locked" tùy ý
+                status: 'Locked',
             },
+        });
+        // Gửi email với mã OTP
+        const html = ` <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+        <div style="margin:50px auto;width:70%;padding:20px 0">
+          <div style="border-bottom:1px solid #eee">
+            <a href="" style="display:block;font-size:1.9em;color: #FF6600;text-decoration:none;font-weight:600;text-align:center">FOTO FUSHION</a>
+          </div>
+          <p style="font-size:1.1em">Dear Customer </p>
+          <p>Thank you for choosing FotoFushion website. Please get the OTP below to registed account. This OTP will expire 5 minutes from now.</p>
+          <h2 style="background: #FF6600;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
+          <p style="font-size:0.9em;">Regards,<br />FotoFushion</p>
+          <hr style="border:none;border-top:1px solid #eee" />
+          <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+            <p>FotoFushion Inc</p>
+            <p>254, Nguyen Van Linh Street, Thanh Khue District, Da Nang City</p>
+            <p>Vietnam</p>
+          </div>
+        </div>
+      </div>`;
+        await sendMail({
+            email,
+            html,
+            subject: "Register an account",
         });
         const status = created ? 201 : 409;
         return res.status(status).json({
-            message: created ? "Register is successfully" : "Email is used",
+            message: created ? "Send to your email successfully" : "Email is used",
         });
     } catch (error) {
-        throw new Error(error);
+        console.error('Error during registration:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
+// Hàm xác nhận OTP và kích hoạt tài khoản
+const confirmOTPAndActivateAccount = async ({ email, otp }, res) => {
+    try {
+        const account = await Account.findOne({ where: { email, otpCode: otp } });
+
+        if (!account) {
+            return res.status(401).json({ message: "Invalid OTP code" });
+        }
+
+        // Kiểm tra xác nhận và kích hoạt tài khoản
+        if (account.status === 'Locked') {
+            const currentTime = Date.now();
+            if (account.passwordResetExpires && currentTime > account.passwordResetExpires) {
+                return res.status(401).json({ message: "OTP has expired" });
+            }
+            // Thay đổi trạng thái thành "Active" nếu tài khoản đang ở trạng thái "Locked"
+            account.status = 'Active';
+            await account.save();
+            return res.status(200).json({ message: 'Account confirmed and activated successfully.' });
+        } else {
+            return res.status(200).json({ message: 'Account already confirmed and activated.' });
+        }
+    } catch (error) {
+        console.error('Error during OTP confirmation:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 const login = async ({ email, password }, res) => {
     try {
         const account = await Account.findOne({
             where: { email },
         });
-        const role = account && (await account.getRole());
+
+        if (!account) {
+            return res.status(404).json({ message: "Email hasn't been registered" });
+        }
+        if (account.status === 'Locked') {
+            return res.status(401).json({ message: "Account is not yet confirmed" });
+        }
+        const role = await account.getRole();
         const isChecked = account && bcrypt.compareSync(password, account.password);
 
-        const accessToken = isChecked
-            && jwt.sign({ email: account.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "2d" })
-        const refreshToken = isChecked
-            && jwt.sign({ email: account.email }, process.env.JWT_SECRET_REFRESH_TOKEN, { expiresIn: "7d" })
-
-        if (refreshToken) {
-            await Account.update({
-                refreshToken: refreshToken
-            }, {
-                where: { email: account.email },
-            })
+        if (!isChecked) {
+            return res.status(401).json({ message: "Password was incorrect" });
         }
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 })
 
-        const status = accessToken ? 200 : account ? 401 : 404;
-        return res.status(status).json({
-            message: accessToken ? "Login is successfully" : account ? "Password was incorrect" : "Email hasn't been registered",
-            accessToken: accessToken ? accessToken : null
-        });
+        const accessToken = jwt.sign({ email: account.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "2d" });
+        const refreshToken = jwt.sign({ email: account.email }, process.env.JWT_SECRET_REFRESH_TOKEN, { expiresIn: "7d" });
+
+        await AccountService.updateAccount(account.email, { refreshToken }, res);
+
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000, secure: true, sameSite: 'none' });
+
+        return res.status(200).json({ message: "Login is successful", accessToken });
     } catch (error) {
-        throw new Error(error);
+        console.error('Error during login:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
@@ -108,59 +170,59 @@ const logout = async (refreshToken, res) => {
     }
 }
 
-// const forgotPassword = async (email, res) => {
-//     try {
-//         const account = await Account.findOne({
-//             where: { email: email }
-//         })
-//         if (!account) {
-//             console.log(account);
-//             return res.status(404).json({
-//                 message: "Email hasn't been registered"
-//             });
-//         }
+const forgotPassword = async (email, res) => {
+    try {
+        const account = await Account.findOne({
+            where: { email: email }
+        })
+        if (!account) {
+            console.log(account);
+            return res.status(404).json({
+                message: "Email hasn't been registered"
+            });
+        }
 
-//         const otp = Math.floor(100000 + Math.random() * 900000).toString();
-//         const resetExpires = Date.now() + 5 * 60 * 1000;
-//         await Account.update({
-//             resetExpires: resetExpires,
-//             otpCode: otp
-//         }, {
-//             where: { email: email }
-//         })
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const resetExpires = Date.now() + 5 * 60 * 1000;
+        await Account.update({
+            passwordResetExpires: resetExpires,
+            otpCode: otp
+        }, {
+            where: { email: email }
+        })
 
-//         const html = `
-//           <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-//         <div style="margin:50px auto;width:70%;padding:20px 0">
-//           <div style="border-bottom:1px solid #eee">
-//             <a href="" style="display:block;font-size:1.9em;color: #7fad39;text-decoration:none;font-weight:600;text-align:center">GreenEco</a>
-//           </div>
-//           <p style="font-size:1.1em">Hi, ${account.fullname}</p>
-//           <p>Thank you for choosing GreenEco website. Please get the OTP below to reset your password. This OTP will expire 5 minutes from now.</p>
-//           <h2 style="background: #7fad39;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
-//           <p style="font-size:0.9em;">Regards,<br />GreenEco</p>
-//           <hr style="border:none;border-top:1px solid #eee" />
-//           <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-//             <p>GreenEco Inc</p>
-//             <p>254, Nguyen Van Linh Street, Thanh Khue District, Da Nang City</p>
-//             <p>Vietnam</p>
-//           </div>
-//         </div>
-//       </div>
-//     `
-//         const rs = await sendMail({
-//             email,
-//             html,
-//             subject: "Forgot password",
-//         });
-//         return res.status(200).json({
-//             message: "Send to your email successfully",
-//             otp: otp,
-//         });
-//     } catch (error) {
-//         throw new Error(error);
-//     }
-// };
+        const html = `
+          <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+        <div style="margin:50px auto;width:70%;padding:20px 0">
+          <div style="border-bottom:1px solid #eee">
+            <a href="" style="display:block;font-size:1.9em;color: #FF6600;text-decoration:none;font-weight:600;text-align:center">FOTO FUSHION</a>
+          </div>
+          <p style="font-size:1.1em">Dear Customer </p>
+          <p>Thank you for choosing FotoFushion website. Please get the OTP below to reset your password. This OTP will expire 5 minutes from now.</p>
+          <h2 style="background: #FF6600;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
+          <p style="font-size:0.9em;">Regards,<br />FotoFushion</p>
+          <hr style="border:none;border-top:1px solid #eee" />
+          <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+            <p>FotoFushion Inc</p>
+            <p>254, Nguyen Van Linh Street, Thanh Khue District, Da Nang City</p>
+            <p>Vietnam</p>
+          </div>
+        </div>
+      </div>
+    `
+        const rs = await sendMail({
+            email,
+            html,
+            subject: "Forgot password",
+        });
+        return res.status(200).json({
+            message: "Send to your email successfully",
+            otp: otp,
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 
 const resetPassword = async ({ password, otp }, res) => {
     try {
@@ -168,9 +230,9 @@ const resetPassword = async ({ password, otp }, res) => {
         const account = await Account.update({
             password: hashPassword,
             otpCode: null,
-            resetExpires: null,
+            passwordResetExpires: null,
         }, {
-            where: { otpCode: otp, resetExpires: { [Op.gt]: Date.now() } }
+            where: { otpCode: otp, passwordResetExpires: { [Op.gt]: Date.now() } }
         })
         const status = account[0] === 1 ? 200 : 404;
         return res.status(status).json({
@@ -183,9 +245,10 @@ const resetPassword = async ({ password, otp }, res) => {
 
 module.exports = {
     login,
-    register,
+    registerAndSendOTP,
+    confirmOTPAndActivateAccount,
     refreshToken,
     logout,
-    //forgotPassword,
+    forgotPassword,
     resetPassword
 };

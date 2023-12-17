@@ -30,12 +30,13 @@ const Account = sequelize.define('Account', {
     passwordResetToken: {
         type: String,
     },
+    otpCode: DataTypes.STRING(10),
     passwordResetExpires: {
-        type: String,
+        type: DataTypes.BIGINT,
     },
     status: {
         type: String,
-        default: 'Active',
+        default: 'Locked',
         enum: ['Active', 'Locked'],
     },
 
@@ -46,14 +47,6 @@ const Account = sequelize.define('Account', {
     });
 
 Account.belongsTo(Roles, { foreignKey: "role_Id", targetKey: 'id' });
-
-// Account.beforeCreate(async (account, options) => {
-//     if (!account.isModified('password')) {
-//         return;
-//     }
-//     const salt = await bcrypt.genSalt(10);
-//     account.password = await bcrypt.hash(account.password, salt);
-// });
 
 Account.prototype.isCorrectPassword = async function (password) {
     try {

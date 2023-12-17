@@ -11,7 +11,15 @@ const getAllEquipment = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách thiết bị.' });
     }
 };
-
+const getAllCategoryOfEquipment = async (req, res) => {
+    try {
+        const equipments = await EquipmentService.getAllCategoryOfEquipment();
+        res.json(equipments);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách trang phục:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách trang phục.' });
+    }
+};
 // Lấy thông tin thiết bị bằng ID
 const getEquipmentById = async (req, res) => {
     try {
@@ -82,5 +90,6 @@ module.exports = {
     getEquipmentById,
     createNewEquipment,
     updateEquipmentById,
-    deleteEquipmentById
+    deleteEquipmentById,
+    getAllCategoryOfEquipment
 };
