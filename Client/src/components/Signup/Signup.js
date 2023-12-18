@@ -5,8 +5,7 @@ import Vectary from '../../assets/images/Vectary.png'
 import './Signup.scss'
 import { Form } from 'antd';
 import { EyeTwoTone, EyeInvisibleTwoTone } from '@ant-design/icons';
-import useWindowSize from '../Card/hook/use-window-size'
-
+import useWindowSize from '../../hook/use-window-size';
 import { Link } from 'react-router-dom';
 const SignUp = () => {
     const [form] = Form.useForm();
@@ -15,7 +14,7 @@ const SignUp = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const { _, height } = useWindowSize()
+    const { width, height } = useWindowSize()
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -26,9 +25,9 @@ const SignUp = () => {
     }
     return (
         <div className='mainLogin' style={{ height: height }}>
-            <img className='bgContainerLogin' style={{ height: height }} src={LoginBG} alt={'loginbg'} />
-            <div className='loginContainer'>
-                <h1  >SIGN UP</h1>
+            <img className='bgContainerLogin' style={{ width: width, height: height }} src={LoginBG} alt={'loginbg'} />
+            <div className='signupContainer'>
+                <h1  >Đăng ký</h1>
                 <div className='loginForm'>
                     <form
                         form={form}
@@ -41,7 +40,7 @@ const SignUp = () => {
                             placeholder='fotofusion@gmail.com'
                         />
 
-                        <span>Phone Number</span>
+                        <span>Số điện thoại</span>
                         <input
                             className='inputEmail'
                             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -49,7 +48,7 @@ const SignUp = () => {
                         />
 
 
-                        <span style={{ marginTop: 20 }}>Password</span>
+                        <span style={{ marginTop: 20 }}>Mật khẩu</span>
                         <div className='passwordInput'>
                             <input
                                 style={{ width: '80%' }}
@@ -62,7 +61,7 @@ const SignUp = () => {
                             </button>
                         </div>
 
-                        <span>Confirm Password</span>
+                        <span>Nhập lại mật khẩu</span>
                         <div className='passwordInput'>
                             <input
                                 style={{ width: '80%' }}
@@ -76,20 +75,21 @@ const SignUp = () => {
                         </div>
 
                         <div className='forgotPassword'>
-                            <span className='forgotPass'> Already have an account?
+                            <span className='forgotPass'> Bạn đã có tài khoản?
                                 <Link className='linkTO' to='/login'>
-                                    Login Now
+                                    Đăng nhập ngay
                                 </Link>
                             </span>
                         </div>
-                        <button className='btnSubmit' onClick={onSubmit} type="button">Sign Up</button>
-                        <span className='Or'>----------------Or----------------</span>
-
-                        <div class="google-btn">
-                            <div class="google-icon-wrapper">
-                                <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+                        <button className='btnSubmit' onClick={onSubmit} type="button">Đăng ký</button>
+                        <div class='flex items-center justify-center'>
+                            <span className='Or'>Hoặc</span>
+                        </div>
+                        <div className="google-btn">
+                            <div className="google-icon-wrapper">
+                                <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
                             </div>
-                            <p class="btn-text"><b>Sign up with google</b></p>
+                            <p className="btn-text"><b>Đăng nhập với google</b></p>
                         </div>
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="360" height="2" viewBox="0 0 480 2" fill="none">

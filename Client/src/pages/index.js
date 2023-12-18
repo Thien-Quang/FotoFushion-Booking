@@ -9,6 +9,7 @@ export { default as AlbumsPhotoPage } from "./albumsPhoto.jsx";
 export { default as BlogPage } from "./blog.jsx";
 export { default as Login } from "./login.jsx";
 export { default as SignUp } from "./signup.jsx";
+export { default as BlogDetail } from "./blogDetailPage.jsx";
 
 
 

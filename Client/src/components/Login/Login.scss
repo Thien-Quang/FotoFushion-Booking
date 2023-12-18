@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:500);
 $white: #fff;
 $google-blue: #4285f4;
 $button-active-blue: #1669F2;
@@ -6,8 +5,8 @@ $button-active-blue: #1669F2;
 .loginContainer {
     display: block;
     position: absolute;
-    top: 161px;
-    left: 204px;
+    top: 30%;
+    left: 20%;
     width: 35%;
 
     h1 {
@@ -195,10 +194,10 @@ $button-active-blue: #1669F2;
 
     .btn-text {
         float: left;
-        margin-top: 0px;
+        margin-top: 5px;
         padding: 6px 18px 10px 80px;
-        color: $white;
-        font-size: 27px;
+        color: #fff;
+        font-size: 20px;
         letter-spacing: 0.2px;
         font-family: "Roboto";
     }
@@ -224,8 +223,8 @@ $button-active-blue: #1669F2;
     width: 558px;
     height: 500px;
     position: absolute;
-    top: 270px;
-    right: 222px;
+    top: 35%;
+    right: 10%;
     display: flex;
 
     .text {

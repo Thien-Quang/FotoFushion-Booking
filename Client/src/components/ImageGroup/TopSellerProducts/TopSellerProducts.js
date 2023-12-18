@@ -123,7 +123,6 @@ const TopSellerProducts = (data) => {
             </div>
 
             <div className='tableTopSeller'>
-                
                 {listProduct?.map((item) => (
                     <CardTopSeller
                         image={item?.image}
@@ -134,8 +133,7 @@ const TopSellerProducts = (data) => {
                         salePrice={item?.salePrice}
                     />
                 ))}
-                {listProduct?.length == 0 && <span style={{fontSize: 40}}>Không tìm thấy sản phẩm</span> 
-                }
+                {listProduct?.length === 0 && <span style={{fontSize: 40, color: '#ffffff' }}>Không tìm thấy sản phẩm</span>  }
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logoFushion from "../../public/img/logoFushion.jpg";
 import { icons } from "../../utils/icons";
-import AuthContext from '../../context/authProvider';
+import AuthContext from "../../context/authProvider";
 
 import { CiLocationOn } from "react-icons/ci";
 import { BiUser } from "react-icons/bi";
@@ -16,7 +16,6 @@ function Header() {
   const [isMenuUserOpen, setIsMenuUserOpen] = useState(false);
   const [isMenuAlbumOpen, setIsMenuAlbumOpen] = useState(false);
   const [isMenuPriceOpen, setIsMenuPriceOpen] = useState(false);
-
 
   const handleMouseUserEnter = () => {
     setIsMenuUserOpen(true);
@@ -102,16 +101,14 @@ function Header() {
           <ul className="flex justify-center items-center text-white ">
             <li>
               <a className="m-4" href="#">
-                {" "}
-                <span>
+                {" "}<span>
                   <icons.AiOutlineSearch />
                 </span>
               </a>
             </li>
             <li>
               <a className="m-4" href="/">
-                {" "}
-                TRANG CHỦ
+                {" "}TRANG CHỦ
               </a>
             </li>
             <li>
@@ -125,7 +122,7 @@ function Header() {
                 <span className="m-1">
                   <icons.AiOutlineDown />
                 </span>
-                {isMenuAlbumOpen && (
+                {isMenuAlbumOpen &&
                   <div className="absolute bg-black text-white mt-[100px] p-4 rounded-lg shadow-lg z-50">
                     {/* Nội dung của bảng menu */}
                     <ul>
@@ -136,8 +133,7 @@ function Header() {
                         <a href="#">Albums video</a>
                       </li>
                     </ul>
-                  </div>
-                )}
+                  </div>}
               </a>
             </li>
             <li>
@@ -150,7 +146,7 @@ function Header() {
                 <span className="m-1">
                   <icons.AiOutlineDown />
                 </span>
-                {isMenuPriceOpen && (
+                {isMenuPriceOpen &&
                   <div className="absolute bg-black text-white mt-[310px] p-4 rounded-lg shadow-lg">
                     {/* Nội dung của bảng menu */}
                     <ul>
@@ -167,34 +163,31 @@ function Header() {
                         <a href="#">Quay phim</a>
                       </li>
                       <li className="pb-2">
-                        <a href="#">Trang phục</a>
+                        <a href="/outfits">Trang phục</a>
                       </li>
                       <li className="pb-2">
-                        <a href="#">Thiết bị</a>
+                        <a href="/accessories">Thiết bị</a>
                       </li>
                       <li className="pb-2">
                         <a href="#">Make-up</a>
                       </li>
                       <li className="pb-2">
-                        <a href="#">Phòng studio</a>
+                        <a href="/studio">Phòng studio</a>
                       </li>
                     </ul>
-                  </div>
-                )}
+                  </div>}
               </div>
             </li>
             <li>
-              <a className="m-4" href="#">
-                {" "}
-                KHUYẾN MÃI
+              <a className="m-4" href="voucher">
+                {" "}KHUYẾN MÃI
               </a>
             </li>
-            <li>
-              <a className="m-4" href="#">
-                {" "}
+            <Link to="/blog">
+              <button className="m-4">
                 BÀI VIẾT
-              </a>
-            </li>
+              </button>
+            </Link>
             <li>
               <a className="m-4" href="#">
                 LIÊN HỆ
@@ -207,8 +200,8 @@ function Header() {
             </Link>
           </ul>
         </div>
-        {isLogin ? (
-          <div
+        {isLogin
+          ? <div
             className="w-1/4 flex items-center justify-center cursor-pointer"
             onMouseEnter={handleMouseUserEnter}
             onMouseLeave={handleMouseUserLeave}
@@ -226,7 +219,7 @@ function Header() {
                 <span className="ml-2">VIP</span>
               </div>
             </span>
-            {isMenuUserOpen && (
+            {isMenuUserOpen &&
               <div className="absolute bg-black text-white mt-[370px] p-4 rounded-lg shadow-lg z-50 ">
                 {/* Nội dung của bảng menu */}
                 <ul>
@@ -285,24 +278,20 @@ function Header() {
                       Voucher của tôi
                     </span>
                   </li>
-                  <li
-                    className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start"
-                  >
+                  <li className="my-2 px-2 py-2 text-start mx-3 flex items-start justify-start">
                     <span>
                       <BiUser />
                     </span>
-                    <Link to='/login' onClick={handleLogout} >
+                    <Link to="/login" onClick={handleLogout}>
                       <span className="text-white font-medium hover:text-red ml-4">
                         Đăng Xuất
                       </span>
                     </Link>
                   </li>
                 </ul>
-              </div>
-            )}
+              </div>}
           </div>
-        ) : (
-          <div className="w-1/4 flex justify-center items-center ">
+          : <div className="w-1/4 flex justify-center items-center ">
             <ul className="flex justify-center items-center ">
               <li>
                 <Link to="/login">
@@ -319,10 +308,9 @@ function Header() {
                 </Link>
               </li>
             </ul>
-          </div>
-        )}
+          </div>}
       </div>
     </div>
   );
 }
-export default Header
+export default Header;

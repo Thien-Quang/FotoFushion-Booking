@@ -4,13 +4,11 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-
     .tableTopSeller {
         display: flex;
         flex-wrap: wrap;
-        gap: 46px;
-
-
+        gap: 47px;
+        min-height: 600px;
         @media screen and (max-width: 1365px) {
             gap: 20px;
         }
