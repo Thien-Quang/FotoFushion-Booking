@@ -16,6 +16,32 @@ const getListData = (value, calendar) => {
 
 };
 
+const CalendarList = 
+[
+    {
+      "date": "2023-08-08",
+      "events": [
+        { "time": "10:30 - 2023-08-08", 'type': 'warning', "content": "This is warning event." },
+        { "time": "12:30 - 2023-08-08",  'type': 'warning',  "content": "This is usual event." }
+      ]
+    },
+    {
+      "date": "2023-08-11",
+      "events": [
+        { "time": "12:30 - 2023-08-08", 'type': 'warning', "content": "This is warning event." },
+        { "time": "14:30 - 2023-01-09",  'type': 'error',"content": "This is usual event." },
+        { "time": "16:30 - 2023-01-09",  'type': 'success',"content": "This is error event." }
+      ]
+    },
+    {
+      "date": "2023-08-15",
+      "events": [
+        { "time": "10:30 - 2023-01-09",  'type': 'warning', "content": "This is warning event" },
+      ]
+    }
+  ]
+  
+
 export default function CalendarContainer() {
   const [calendarForMonth, setCalendarForMonth] = useState();
   const [calendarForDate, setCalendarForDate] = useState();
@@ -28,7 +54,7 @@ export default function CalendarContainer() {
   useEffect(() => {
     // gọi api lịch cho tháng dựa trên selectedValue?.$M 
     //  fetchCalendarMonth(selectedValue?.$M)
-    const resp = Temp?.CalendarList;
+    const resp = CalendarList;
     setCalendarForMonth(resp ?? []);
   }, [selectedValue])
 

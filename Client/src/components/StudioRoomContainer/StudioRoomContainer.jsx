@@ -30,7 +30,6 @@ const StudioRoomContainer = () => {
 
             <div class=' bg-black flex flex-col items-center justify-center w-full'>
                 <div class='w-3/5 flex flex-col gap-16'>
-
                     <div class='my-40'>
                         <div class='flex'>
                             <img src={studio1} style={{ width: '50%' }} alt='studio1' />
