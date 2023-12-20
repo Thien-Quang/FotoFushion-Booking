@@ -1,64 +1,111 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { Alert, Badge, Calendar, Col, Modal, Row, Timeline } from 'antd';
+import Temp from '../../utils/temp';
 
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
+const getListData = (value, calendar) => {
+  const selectedDate = value.format('YYYY-MM-DD');
+  const selectedDateEntry = calendar?.find(entry => entry.date === selectedDate);
+  const newList = selectedDateEntry
+    ? selectedDateEntry.events.map(event => ({
+      type: event.type, // Replace 'type' with the actual property name in your event
+      content: event.content,
+    }))
+    : []
+  return newList;
 
-const data = [
-  {
-    startDate: moment("2023-10-22T10:00:00").toDate(),
-    endDate: moment("2023-10-22T10:00:00").toDate(),
-    customerName: "Dang Nhat Minh",
-    assignTo: "Dang",
-  },
-  {
-    startDate: moment("2023-10-22T10:00:00").toDate(),
-    endDate: moment("2023-10-22T10:00:00").toDate(),
-    customerName: "Dang Nhat Minh",
-    assignTo: "Tri",
-  },
-  {
-    startDate: moment("2023-10-22T10:00:00").toDate(),
-    endDate: moment("2023-10-22T10:00:00").toDate(),
-    customerName: "Dang Nhat Minh",
-    assignTo: "Nhat",
-  },
-];
-
-const components = {
-  event: (props) => {
-    const eventType = props?.event?.data?.type;
-    return props.title;
-  },
 };
 
-export default function CalendarPage() {
-  const [localizer, setLocalizer] = useState(momentLocalizer(moment));
-  const [events, setEvents] = useState([]);
+export default function CalendarContainer() {
+  const [calendarForMonth, setCalendarForMonth] = useState();
+  const [calendarForDate, setCalendarForDate] = useState();
+  const [eventCaledarForDate, setEventCaledarForDate] = useState();
+  const [eventSelect, setEventSelect] = useState();
+  const [value, setValue] = useState(() => dayjs('2023-08-25'));
+  const [selectedValue, setSelectedValue] = useState(() => dayjs('2023-08-25'));
+  const [open, setOpen] = useState();
 
-  useState(() => {
-    // fetch data get _event
+  useEffect(() => {
+    // gọi api lịch cho tháng dựa trên selectedValue?.$M 
+    //  fetchCalendarMonth(selectedValue?.$M)
+    const resp = Temp?.CalendarList;
+    setCalendarForMonth(resp ?? []);
+  }, [selectedValue])
 
-    const _events = data.map((calendar) => {
-      const start = moment(calendar.startDate).toDate();
-      const end = moment(calendar.endDate).toDate();
-      const title = calendar.customerName;
-      const data = { type: "Reg" };
+  useEffect(() => {
+    // gọi api lịch cho 1 ngày dựa trên value?.$M
+    //  fetchCalendarMonth(selectedValue?.$M)
+    const resp = Temp?.calenderListInADay;
+    setCalendarForDate(resp ?? []);
+  }, [value])
 
-      return { start, end, title, data };
-    });
+  useEffect(() => {
+    const newListVennt = calendarForDate?.map((item) => ({
+      children: (
+        <div key={item?.time} class='cursor-pointer' onClick={() => handleChangeEvent(item)}>
+          {`${item?.time} - ${item?.type}`}
+        </div>
+      )
+    }));
+    setEventCaledarForDate(newListVennt)
+  }, [calendarForDate])
 
-    setEvents(_events);
-  });
+  function handleChangeEvent(value) {
+    setEventSelect(value)
+  }
+
+  const onSelect = (newValue) => {
+    setValue(newValue);
+    setSelectedValue(newValue);
+    setOpen(true);
+  };
+
+  const onPanelChange = (newValue) => {
+    setValue(newValue);
+  };
+
+  const dateCellRender = (value) => {
+    const listData = getListData(value, calendarForMonth);
+    return (
+      <ul className="events">
+        {listData.map((item) => (
+          <li key={item.content}>
+            <Badge status={item.type} text={item.content} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const cellRender = (current, info) => {
+    if (info.type === 'date') return dateCellRender(current);
+    return info.originNode;
+  };
 
   return (
-    <div style={{ height: "100%" }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        components={components}
-        startAccessor="start"
-        endAccessor="end"
-      />
-    </div>
+    <div class='' style={{ padding: '5% 10% 5% 10%' }}>
+      <h1 class='py-20 text-6xl  text-black' >Lịch làm việc</h1>
+      <div class="w-8 h-1 mt-5 bg-transparent border-b-2 border-btnprimary"></div>
+      <Alert message={`You selected date: ${selectedValue?.format('YYYY-MM-DD')}`} />
+      <Calendar mode="month" cellRender={cellRender} value={value} onSelect={onSelect} onPanelChange={onPanelChange} />;
+
+      <Modal
+        title={`${value?.format('YYYY-MM-DD')} `}
+        centered
+        open={open}
+        width={300}
+        onCancel={() => setOpen(false)}
+        footer={[]}
+      >
+        <Row class='w-full flex gap-5' style={{ marginTop: 40 }}>
+          <h1 class='text-xl font-bold '> Lịch trình trong ngày </h1>
+          <div class='my-5'>
+            <Timeline
+              items={eventCaledarForDate ?? []}
+            />
+          </div>
+        </Row>
+      </Modal>
+    </div >
   );
 }
