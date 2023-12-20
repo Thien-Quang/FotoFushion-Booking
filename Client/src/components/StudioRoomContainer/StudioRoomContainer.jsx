@@ -10,7 +10,6 @@ const StudioRoomContainer = () => {
     function handleClickOutfit() {
         navigate('/outfits-detail');
     }
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
@@ -34,8 +33,8 @@ const StudioRoomContainer = () => {
 
                     <div class='my-40'>
                         <div class='flex'>
-                            <img src={studio1} alt='studio1' />
-                            <img src={studio2} alt='studio2' />
+                            <img src={studio1} style={{ width: '50%' }} alt='studio1' />
+                            <img src={studio2} style={{ width: '50%' }} alt='studio2' />
                         </div>
                     </div>
 
@@ -55,8 +54,8 @@ const StudioRoomContainer = () => {
 
                     <div class='my-40'>
                         <div class='flex'>
-                            <img src={studio1} alt='studio1' />
-                            <img src={studio2} alt='studio2' />
+                            <img src={studio1} style={{ width: '50%' }} alt='studio1' />
+                            <img src={studio2} style={{ width: '50%' }} alt='studio2' />
                         </div>
                     </div>
 
@@ -66,14 +65,8 @@ const StudioRoomContainer = () => {
 
                     <div class='my-40'>
                         <div class='flex'>
-                            <img src={studio1} alt='studio1' />
-                            <img src={studio2} alt='studio2' />
-                        </div>
-                    </div>
-                    <div class='my-40'>
-                        <div class='flex'>
-                            <img src={studio1} alt='studio1' />
-                            <img src={studio2} alt='studio2' />
+                            <img src={studio1} style={{ width: '50%' }} alt='studio1' />
+                            <img src={studio2} style={{ width: '50%' }} alt='studio2' />
                         </div>
                     </div>
                 </div>
