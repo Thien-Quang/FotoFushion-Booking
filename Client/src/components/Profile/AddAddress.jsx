@@ -7,13 +7,13 @@ import {
 } from "../../apis/address";
 import { useForm, Controller } from "react-hook-form";
 import Label from "../ButtonLabelLoadingModelCheckbox/Label";
-import Button from "../ButtonLabelLoadingModelCheckbox/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelect } from "../../redux/features/authSlice";
 import { addAddressThunkAction } from "../../redux/features/addressSlice";
 import Swal from "sweetalert2";
+import { Button } from "flowbite-react";
 
-const AddAddress = () => {
+const AddAddress = (props) => {
   const [listProvices, setListProvinces] = useState([]);
   const [listDistricts, setListDistricts] = useState([]);
   const [listWards, setListWards] = useState([]);
@@ -59,7 +59,7 @@ const AddAddress = () => {
             }
           }
         }
-      } catch (error) {}
+      } catch (error) { }
     };
     fetchApi();
   }, [provinceId, districtId]);
@@ -136,7 +136,7 @@ const AddAddress = () => {
 
       <div className="grid grid-cols-2 gap-3">
         <div className="">
-          <Label label="Tỉnh/Thành Phố" className="mb-5" />
+          <Label label="Tỉnh/Thành Phố" className="mb-5  text-white" />
           <select
             className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer"
             onChange={handleSelectProvince}
@@ -162,7 +162,7 @@ const AddAddress = () => {
         </div>
 
         <div className="">
-          <Label label="Quận/Huyện" />
+          <Label label="Quận/Huyện" className="mb-5  text-white" />
           <select
             className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer"
             onChange={handleSelectDistrict}
@@ -189,7 +189,7 @@ const AddAddress = () => {
       </div>
       <div className="col-span-2">
         <div className="">
-          <Label label="Phường/Xã" />
+          <Label label="Phường/Xã" className="mb-5  text-white" />
           <select
             className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
             onChange={handleSelectWard}
@@ -216,7 +216,7 @@ const AddAddress = () => {
       </div>
       <div className="col-span-2">
         <div className="">
-          <Label label="Địa chỉ chính xác" />
+          <Label label="Địa chỉ chính xác" className="mb-5  text-white" />
           <input
             className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
             placeholder="Địa chỉ cụ thể"
@@ -227,7 +227,7 @@ const AddAddress = () => {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="">
-          <Label label="Tên người dùng" />
+          <Label label="Tên người dùng" className="mb-5  text-white" />
           <input
             className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
             placeholder="Nhập tên người dùng"
@@ -236,7 +236,7 @@ const AddAddress = () => {
           />
         </div>
         <div className="">
-          <Label label="Số điện thoại" />
+          <Label label="Số điện thoại" className="mb-5  text-white" />
           <input
             className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
             placeholder="Nhập số điện thoại"
@@ -245,8 +245,11 @@ const AddAddress = () => {
           />
         </div>
       </div>
-      <div className="w-full flex justify-center">
-        <Button primary onClick={handleAddAddress}>
+      <div className="w-full flex justify-end ">
+        <Button primary className='mx-4 bg-white text-black' onClick={props.onCancel}>
+          Hủy
+        </Button>
+        <Button primary className="bg-green-400" onClick={handleAddAddress}>
           Thêm
         </Button>
       </div>

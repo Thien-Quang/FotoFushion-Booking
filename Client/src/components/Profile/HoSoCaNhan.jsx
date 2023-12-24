@@ -123,7 +123,7 @@ const HoSoCaNhan = () => {
                                     />
                                 )}
                             </div>
-                            <div className='ml-[15%]'>
+                            <div className='w-[320px] flex justify-end'>
                                 {isEditing ? (
                                     <div className='flex items-start justify-start'>
                                         <Button className='bg-green-400' onClick={handleSave}>

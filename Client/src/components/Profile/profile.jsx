@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { icons } from "../../utils/icons";
 import HoSoCaNhan from './HoSoCaNhan';
+import Address from './Address';
+import ChangePassword from './ChangePassword';
+import MyOrder from './MyOrder';
 
 
 
@@ -81,11 +84,11 @@ const Profile = () => {
                                 }}
                             />
                             <div className='absolute top-0 w-full'>
-                                {/* {activeTab === "address" && <Address />} */}
                                 {activeTab === "profile" && <HoSoCaNhan />}
-                                {/* {activeTab === "bank" && <Hoso />}
-                                {activeTab === "myorder" && <Order />}
-                                {activeTab === "ChangePassword" && <ChangePasswordPage />} */}
+                                {activeTab === "address" && <Address />}
+                                {activeTab === "ChangePassword" && <ChangePassword />}
+                                {activeTab === "myorder" && <MyOrder />}
+                                {/* {activeTab === "bank" && <Hoso />} */}
                             </div>
                         </div>
 

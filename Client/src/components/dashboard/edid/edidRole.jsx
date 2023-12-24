@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const EdidRole = (item) => {
-    const [state, setstate] = useState(initialState)
+    const [state, setstate] = useState()
     return (
         <div>
 
