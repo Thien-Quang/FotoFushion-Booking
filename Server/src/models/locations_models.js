@@ -21,11 +21,12 @@ const Location = sequelize.define('Location', {
     },
 }, {
     tableName: 'locations',
-    timestamps: false, // Nếu không muốn sử dụng cột timestamps (createdAt, updatedAt)
+    timestamps: false,
 });
 
+
 // Đồng bộ hóa model với cơ sở dữ liệu
-sequelize.sync({ force: false })
+Location.sync({ force: false })
     .then(() => {
         console.log('Model synced with database');
     })

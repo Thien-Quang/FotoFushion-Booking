@@ -25,6 +25,10 @@ const videoAlbumsRoutes = require('./video_albums_routes');
 const videoRoutes = require('./video_routes');
 const voucherRoutes = require('./voucher_routes');
 const locationsRoutes = require('./locations_routes.js');
+const notification = require('./notification.js');
+const voucherdetail = require('./voucher_detail_routes.js');
+
+
 
 
 const index = (app) => {
@@ -55,6 +59,10 @@ const index = (app) => {
     app.use("/", videoRoutes);
     app.use("/", voucherRoutes);
     app.use("/", locationsRoutes);
+    app.use("/", notification);
+    app.use("/", voucherdetail);
+
+
 
 };
 

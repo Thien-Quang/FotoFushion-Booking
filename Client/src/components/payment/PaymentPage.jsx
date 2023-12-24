@@ -774,11 +774,10 @@ const PaymentPage = () => {
                         clientId: process.env.REACT_APP_PAYPAL_ID,
                         currency: "USD",
                       }}
-<<<<<<< HEAD
+
                     /> */}
-=======
-                    />
->>>>>>> 2ae0416d259481a425a5795df86e4edc66884cba
+
+
                   </div>
                 </div>
               )}

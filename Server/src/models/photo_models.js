@@ -48,7 +48,7 @@ Photo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
 Photo.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
 Photo.belongsTo(BlogPost, { foreignKey: 'blog_id', targetKey: 'id' });
 Photo.belongsTo(Equipment, { foreignKey: 'equip_id', targetKey: 'id' });
-Photo.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id' });
+Photo.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id', as: 'location' });
 
 
 Photo.sync()

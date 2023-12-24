@@ -46,7 +46,7 @@ const Account = sequelize.define('Account', {
         timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
     });
 
-Account.belongsTo(Roles, { foreignKey: "role_Id", targetKey: 'id' });
+Account.belongsTo(Roles, { foreignKey: "role_Id", targetKey: 'id', as: 'Role' });
 
 Account.prototype.isCorrectPassword = async function (password) {
     try {

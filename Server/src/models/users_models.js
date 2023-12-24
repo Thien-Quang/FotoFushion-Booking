@@ -24,14 +24,14 @@ const User = sequelize.define('User', {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
     },
-    voucher_id: DataTypes.STRING(50),
+
 }, {
     tableName: 'users',
     timestamps: false,
 });
 
-User.belongsTo(Account, { foreignKey: 'email', targetKey: 'email' });
-User.belongsTo(Voucher, { foreignKey: 'voucher_id', targetKey: 'id' });
+User.belongsTo(Account, { foreignKey: 'email', targetKey: 'email', as: 'account' });
+
 
 User.sync()
     .then(() => {

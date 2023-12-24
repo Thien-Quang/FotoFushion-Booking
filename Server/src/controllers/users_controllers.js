@@ -90,6 +90,21 @@ const deleteUserById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa người dùng.' });
     }
 };
+const deleteUserbyEmail = async (req, res) => {
+    try {
+        const email = req.params.email;
+        const deleteResult = await UserService.deleteUserbyEmail(email);
+
+        if (!deleteResult) {
+            return res.status(404).json({ error: 'Không tìm thấy người dùng.' });
+        }
+
+        res.sendStatus(204);
+    } catch (error) {
+        console.error('Lỗi khi xóa người dùng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa người dùng.' });
+    }
+};
 
 module.exports = {
     getAllUsers,
@@ -97,5 +112,6 @@ module.exports = {
     createNewUser,
     updateUserById,
     deleteUserById,
-    getUserByEmail
+    getUserByEmail,
+    deleteUserbyEmail
 };

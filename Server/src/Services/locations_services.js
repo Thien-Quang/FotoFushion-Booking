@@ -1,5 +1,5 @@
 const Location = require('../models/locations_models');
-
+const Photo = require('../models/photo_models')
 class LocationService {
     async getLocationById(id) {
         try {
