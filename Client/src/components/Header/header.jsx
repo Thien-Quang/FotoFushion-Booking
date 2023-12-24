@@ -112,7 +112,7 @@ function Header() {
                     <Link to='/store' >
                       <Dropdown.Item>Cửa hàng</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/request-edit' >
                       <Dropdown.Item>Yêu cầu chỉnh sửa</Dropdown.Item>
                     </Link>
                     <Link to='/studioroom' >
@@ -148,7 +148,7 @@ function Header() {
                   </Link>
                 </div>
               </Navbar.Collapse>
-              {!hasUser ? (
+              {hasUser ? (
 
                 <div className="flex md:order-2 text-white">
                   <Dropdown

@@ -33,4 +33,5 @@ export { default as Promotion } from "./promotionPage.jsx";
 export { default as Payment } from "./paymentPage.jsx";
 
 export { default as AddProduct } from "./addproduct.jsx";
+export { default as RequestEdit } from "./RequestEdit.jsx";
 

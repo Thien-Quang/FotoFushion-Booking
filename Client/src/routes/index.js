@@ -8,6 +8,7 @@ import {
   CartPage,
   Promotion,
   Payment,
+  RequestEdit,
 
 } from "../pages/index";
 
@@ -28,6 +29,7 @@ const router = [{ path: "/", component: Home },
 { path: "/testUpdate", component: testUpdate },
 { path: "/photoofalbums/:albumsid", component: PhotoOfAlbums },
 { path: "/albumspage", component: AlbumsPage },
+{ path: "/request-edit", component: RequestEdit },
 { path: "/pricelist/:albumsid", component: PriceList },
 { path: "/contactus", component: ContactUs },
 { path: "/blogpost", component: BlogPost },
