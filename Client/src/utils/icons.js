@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-
+import { BiMessageAltDetail } from "react-icons/bi";
 
 import {
     AiOutlineEye,
@@ -81,6 +81,7 @@ import { SiExpress, SiTailwindcss } from "react-icons/si";
 import { GiSkeletonKey } from "react-icons/gi";
 
 export const icons = {
+    BiMessageAltDetail,
     BsEyeSlashFill, FcLike, FcLikePlaceholder, FiSend,
     BsInstagram, BsTwitter, BsFillPenFill,
     IoInformationCircleOutline, IoAlbumsOutline,

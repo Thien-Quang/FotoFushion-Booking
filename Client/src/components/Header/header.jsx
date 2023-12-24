@@ -5,6 +5,7 @@ import { icons } from "../../utils/icons";
 import AuthContext from '../../context/authProvider';
 
 import { Avatar, Dropdown, Navbar, Button } from 'flowbite-react';
+import Notification from "../Notification/Notification";
 
 
 function Header() {
@@ -151,6 +152,7 @@ function Header() {
               {hasUser ? (
 
                 <div className="flex md:order-2 text-white">
+                  <Notification/>
                   <Dropdown
                     arrowIcon={true}
                     inline
@@ -169,9 +171,6 @@ function Header() {
                     )}
                     <Link to='/profile' >
                       <Dropdown.Item>Thông Tin cá Nhân</Dropdown.Item>
-                    </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Thông Báo</Dropdown.Item>
                     </Link>
                     <Link to='/' >
                       <Dropdown.Item>Albums Của Tôi</Dropdown.Item>
@@ -215,8 +214,8 @@ function Header() {
             </Navbar>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 export default Header
