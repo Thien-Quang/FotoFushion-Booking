@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../../../context/authProvider'
 import * as roleApi from '../../../apis/role'
 import * as accountApi from '../../../apis/account'
+import * as userApi from '../../../apis/user'
+
+
 import { Modal, Table, Button } from 'flowbite-react';
 
 import AddRole from '../add/AddRole'
@@ -22,6 +25,8 @@ const Account = () => {
 
 
     const [openModal, setOpenModal] = useState(false);
+    const [openModalDeleteAccount, setOpenModalDeleteAccount] = useState(false);
+
     const [delete_role, setDelete_role] = useState(false);
     const [delete_account, setDelete_account] = useState(false);
 
@@ -69,6 +74,7 @@ const Account = () => {
         }
 
     }, [auth.accessToken]);
+
     const handleDeleteRole = async () => {
         try {
             const deleteRoles = await roleApi.deleteRole(auth.accessToken, role_id);
@@ -84,9 +90,28 @@ const Account = () => {
             notify(error, 'error');
         }
     };
+    const handleDeleteAccount = async () => {
+        try {
+            const deleteUser = await userApi.deleteUserByEmail(auth.accessToken, email);
+            const deleteAccount = await accountApi.deleteAccount(auth.accessToken, email);
+            console.log(deleteAccount.statusCode);
+            if (deleteAccount.statusCode === 204) {
+                notify("Xóa tài khoản thành công", 'success');
+                handleCloseModal();
+            }
+            else {
+                notify("Xóa tài khoản không thành công", 'error');
+            }
+        } catch (error) {
+            notify(error, 'error');
+        }
+    };
 
     if (delete_role) {
         handleDeleteRole();
+    }
+    if (delete_account) {
+        handleDeleteAccount();
     }
 
 
@@ -99,10 +124,13 @@ const Account = () => {
         setRole_id(id)
         setOpenModal(true)
     }
+    const openDeleteAccountModal = (email) => {
+        setEmail(email)
+        setOpenModalDeleteAccount(true)
+    }
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setReloadPage(true);
-
 
     };
     useEffect(() => {
@@ -119,24 +147,6 @@ const Account = () => {
                 </div>
                 <div className='flex items-center justify-center'>
                     <div className='w-3/5 h-10 m-4 flex items-center justify-center'>
-                        <div class='w-1/2 mx-auto'>
-                            <div className="join">
-                                <div>
-                                    <div>
-                                        <input className="input input-bordered join-item" placeholder="Search" />
-                                    </div>
-                                </div>
-                                <select className="select select-bordered join-item">
-                                    <option disabled selected>Lựa chọn</option>
-                                    <option>Sci-fi</option>
-                                    <option>Drama</option>
-                                    <option>Action</option>
-                                </select>
-                                <div className="indicator">
-                                    <button className="btn join-item">Tìm Kiếm</button>
-                                </div>
-                            </div>
-                        </div>
                         <div className='flex items-center justify-center'>
                             <Button gradientMonochrome="lime" onClick={() => document.getElementById('my_modal_4_1').showModal()}>Thêm Vai Trò Mới</Button>
                         </div>
@@ -224,29 +234,7 @@ const Account = () => {
                 <div className='w-full flex items-center justify-center m-2'>
                     <span className='text-2xl font-semibold'>Quản Lí Tài Khoản</span>
                 </div>
-                <div className='flex items-center justify-center'>
-                    <div className='w-3/5 h-10 m-4 flex items-center justify-center'>
-                        <div class='w-1/2 mx-auto'>
-                            <div className="join">
-                                <div>
-                                    <div>
-                                        <input className="input input-bordered join-item" placeholder="Search" />
-                                    </div>
-                                </div>
-                                <select className="select select-bordered join-item">
-                                    <option disabled selected>Lựa chọn</option>
-                                    <option>Sci-fi</option>
-                                    <option>Drama</option>
-                                    <option>Action</option>
-                                </select>
-                                <div className="indicator">
-                                    <button className="btn join-item">Tìm Kiếm</button>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
                 <div className='flex items-center justify-center'>
                     <div className='w-[70%] m-4'>
                         <Table>
@@ -267,14 +255,14 @@ const Account = () => {
                                                 {item.email}
                                             </Table.Cell>
                                             <Table.Cell>{item.phone_number}</Table.Cell>
-                                            <Table.Cell>{item.role_id}</Table.Cell>
+                                            <Table.Cell>{item.Role.name}</Table.Cell>
                                             <Table.Cell>
                                                 <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
                                                     onClick={() => openEditModal(item)}>
                                                     Sửa
                                                 </a>
                                                 <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
-                                                    onClick={() => openDeleteModal(item.id)}>
+                                                    onClick={() => openDeleteAccountModal(item.email)}>
                                                     Xóa
                                                 </a>
                                             </Table.Cell>
@@ -292,19 +280,19 @@ const Account = () => {
                                         </div>
                                     </div>
                                 </dialog>
-                                <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+                                <Modal show={openModalDeleteAccount} size="md" onClose={() => setOpenModalDeleteAccount(false)} popup>
                                     <Modal.Header />
                                     <Modal.Body>
                                         <div className="text-center">
                                             <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                                             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                Bạn có chắc rằng bạn muốn xóa trang phục này?
+                                                Bạn có chắc rằng bạn muốn xóa tài khoản này?
                                             </h3>
                                             <div className="flex justify-center gap-4">
-                                                <Button color="failure" onClick={() => { setOpenModal(false); setDelete_role(true) }}>
+                                                <Button color="failure" onClick={() => { setOpenModalDeleteAccount(false); setDelete_account(true) }}>
                                                     {"Đúng, Tôi muốn xóa nó"}
                                                 </Button>
-                                                <Button color="gray" onClick={() => setOpenModal(false)}>
+                                                <Button color="gray" onClick={() => setOpenModalDeleteAccount(false)}>
                                                     Không, Tôi nhầm lẫn
                                                 </Button>
                                             </div>

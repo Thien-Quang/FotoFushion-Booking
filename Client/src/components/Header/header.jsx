@@ -101,7 +101,7 @@ function Header() {
                     <Link to='/albumspage' >
                       <Dropdown.Item>Albums Ảnh</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/albumsvideo' >
                       <Dropdown.Item>Albums Video</Dropdown.Item>
                     </Link>
                   </Dropdown>
@@ -109,7 +109,7 @@ function Header() {
 
                 <div className="text-white hover:text-red-500">
                   <Dropdown label="DỊCH VỤ" inline>
-                    <Link to='/' >
+                    <Link to='/store' >
                       <Dropdown.Item>Cửa hàng</Dropdown.Item>
                     </Link>
                     <Link to='/' >
@@ -133,7 +133,7 @@ function Header() {
                   </Dropdown>
                 </div>
                 <div className="text-white hover:text-red-500">
-                  <Link to='/' >
+                  <Link to='/promotion' >
                     KHUYỄN MÃI
                   </Link>
                 </div>
@@ -162,6 +162,11 @@ function Header() {
                       <span className="flex items-center justify-center text-xl m-2 ">{auth.fullName}</span>
                       <span className="block truncate text-sm font-medium">{auth.email}</span>
                     </Dropdown.Header>
+                    {auth.role === "admin" && (
+                      <Link to='/dashboard'>
+                        <Dropdown.Item>Bảng Điều Khiển</Dropdown.Item>
+                      </Link>
+                    )}
                     <Link to='/profile' >
                       <Dropdown.Item>Thông Tin cá Nhân</Dropdown.Item>
                     </Link>

@@ -45,10 +45,10 @@ const getListPhotoByRoomid = async ({ room_id }) => {
         throw error;
     }
 };
-const getAllPhotosByLocationId = async ({ room_id }) => {
+const getAllPhotosByLocationId = async ({ locations_id }) => {
 
     try {
-        const response = await axiosClient.get(`/getAllPhotosByLocationId/${room_id}`)
+        const response = await axiosClient.get(`/getAllPhotosByLocationId/${locations_id}`)
         ///console.log(response);
 
         // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.

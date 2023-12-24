@@ -259,49 +259,49 @@ const StorePage = () => {
   // const { listMyProducts } = useSelector(productSelect); //TODO: Fix
   const listMyProducts = fakeListProduct; //TODO: Fake data
 
-  useEffect(() => {
-    const fetchListCategoriesApi = async () => {
-      const res = await getListCategoriesApi();
-      if (res && res.data) {
-        setListCategories(res.data);
-      }
-    };
-    fetchListCategoriesApi();
-  }, []);
+  // useEffect(() => {
+  //   const fetchListCategoriesApi = async () => {
+  //     const res = await getListCategoriesApi();
+  //     if (res && res.data) {
+  //       setListCategories(res.data);
+  //     }
+  //   };
+  //   fetchListCategoriesApi();
+  // }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    const fetchListProductByUserApi = async () => {
-      try {
-        setIsLoading(true);
-        await dispatch(getListProductsByUserThunkAction({ limit }));
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-    fetchListProductByUserApi();
-  }, [dispatch, limit]);
+  // useEffect(() => {
+  //   const fetchListProductByUserApi = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       await dispatch(getListProductsByUserThunkAction({ limit }));
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchListProductByUserApi();
+  // }, [dispatch, limit]);
 
-  useEffect(() => {
-    const fetchListHotSellingProductsApi = async () => {
-      try {
-        setIsLoading(true);
+  // useEffect(() => {
+  //   const fetchListHotSellingProductsApi = async () => {
+  //     try {
+  //       setIsLoading(true);
 
-        const res = await getListHotSellingProductsApi();
-        if (res && res.data) {
-          setListHotSellingProducts(res.data);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-    fetchListHotSellingProductsApi();
-  }, []);
+  //       const res = await getListHotSellingProductsApi();
+  //       if (res && res.data) {
+  //         setListHotSellingProducts(res.data);
+  //       }
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchListHotSellingProductsApi();
+  // }, []);
 
   return (
     <>
@@ -344,21 +344,19 @@ const StorePage = () => {
         </div>
         <div className="flex items-center justify-center gap-7">
           <button
-            className={`uppercase px-2 py-1 text-lg font-extrabold border-b-4 text-teal-700 ${
-              typeListProducts === "all"
+            className={`uppercase px-2 py-1 text-lg font-extrabold border-b-4 text-teal-700 ${typeListProducts === "all"
                 ? "border-sky-600"
                 : "border-transparent"
-            }`}
+              }`}
             onClick={() => setTypeListProducts("all")}
           >
             tất cả sản phẩm
           </button>
           <button
-            className={`uppercase px-2 py-1 text-lg font-extrabold border-b-4 text-teal-700 ${
-              typeListProducts === "following"
+            className={`uppercase px-2 py-1 text-lg font-extrabold border-b-4 text-teal-700 ${typeListProducts === "following"
                 ? " border-sky-600"
                 : "border-transparent"
-            }`}
+              }`}
             onClick={() => setTypeListProducts("following")}
           >
             Shop đang theo dõi

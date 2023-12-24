@@ -1,7 +1,7 @@
 import React from 'react'
 import DashBoard from '../../components/dashboard/DashBoard'
 
-const addProduct = () => {
+const dashBoard = () => {
     document.title = "bảng điều khiển ";
     return (
 
@@ -11,4 +11,4 @@ const addProduct = () => {
     )
 }
 
-export default addProduct
+export default dashBoard

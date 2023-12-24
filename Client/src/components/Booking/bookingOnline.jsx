@@ -4,7 +4,7 @@ import { Button } from 'flowbite-react'
 import RoomStudio from '../helples/Room'
 import MakeUp from '../helples/MakeUp'
 import Costumer from '../helples/Costumer'
-import LocationTakePhoto from '../Rental_items/LocationTakePhoto'
+import Location from '../helples/Location'
 import { CreateABookingOnlineAll } from '../../apis/booking'
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -243,7 +243,7 @@ const BookingOnline = () => {
                                 </div>
                                 <div className='w-full'>
                                     {display === "studio" && <RoomStudio onSelectRoom={setSelectRoom} />}
-                                    {display === "ngoaiCanh" && <LocationTakePhoto />}
+                                    {display === "ngoaiCanh" && <Location onSelectRoom={setSelectRoom} />}
                                     {(display === 'thuetrangphuc' || display === 'mua') && <Costumer onSelectCostumer={setSelectCostumer} />}
                                     {display === "thuemakeup" && <MakeUp onSelectMakeUp={setSelectMakeUp} />}
                                 </div>

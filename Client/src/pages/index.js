@@ -13,6 +13,8 @@ export { default as SignUp } from "./Auth/signup.jsx";
 export { default as testUpdate } from "./DashBoard/testUpdateImageFB.jsx";
 export { default as PhotoOfAlbums } from "./Booking/photoOfAlbums.jsx";
 export { default as AlbumsPage } from "./Booking/albumsPage.jsx";
+export { default as AlbumsVideo } from "./Booking/albumsVideo.jsx";
+
 export { default as Layout } from "./Layout.jsx";
 export { default as PriceList } from "./Booking/priceLice.jsx";
 export { default as ComboTakePhoto } from "./Booking/comboTakePhoto.jsx";
@@ -22,9 +24,13 @@ export { default as DashBoard } from "./DashBoard/dashBoard.jsx";
 export { default as Studio } from "./Rental_items/Studio.jsx";
 export { default as Costumer } from "./Rental_items/costumer.jsx";
 export { default as MakeUp } from "./Rental_items/makeup.jsx";
+export { default as Location } from "./Rental_items/location.jsx";
 
 
 export { default as Store } from "./storePage.jsx";
 export { default as CartPage } from "./cartPage.jsx";
 export { default as Promotion } from "./promotionPage.jsx";
 export { default as Payment } from "./paymentPage.jsx";
+
+export { default as AddProduct } from "./addproduct.jsx";
+

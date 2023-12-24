@@ -4,9 +4,6 @@ import SlideHome from '../SlidePhoto/SlideHome';
 import { getAlbumsPhoto } from '../../apis/albumphoto'
 import { Link } from 'react-router-dom';
 
-
-
-
 const Home = () => {
   const [albums, setAlbums] = useState([]);
   useEffect(() => {

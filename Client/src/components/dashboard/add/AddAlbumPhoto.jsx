@@ -60,8 +60,6 @@ const AddAlbumPhoto = () => {
     useEffect(() => {
         const fetchAdd = async () => {
             try {
-
-
                 const addAlbums = await albumphoto.createAlbumsPhoto(auth.accessToken, name, cover_photo, sum_photo, category, location, date_create);
                 if (addAlbums.statusCode === 201) {
                     notify("Thêm albums thành công", 'success');

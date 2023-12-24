@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const EdidRole = (item) => {
+    const [state, setstate] = useState(initialState)
     return (
         <div>
 

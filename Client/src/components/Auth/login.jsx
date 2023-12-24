@@ -83,14 +83,13 @@ const Login = () => {
                     const address = getUser.address;
                     const role = authorization.roles
                     const gender = getUser.gender
-                    const voucher_id = getUser.voucher_id
 
-                    setAuth({ id, email, password, accessToken, fullName, phone, address, role, gender, voucher_id });
-                    localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phone, address, role, gender, voucher_id }));
+                    setAuth({ id, email, password, accessToken, fullName, phone, address, role, gender });
+                    localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phone, address, role, gender }));
 
                     if (authorization.statusCode === 200) {
-                        if (authorization.roles === '33d1f078-9118-4683-93cc-0d75d7cb7e66') navigate('/dashboard', { state: { toastMessage: "Đăng nhập thành công" } });
-                        else if (authorization.roles === '75ae40df-dd1a-4d49-be2f-b6c7af885b4c') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        if (authorization.roles === 'admin') navigate('/dashboard', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'custumer') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
                         else notify('Đăng nhập thất bại');
                     } else {
                         notify(authorization.error.response.data.message);

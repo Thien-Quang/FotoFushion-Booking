@@ -8,6 +8,7 @@ import AddAlbums from '../add/AddAlbumPhoto'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import * as albumsphoto from '../../../apis/albumphoto'
 import * as firebase from '../../../apis/firebase'
+import { formatDateTime } from '../../helples/FormatDate'
 
 const Booking = () => {
     const [listBooking, setListBooking] = useState([])
@@ -17,8 +18,6 @@ const Booking = () => {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
 
     const [itemDeleteId, setItemDeleteId] = useState(null);
-
-
     const [openModal, setOpenModal] = useState(false);
     const [delete_booking, setDelete_booking] = useState(false);
 
@@ -123,7 +122,7 @@ const Booking = () => {
         <div>
             <ToastContainer />
             <div className='w-full flex items-center justify-center m-2'>
-                <span className='text-2xl font-semibold'>Quản Lí Thiết Bị Cho Thuê</span>
+                <span className='text-2xl font-semibold'>Quản Lí Lịch Đặt Chụp Ảnh</span>
             </div>
             <div className='flex items-center justify-center'>
                 <div className='w-3/5 h-10 m-4 flex items-center justify-center'>
@@ -170,12 +169,10 @@ const Booking = () => {
                                         <Table.Cell>
                                             {index}
                                         </Table.Cell>
-                                        <Table.Cell>{item.booking_time}</Table.Cell>
+                                        <Table.Cell>{formatDateTime(item.booking_time)}</Table.Cell>
                                         <Table.Cell>{item.price}</Table.Cell>
                                         <Table.Cell>{item.payment_status}</Table.Cell>
                                         <Table.Cell>{item.status}</Table.Cell>
-
-
                                         <Table.Cell>
                                             <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
                                                 onClick={() => openEditModal(item)}>

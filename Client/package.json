@@ -23,7 +23,6 @@
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
     "react-paginate": "^8.2.0",
-    "react-paypal-button-v3": "^3.0.2",
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
@@ -36,7 +35,8 @@
     "sweetalert2": "^11.10.1",
     "swiper": "^11.0.5",
     "web-vitals": "^2.1.4",
-    "yup": "^1.3.2"
+    "yup": "^1.3.2",
+    "react-paypal-button-v3": "^3.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

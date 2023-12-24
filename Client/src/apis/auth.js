@@ -28,7 +28,7 @@ export const authorization = async (accessToken, email) => {
     },);
     console.log(responseRoles);
     return {
-      roles: responseRoles.data.role_id,
+      roles: responseRoles.data.Role.name,
       phoneNumber: responseRoles.data.phone_number,
       statusCode: responseRoles.status,
     };
@@ -69,7 +69,6 @@ export const getUser = async (accessToken, email) => {
       id: responseRoles.data.id,
       address: responseRoles.data.address,
       gender: responseRoles.data.gender,
-      voucher_id: responseRoles.data.voucher_id,
       statusCode: responseRoles.status,
     };
   } catch (error) {

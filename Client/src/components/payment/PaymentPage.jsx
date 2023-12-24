@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-// import PayPalButton from 'react-paypal-button-v3'
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+//import { PayPalButton } from "react-paypal-button-v3"
+
 
 
 import { icons } from "../../utils/icons";
@@ -731,7 +729,7 @@ const PaymentPage = () => {
                     )}
                   <div className="col-span-4 relative z-10">
                     {/* <PayPalButton
-=======
+
                     <div className="flex flex-col mx-auto gap-2 my-2">
                       {isOTPValid ? (
                         <span className="text-xs text-green-500 font-semibold">
@@ -762,7 +760,7 @@ const PaymentPage = () => {
                   )}
                   <div className="col-span-4 relative z-10">
                     <PayPalButton
->>>>>>> 2ae0416d259481a425a5795df86e4edc66884cba
+
                       createOrder={(data, actions) =>
                         handlePayPalCreateOrder(data, actions)
                       }

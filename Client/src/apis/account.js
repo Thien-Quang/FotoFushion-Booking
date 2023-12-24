@@ -1,6 +1,5 @@
 import axiosClient from '../config/axios.config';
 
-
 const getAllAccount = async (accessToken) => {
     try {
         const response = await axiosClient.get(`/getAllAccount`, {
@@ -49,7 +48,7 @@ const deleteAccount = async (accessToken, email) => {
             statusCode: response.status
         }
     } catch (error) {
-        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        console.error('Lỗi khi xóa tài khoản :', error);
         throw error;
     }
 };
