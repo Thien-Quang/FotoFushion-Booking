@@ -1,30 +1,30 @@
-// const express = require('express')
-// const app = express()
-// const bodyParser = require('body-parser')
-// const cors = require('cors')
-// require('dotenv').config()
-// const routes = require("./src/routes")
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+require("dotenv").config();
+const routes = require("./src/routes");
 
+const port = process.env.PORT;
+const hostname = process.env.HOST_NAME;
 
-// const port = process.env.PORT
-// const hostname = process.env.HOST_NAME
+// const port = 3001;
+// const hostname = "localhost";
 
-// // parse application/json
-// app.use(bodyParser.json())
+// parse application/json
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(
+  cors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  }),
+);
 
-// app.use(cors())
+routes(app);
 
-
-// routes(app)
-
-
-
-
-// app.listen(port, hostname, () => {
-//     console.log(`Server up and running on port ${port}`)
-// })
-const Test = require('../Server/src/models/cart_items_models');
-Test.findAll()
-.then(data => {
-    console.log(data);
-})
+app.listen(port, hostname, () => {
+  console.log(`Server up and running on port ${port}`);
+});

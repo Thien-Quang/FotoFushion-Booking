@@ -1,10 +1,18 @@
 const Account = require('../models/account_models');
+const Roles = require('../models/roles_models');
+
 
 class AccountService {
     async getAccountByEmail(email) {
         try {
             const account = await Account.findOne({
                 where: { email },
+                include: [
+                    {
+                        model: Roles, // Thay Role bằng tên mô hình của bạn
+                        as: 'Role', // Tùy chọn, chỉ định tên alias (nếu có)
+                    },
+                ],
             });
             return account;
         } catch (error) {
@@ -14,7 +22,14 @@ class AccountService {
     }
     async getAllAccounts() {
         try {
-            const accounts = await Account.findAll();
+            const accounts = await Account.findAll({
+                include: [
+                    {
+                        model: Roles, // Thay Role bằng tên mô hình của bạn
+                        as: 'Role', // Tùy chọn, chỉ định tên alias (nếu có)
+                    },
+                ],
+            });
             return accounts;
         } catch (error) {
             console.error('Lỗi khi lấy thông tin tài khoản:', error);

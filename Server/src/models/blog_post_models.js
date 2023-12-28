@@ -1,5 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database'); // Import từ file cấu hình kết nối
+
 
 const BlogPost = sequelize.define('blog_post', {
     id: {
@@ -20,18 +21,19 @@ const BlogPost = sequelize.define('blog_post', {
     date: {
         type: DataTypes.DATE
     }
-},{
+}, {
     tableName: 'blog_post', // Tên của bảng trong cơ sở dữ liệu
     timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
 });
 
+
 // Đồng bộ hóa model với cơ sở dữ liệu
-BlogPost.sync()
-    .then(() => {
-        console.log('Model đã được đồng bộ hóa với cơ sở dữ liệu.');
-    })
-    .catch(error => {
-        console.error('Lỗi khi đồng bộ hóa model:', error);
-    });
+// BlogPost.sync()
+//     .then(() => {
+//         console.log('blog post đã được đồng bộ hóa với cơ sở dữ liệu.');
+//     })
+//     .catch(error => {
+//         console.error('Lỗi khi đồng bộ hóa model blog post :', error);
+//     });
 
 module.exports = BlogPost;

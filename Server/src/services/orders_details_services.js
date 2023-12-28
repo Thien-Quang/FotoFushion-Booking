@@ -1,0 +1,67 @@
+const OrderDetail = require('../models/orders_details_models');
+
+class OrderDetailService {
+    async getOrderDetailById(id) {
+        try {
+            const orderDetail = await OrderDetail.findByPk(id);
+            return orderDetail;
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin chi tiết đơn hàng:', error);
+            throw error;
+        }
+    }
+
+    async getAllOrderDetails() {
+        try {
+            const orderDetails = await OrderDetail.findAll();
+            return orderDetails;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách chi tiết đơn hàng:', error);
+            throw error;
+        }
+    }
+
+    async createOrderDetail(orderDetailData) {
+        try {
+            const orderDetail = await OrderDetail.create(orderDetailData);
+            return orderDetail;
+        } catch (error) {
+            console.error('Lỗi khi tạo chi tiết đơn hàng:', error);
+            throw error;
+        }
+    }
+
+    async updateOrderDetail(id, orderDetailData) {
+        try {
+            const orderDetail = await OrderDetail.findByPk(id);
+
+            if (!orderDetail) {
+                return null;
+            }
+
+            await orderDetail.update(orderDetailData);
+            return orderDetail;
+        } catch (error) {
+            console.error('Lỗi khi cập nhật chi tiết đơn hàng:', error);
+            throw error;
+        }
+    }
+
+    async deleteOrderDetail(id) {
+        try {
+            const orderDetail = await OrderDetail.findByPk(id);
+
+            if (!orderDetail) {
+                return false;
+            }
+
+            await orderDetail.destroy();
+            return true;
+        } catch (error) {
+            console.error('Lỗi khi xóa chi tiết đơn hàng:', error);
+            throw error;
+        }
+    }
+}
+
+module.exports = new OrderDetailService();

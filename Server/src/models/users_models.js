@@ -1,42 +1,44 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
-const Account = require('./account_models');
-const Voucher = require('./voucher_models');
+const Account = require('./account_models'); // Import mô hình Account
+const Voucher = require('./voucher_models'); // Import mô hình Voucher
 
-const User = sequelize.define('users', {
+const User = sequelize.define('User', {
     id: {
         type: DataTypes.STRING(50),
         primaryKey: true,
     },
-    email: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-    },
+    email: DataTypes.STRING(50),
     address: {
         type: DataTypes.STRING(255),
-    },
-    phone_number: {
-        type: DataTypes.STRING(20),
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_unicode_ci',
     },
     name: {
         type: DataTypes.STRING(50),
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_unicode_ci',
     },
     gender: {
         type: DataTypes.STRING(5),
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_unicode_ci',
     },
-    voucher_id: {
-        type: DataTypes.STRING(50),
-        references: {
-            model: Voucher,
-            key: 'id',
-        },
-    },
+
 }, {
     tableName: 'users',
     timestamps: false,
 });
 
-User.belongsTo(Account, { foreignKey: 'email', targetKey: 'email' });
-User.belongsTo(Voucher, { foreignKey: 'voucher_id', targetKey: 'id' });
+User.belongsTo(Account, { foreignKey: 'email', targetKey: 'email', as: 'account' });
+
+
+User.sync()
+    .then(() => {
+        console.log('Mô hình User đã được đồng bộ hóa với cơ sở dữ liệu.');
+    })
+    .catch(error => {
+        console.error('Lỗi khi đồng bộ hóa mô hình User:', error);
+    });
 
 module.exports = User;
