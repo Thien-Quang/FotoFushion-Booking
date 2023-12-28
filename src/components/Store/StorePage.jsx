@@ -6,10 +6,10 @@ import banner1 from "../../assets/images/team-meber.jpg";
 import banner2 from "../../assets/images/web-mobile.jpg";
 import subBanner1 from "../../assets/images/sub-slide1.jpg";
 import subBanner2 from "../../assets/images/sub-slide2.jpg";
-import Slider from "./Slider";
+import Slider from "../ButtonLabelLoadingModelCheckbox/Slider";
 import SliderListImage from "./SliderListImage";
 
-import Loading from "./Loading";
+import Loading from "../ButtonLabelLoadingModelCheckbox/Loading";
 import { getListHotSellingProductsApi } from "../../apis/product";
 import SwiperSlideProducts from "./SwiperSlideProducts";
 import {

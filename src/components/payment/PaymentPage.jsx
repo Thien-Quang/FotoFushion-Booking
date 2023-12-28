@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 
 import { icons } from "../../utils/icons";
 import Button from "../../components/ButtonLabelLoadingModelCheckbox/Button";
-import Loading from "../Store/Loading";
+import Loading from "../ButtonLabelLoadingModelCheckbox/Loading";
 import { authSelect } from "../../redux/features/authSlice";
 import { checkoutSelect } from "../../redux/features/checkoutSlice";
 
