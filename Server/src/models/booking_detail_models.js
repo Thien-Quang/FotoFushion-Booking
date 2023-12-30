@@ -7,9 +7,7 @@ const Equipment = require('./equipment_models');
 const PhotographyRoom = require('./photography_room_models');
 const User = require('./users_models');
 const Location = require('./locations_models');
-const Photo = require('./photo_Albums_models');
-
-
+const PhotoAlbums = require('./photo_Albums_models');
 
 
 const BookingDetail = sequelize.define('BookingDetail', {
@@ -34,7 +32,7 @@ const BookingDetail = sequelize.define('BookingDetail', {
     charset: 'utf8mb4',
     collate: 'utf8mb4_unicode_ci'
   },
-  location: {
+  locationText: {
     type: DataTypes.TEXT,
     charset: 'utf8mb4',
     collate: 'utf8mb4_unicode_ci'
@@ -47,13 +45,13 @@ const BookingDetail = sequelize.define('BookingDetail', {
   timestamps: false,
 });
 
-BookingDetail.belongsTo(Costume, { foreignKey: 'costume_id', targetKey: 'id' });
-BookingDetail.belongsTo(Price_List, { foreignKey: 'price_list_id', targetKey: 'id' });
-BookingDetail.belongsTo(Equipment, { foreignKey: 'equipment_id', targetKey: 'id' });
-BookingDetail.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id' });
-BookingDetail.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
-BookingDetail.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id' });
-BookingDetail.belongsTo(Photo, { foreignKey: 'albums_id', targetKey: 'id' });
+BookingDetail.belongsTo(Costume, { foreignKey: 'costume_id', targetKey: 'id', as: "costumes" });
+BookingDetail.belongsTo(Price_List, { foreignKey: 'price_list_id', targetKey: 'id', as: "pricelist" });
+BookingDetail.belongsTo(Equipment, { foreignKey: 'equipment_id', targetKey: 'id', as: "equipment" });
+BookingDetail.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id', as: "room" });
+BookingDetail.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id', as: 'user' });
+BookingDetail.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id', as: "location" });
+BookingDetail.belongsTo(PhotoAlbums, { foreignKey: 'albums_id', targetKey: 'id', as: "albums" });
 
 
 

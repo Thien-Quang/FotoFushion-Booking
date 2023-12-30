@@ -48,21 +48,27 @@ const register = async (req, res) => {
 };
 const confirmOtpRegisted = async (req, res) => {
     try {
-
-        if (!req.body.email || !req.body.otp)
+        if (!req.body.email || !req.body.otp) {
             return res.status(400).json({
-                message: "Password and OTP is required",
+                message: "Email and OTP are required",
             });
-        else {
+        } else {
             const response = await authServices.confirmOTPAndActivateAccount(req.body, res);
-            if (response.status === 200) {
-                const newUser = createNewUser(req.body.email, req, res)
+
+            if (response && response.statusCode === 200) {
+                // Kiểm tra xem createNewUser có được gọi đúng cách hay không
+                const newUser = await createNewUser(req.body.email, req, res);
+                // if (newUser) {
+                //     return res.status(200).json({ message: 'Account confirmed, activated, and user created successfully.' });
+                // } else {
+                //     return res.status(500).json({ message: 'Failed to create user after activation.' });
+                // }
             }
             return response;
         }
     } catch (error) {
         console.log(error);
-        throw new Error(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 

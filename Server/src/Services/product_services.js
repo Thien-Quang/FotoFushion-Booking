@@ -1,4 +1,6 @@
 const Product = require('../models/product_models');
+const Photo = require('../models/photo_models');
+
 
 class ProductService {
     async getProductById(id) {
@@ -13,7 +15,14 @@ class ProductService {
 
     async getAllProducts() {
         try {
-            const products = await Product.findAll();
+            const products = await Product.findAll({
+                include: [
+                    {
+                        model: Photo,
+                        as: 'photos', // This should match the alias used in the Photo model
+                    },
+                ],
+            });
             return products;
         } catch (error) {
             console.error('Lỗi khi lấy danh sách sản phẩm:', error);

@@ -18,7 +18,7 @@ router.delete('/api/deletePhoto/:id', verifyToken, isAdminSystem, deletePhotoByI
 router.get('/api/getAllPhotosByAlbumsId/:albums_id', getAllPhotosByAlbumsId);
 router.get('/api/getAllPhotosByCostumerId/:costumer_id', getAllPhotosByCostumerId)
 router.get('/api/getAllPhotosByRoomId/:room_id', getAllPhotosByRoomId)
-router.get('/api/getAllPhotosByProductId/:prod_id', getAllPhotosByProductId)
+router.get('/api/getAllPhotosByProductId', getAllPhotosByProductId)
 router.get('/api/getAllPhotosByBlogId/:blog_id', getAllPhotosByBlogId)
 router.get('/api/getAllPhotosByEquipmentId/:equip_id', getAllPhotosByEquipmentId)
 router.get('/api/getAllPhotosByEvenId/:event_id', getAllPhotosByEvenId)

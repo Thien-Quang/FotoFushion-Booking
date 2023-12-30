@@ -11,7 +11,15 @@ const getAllUsers = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách người dùng.' });
     }
 };
-
+const getAllUsersIsCustomer = async (req, res) => {
+    try {
+        const users = await UserService.getAllUsersIsCustomer();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách người dùng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách người dùng.' });
+    }
+};
 // Lấy thông tin người dùng bằng ID
 const getUserById = async (req, res) => {
     try {
@@ -113,5 +121,6 @@ module.exports = {
     updateUserById,
     deleteUserById,
     getUserByEmail,
-    deleteUserbyEmail
+    deleteUserbyEmail,
+    getAllUsersIsCustomer
 };

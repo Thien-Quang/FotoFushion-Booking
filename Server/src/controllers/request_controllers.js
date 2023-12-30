@@ -31,10 +31,11 @@ const getRequestById = async (req, res) => {
 // Tạo yêu cầu mới
 const createNewRequest = async (req, res) => {
     try {
-        const { user_id, img_url_old, img_url_new, is_status, request_text } = req.body;
         const id = uuidv4();
-        const requestData = { id, user_id, img_url_old, img_url_new, is_status, request_text };
-        const createdRequest = await RequestService.createRequest(requestData);
+        const inputData = req.body;
+        const productData = { id, ...inputData };
+
+        const createdRequest = await RequestService.createRequest(productData);
         res.status(201).json(createdRequest);
     } catch (error) {
         console.error('Lỗi khi tạo yêu cầu mới:', error);
@@ -46,8 +47,8 @@ const createNewRequest = async (req, res) => {
 const updateRequestById = async (req, res) => {
     try {
         const id = req.params.id;
-        const requestData = req.body;
-        const updatedRequest = await RequestService.updateRequest(id, requestData);
+        const inputData = req.body;
+        const updatedRequest = await RequestService.updateRequest(id, inputData);
 
         if (!updatedRequest) {
             return res.status(404).json({ error: 'Yêu cầu không tồn tại' });

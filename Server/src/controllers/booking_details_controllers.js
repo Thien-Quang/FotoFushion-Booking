@@ -1,5 +1,5 @@
 const express = require('express');
-
+const sendMail = require("../utils/sendMail");
 const { v4: uuidv4 } = require('uuid');
 const BookingDetailService = require('../Services/booking_detail_services');
 
@@ -63,7 +63,7 @@ const updateBookingDetailById = async (req, res) => {
             return res.status(404).json({ error: 'Chi tiết đặt hàng không tồn tại' });
         }
 
-        res.json(updatedBookingDetail);
+        res.status(200).json(updatedBookingDetail);
     } catch (error) {
         console.error('Lỗi khi cập nhật chi tiết đặt hàng:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật chi tiết đặt hàng.' });
@@ -88,6 +88,62 @@ const deleteBookingDetailById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa chi tiết đặt hàng.' });
     }
 };
+const sendMailConfirmBooking = async (req, res) => {
+    try {
+        // Xác định nếu có thời gian thử trang phục hay không
+        const email = req.body.email;
+        const booking_time = req.body.booking_time;
+        // const timeTryCostumes = req.body.timeTryCostumes;
+
+        //const isTryCostumes = timeTryCostumes !== null;
+
+        // Tạo phần HTML cho email
+        const html = `
+          <div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2">
+            <div style="margin: 50px auto; width: 70%; padding: 20px 0">
+              <div style="border-bottom: 1px solid #eee">
+                <a href="" style="display: block; font-size: 1.9em; color: #FF6600; text-decoration: none; font-weight: 600; text-align: center">FOTO FUSHION</a>
+              </div>
+              <p style="font-size: 1.1em">Dear Customer,</p>
+              <p>Thank you for choosing FotoFushion! Your booking has been confirmed for the following details:</p>
+              
+              <p><strong>Booking Time:</strong> ${booking_time}</p>
+              
+            
+              
+              <p>Please make sure to arrive on time for your photoshoot appointment.</p>
+              
+              <h2 style="background: #FF6600; margin: 20px auto; width: max-content; padding: 10px; color: #fff; border-radius: 4px;">Thank You!</h2>
+              
+              <p style="font-size: 0.9em;">Best regards,<br />FotoFushion</p>
+              
+              <hr style="border: none; border-top: 1px solid #eee" />
+              
+              <div style="float: right; padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1; font-weight: 300">
+                <p>FotoFushion Inc</p>
+                <p>254, Nguyen Van Linh Street, Thanh Khue District, Da Nang City</p>
+                <p>Vietnam</p>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Gửi email
+        await sendMail({
+            email,
+            html,
+            subject: "Booking Confirmation",
+        });
+
+        // Trả về phản hồi khi gửi email thành công
+        res.status(200).json({ message: 'Email sent successfully.' });
+    } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error('Error sending email:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 
 
 module.exports = {
@@ -95,5 +151,6 @@ module.exports = {
     getBookingDetailById,
     createNewBookingDetail,
     updateBookingDetailById,
-    deleteBookingDetailById
+    deleteBookingDetailById,
+    sendMailConfirmBooking
 };

@@ -84,11 +84,11 @@ const getAllPhotosByLocationId = async (req, res) => {
 // Lấy danh sách tất cả các ảnh theo product id
 const getAllPhotosByProductId = async (req, res) => {
     try {
-        const prod_id = req.params.prod_id;
-        console.log(prod_id);
+        // const prod_id = req.params.prod_id;
+        // console.log(prod_id);
         //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
 
-        const photos = await PhotoService.getAllPhotosByProductId(prod_id);
+        const photos = await PhotoService.getAllPhotosWithProductInfo();
         res.json(photos);
     } catch (error) {
         console.error('Lỗi khi lấy danh sách ảnh:', error);
@@ -178,7 +178,7 @@ const updatePhotoById = async (req, res) => {
             return res.status(404).json({ error: 'Ảnh không tồn tại' });
         }
 
-        res.json(updatedPhoto);
+        res.status(201).json(updatedPhoto);
     } catch (error) {
         console.error('Lỗi khi cập nhật ảnh:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật ảnh.' });

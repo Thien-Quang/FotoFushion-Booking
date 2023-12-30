@@ -31,9 +31,9 @@ const getVideoAlbumById = async (req, res) => {
 // Tạo video album mới
 const createNewVideoAlbum = async (req, res) => {
     try {
-        const { name, cover_photo, user_id, sum_photo, category, location, date_create } = req.body;
+        const inputData = req.body;
         const id = uuidv4();
-        const videoAlbumData = { id, name, cover_photo, user_id, sum_photo, category, location, date_create };
+        const videoAlbumData = { id, ...inputData };
         const createdVideoAlbum = await VideoAlbumService.createVideoAlbum(videoAlbumData);
         res.status(201).json(createdVideoAlbum);
     } catch (error) {

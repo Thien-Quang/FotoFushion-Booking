@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllBookingDetails, getBookingDetailById, createNewBookingDetail, updateBookingDetailById, deleteBookingDetailById } = require('../controllers/booking_details_controllers');
+const { getAllBookingDetails, getBookingDetailById, createNewBookingDetail, updateBookingDetailById, deleteBookingDetailById, sendMailConfirmBooking } = require('../controllers/booking_details_controllers');
 const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
 
 // router.use(verifyToken)
@@ -10,5 +10,7 @@ router.get('/api/getBookingDetailById/:id', verifyToken, getBookingDetailById);
 router.post('/api/createNewBookingDetail', verifyToken, createNewBookingDetail);
 router.put('/api/updateBookingDetailById/:id', verifyToken, updateBookingDetailById);
 router.delete('/api/deleteBookingDetailById/:id', verifyToken, isAdminSystem, deleteBookingDetailById);
+router.post('/api/sendMailConfirmBooking', verifyToken, isAdminSystem, sendMailConfirmBooking);
+
 
 module.exports = router;

@@ -1,4 +1,7 @@
 const Photo = require('../models/photo_models');
+const Product = require('../models/product_models');
+const { Op } = require('sequelize');
+
 
 class PhotoService {
     async getPhotoById(id) {
@@ -120,14 +123,21 @@ class PhotoService {
         }
     }
     //lấy tất cả hình ảnh theo product id
-    async getAllPhotosByProductId(prod_id) {
+    async getAllPhotosWithProductInfo() {
         try {
             const photos = await Photo.findAll({
-                where: { prod_id: prod_id },
+                where: { prod_id: { [Op.not]: null } },
+                include: [
+                    {
+                        model: Product,
+                        as: 'product',
+                    },
+                ],
             });
+
             return photos;
         } catch (error) {
-            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            console.error('Lỗi khi lấy danh sách ảnh với thông tin sản phẩm:', error);
             throw error;
         }
     }

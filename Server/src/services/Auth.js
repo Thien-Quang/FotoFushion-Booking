@@ -83,7 +83,7 @@ const confirmOTPAndActivateAccount = async ({ email, otp }, res) => {
             await account.save();
             return res.status(200).json({ message: 'Account confirmed and activated successfully.' });
         } else {
-            return res.status(200).json({ message: 'Account already confirmed and activated.' });
+            return res.status(400).json({ message: 'Account already confirmed and activated.' });
         }
     } catch (error) {
         console.error('Error during OTP confirmation:', error);

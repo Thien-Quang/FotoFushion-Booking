@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
 
+
 const Product = sequelize.define('Product', {
     id: {
         type: DataTypes.STRING(50),
@@ -27,6 +28,7 @@ const Product = sequelize.define('Product', {
     tableName: 'products',
     timestamps: false,
 });
+
 
 Product.sync()
     .then(() => {
