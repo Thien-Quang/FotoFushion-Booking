@@ -67,8 +67,10 @@ const confirmOtpRegisted = async (req, res) => {
 };
 
 const login = async (req, res) => {
+    console.log("---------------------");
     try {
         // Validate data
+        
         const { error } = joi.object({ email, password }).validate(req.body);
         if (error)
             return res.status(400).json({
@@ -77,9 +79,9 @@ const login = async (req, res) => {
         const response = await authServices.login(req.body, res);
         return response;
     } catch (error) {
-        console.log(error);
+        console.log("---------------------",error);
         return res.status(500).json({
-            message: "Internal Server Error",
+            message: "Internal Server Error"
         });
     }
 };

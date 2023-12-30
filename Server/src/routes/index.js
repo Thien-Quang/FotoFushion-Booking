@@ -27,7 +27,7 @@ const voucherRoutes = require('./voucher_routes');
 const locationsRoutes = require('./locations_routes.js');
 const notification = require('./notification.js');
 const voucherdetail = require('./voucher_detail_routes.js');
-
+const store = require('./store_routes.js');
 
 
 
@@ -61,6 +61,8 @@ const index = (app) => {
     app.use("/", locationsRoutes);
     app.use("/", notification);
     app.use("/", voucherdetail);
+    app.use("/", store);
+    
 
 
 

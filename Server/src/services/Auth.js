@@ -109,8 +109,8 @@ const login = async ({ email, password }, res) => {
             return res.status(401).json({ message: "Password was incorrect" });
         }
 
-        const accessToken = jwt.sign({ email: account.email, roleCode: role.code }, process.env.JWT_SECRET, { expiresIn: "2d" });
-        const refreshToken = jwt.sign({ email: account.email }, process.env.JWT_SECRET_REFRESH_TOKEN, { expiresIn: "7d" });
+        const accessToken = jwt.sign({ email: account.email, roleCode: role.code }, process.env.JWT_SECRET="thienquangdeptrainhathemattroi" , { expiresIn: "2d" });
+        const refreshToken = jwt.sign({ email: account.email }, process.env.JWT_SECRET_REFRESH_TOKEN = "abc1234asjdhajsd", { expiresIn: "7d" });
 
         await AccountService.updateAccount(account.email, { refreshToken }, res);
 

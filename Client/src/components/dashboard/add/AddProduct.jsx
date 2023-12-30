@@ -98,8 +98,10 @@ const AddProduct = () => {
     //Thêm hình ảnh vào bảng hình ảnh
 
     useEffect(() => {
+        console.log("-=-=")
         if (prod_id && imageUrls.length === imageUploads.length) {
             console.log(prod_id);
+            console.log("-=-=",imageUrls)
             const performAddProduct = async () => {
                 try {
                     // Use Promise.all to handle asynchronous operations in map

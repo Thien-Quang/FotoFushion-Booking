@@ -1,8 +1,9 @@
-const AccountService = require('../services/account_services');
+const AccountService = require('../Services/account_services');
 
 // Lấy tất cả tài khoản
 const getAllAccount = async (req, res) => {
     try {
+        
         const accounts = await AccountService.getAllAccounts();
         res.json(accounts);
     } catch (error) {

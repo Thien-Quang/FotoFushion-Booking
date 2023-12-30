@@ -40,15 +40,16 @@ const Photo = sequelize.define('Photo', {
     timestamps: false,
 });
 
-Photo.belongsTo(Costume, { foreignKey: 'costume_id', targetKey: 'id' });
-Photo.belongsTo(PhotoAlbum, { foreignKey: 'albums_id', targetKey: 'id' });
-Photo.belongsTo(PromotionEvent, { foreignKey: 'event_id', targetKey: 'id' });
-Photo.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id' });
-Photo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
-Photo.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
-Photo.belongsTo(BlogPost, { foreignKey: 'blog_id', targetKey: 'id' });
-Photo.belongsTo(Equipment, { foreignKey: 'equip_id', targetKey: 'id' });
-Photo.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id', as: 'location' });
+// Photo.belongsTo(Costume, { foreignKey: 'costume_id', targetKey: 'id' });
+// Photo.belongsTo(PhotoAlbum, { foreignKey: 'albums_id', targetKey: 'id' });
+// Photo.belongsTo(PromotionEvent, { foreignKey: 'event_id', targetKey: 'id' });
+// Photo.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id' });
+// Photo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
+// Photo.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
+// Photo.belongsTo(BlogPost, { foreignKey: 'blog_id', targetKey: 'id' });
+// Photo.belongsTo(Equipment, { foreignKey: 'equip_id', targetKey: 'id' });
+// Photo.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id', as: 'location' });
+
 
 
 Photo.sync()

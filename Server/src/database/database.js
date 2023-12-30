@@ -4,9 +4,9 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  process.env.DB_NAME = "db_fotofushion",
+  process.env.DB_USER = "root",
+  process.env.DB_PASSWORD = "123456789",
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,

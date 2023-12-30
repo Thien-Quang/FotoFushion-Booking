@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
             message: "Require authorization",
         });
     const accessToken = token.split(" ")[1];
-    jwt.verify(accessToken, process.env.JWT_SECRET, async (error, decode) => {
+    jwt.verify(accessToken, process.env.JWT_SECRET = "thienquangdeptrainhathemattroi", async (error, decode) => {
         if (error) {
             const isChecked = error instanceof jwt.TokenExpiredError
             if (!isChecked) {
