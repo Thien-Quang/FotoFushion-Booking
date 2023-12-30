@@ -4,7 +4,7 @@ import * as photo from '../../../apis/photo'
 import * as firebase from '../../../apis/firebase'
 import AddBlogPost from '../add/AddBlogPost'
 import EdidBlogPost from '../edid/edidBlogPost';
-
+import { formatDateTime } from '../../helples/Format'
 import { ToastContainer, toast } from 'react-toastify';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import AuthContext from '../../../context/authProvider';
@@ -155,24 +155,7 @@ const BlogPost = () => {
             </div>
             <div className='flex items-center justify-center'>
                 <div className='w-3/5 h-10 m-4 flex items-center justify-center'>
-                    <div class='w-1/2 mx-auto'>
-                        <div className="join">
-                            <div>
-                                <div>
-                                    <input className="input input-bordered join-item" placeholder="Search" />
-                                </div>
-                            </div>
-                            <select className="select select-bordered join-item">
-                                <option disabled selected>Lựa chọn</option>
-                                <option>Sci-fi</option>
-                                <option>Drama</option>
-                                <option>Action</option>
-                            </select>
-                            <div className="indicator">
-                                <button className="btn join-item">Tìm Kiếm</button>
-                            </div>
-                        </div>
-                    </div>
+
                     <div className='flex items-center justify-center'>
                         <Button gradientMonochrome="lime" onClick={() => document.getElementById('my_modal_4_1').showModal()}>Thêm Bài Viết Mới</Button>
                     </div>
@@ -208,16 +191,16 @@ const BlogPost = () => {
                                             {item.title}
                                         </Table.Cell>
                                         <Table.Cell>{item.author}</Table.Cell>
-                                        <Table.Cell>{item.date}</Table.Cell>
+                                        <Table.Cell>{formatDateTime(item.date)}</Table.Cell>
                                         <Table.Cell>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
+                                            <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
                                                 onClick={() => openEditModal(item)}>
                                                 Sửa
-                                            </a>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
+                                            </button>
+                                            <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
                                                 onClick={() => openDeleteModal(item.id)}>
                                                 Xóa
-                                            </a>
+                                            </button>
                                         </Table.Cell>
                                     </Table.Row>
                                 )

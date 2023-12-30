@@ -103,18 +103,18 @@ const AddProduct = () => {
             const performAddProduct = async () => {
                 try {
                     // Use Promise.all to handle asynchronous operations in map
-                    await Promise.all(imageUrls.map(async (url_photo) => {
-                        const addProduct = await photo.updateProductPhoto(auth.accessToken, img_name, url_photo, prod_id);
-                        if (addProduct.statusCode === 201) {
-                            notify(addProduct.response.message, 'success');
-                            setLoading(false);
-                            setSubmit(false);
-                        } else {
-                            notify(addProduct.error.message);
-                            setLoading(false);
-                            setSubmit(false);
-                        }
-                    }));
+                    // await Promise.all(imageUrls.map(async (url_photo) => {
+                    const addProduct = await photo.updateProductPhoto(auth.accessToken, img_name, imageUrls[0], prod_id);
+                    if (addProduct.statusCode === 201) {
+                        notify(addProduct.response.message, 'success');
+                        setLoading(false);
+                        setSubmit(false);
+                    } else {
+                        notify(addProduct.error.message);
+                        setLoading(false);
+                        setSubmit(false);
+                    }
+                    // }));
                 } catch (error) {
                     console.error('Error in performAddProduct:', error);
                     setLoading(false);

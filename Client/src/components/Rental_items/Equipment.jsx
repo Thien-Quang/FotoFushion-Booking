@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import * as equipment from '../../apis/equipment';
 import PhotoByEquipment from '../helples/PhotoByEquipment';
+import { formatCurrency } from '../helples/Format'
+
 
 const Equipment = () => {
     const [equipments, setEquipments] = useState([]);
@@ -95,7 +97,7 @@ const Equipment = () => {
                         </div>
                         <div className="card-body">
                             <h2 className="card-title text-base">{studio.name}</h2>
-                            <p>{studio.price} .VND / {studio.rental_start_date}</p>
+                            <p className='text-red-500 animate-bounce'>{formatCurrency(studio.price)}</p>
                             <p>Số lượng còn lại : {studio.quantity}</p>
                             <div className="card-actions justify-end">
                                 <button className="btn bg-btnprimary mx-2">Thuê</button>

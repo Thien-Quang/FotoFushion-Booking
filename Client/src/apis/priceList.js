@@ -115,10 +115,22 @@ const getPriceListByAlbumsid = async ({ albumsid }) => {
         throw error;
     }
 };
+const getPriceListtById = async (id) => {
+    try {
+        const response = await axiosClient.get(`/getEquipmentById/${id}`)
+        if (response.data) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin bảng giá:', error);
+        throw error;
+    }
+};
 export {
     CreateAPriceForAlbums,
     getAllPriceList,
     getPriceListByAlbumsid,
     deletePriceList,
-    updatePriceList
+    updatePriceList,
+    getPriceListtById
 };

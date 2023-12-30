@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React, { useContext, useEffect, useState } from 'react';
 import * as authApis from '../../apis/auth'
 import Countdown from '../helples/Countdown';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/authProvider';
 import { Carousel } from 'flowbite-react';
 import { Button, Modal } from 'flowbite-react';
@@ -26,6 +26,7 @@ const Register = () => {
     const [otp, setOtp] = useState('');
     const [confirm, setConfirm] = useState(false);
 
+    const navigate = useNavigate();
 
     const handleTimeout = () => {
         setIsCountdownActive(false);
@@ -77,30 +78,7 @@ const Register = () => {
         }
     }, [email, password, phoneNumber, setAuth, submit]);
 
-    // useEffect(() => {
-    //     if (confirm) {
-    //         const fetchConfirm = async () => {
-    //             const confirm = await authApis.confirmOtp(email, otp)
-    //             if (confirm.statusCode === 200) {
-    //                 const authentication = await authApis.loginApi(email, password);
-    //                 if (authentication.statusCode === 200) {
-    //                     const accessToken = authentication.response.accessToken;
-    //                     setAuth({ email, password, accessToken, phoneNumber });
-    //                 } else {
-    //                     notify(authentication.error.response.data.message);
-    //                     setLoading(false);
-    //                     setSubmit(false);
-    //                 }
-    //             } else {
-    //                 notify("Mã OTP không phù hợp");
-    //                 setLoading(false);
-    //                 setSubmit(false);
-    //             }
-    //         };
-    //         fetchConfirm();
-    //     }
 
-    // }, [confirm])
 
     const handleCheckInput = () => {
         const emailRegex = /\S+@\S+\.\S+/;
@@ -127,16 +105,9 @@ const Register = () => {
         try {
             const confirmResponse = await authApis.confirmOtp(email, otp);
             if (confirmResponse.statusCode === 200) {
-                const authentication = await authApis.loginApi(email, password);
-                if (authentication.statusCode === 200) {
-                    const accessToken = authentication.response.accessToken;
-                    setAuth({ email, password, accessToken, phoneNumber });
-                } else {
-                    notify("Bạn đã đăng kí tài khoản thành công", 'success');
-                    //setLoading(false);
-                    ///setSubmit(false);
-                }
+                setLoading(false);
                 setOpenModal(false)
+                navigate('/login', { state: { toastMessage: "Bạn đã đăng kí tài khoản thành công" } })
             } else {
                 notify("Mã OTP không phù hợp");
                 setLoading(false);

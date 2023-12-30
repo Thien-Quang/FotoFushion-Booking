@@ -78,10 +78,22 @@ const getAllCategoryOfEquipment = async () => {
         throw error;
     }
 };
+const getEquipmentById = async (id) => {
+    try {
+        const response = await axiosClient.get(`/getEquipmentById/${id}`)
+        if (response.data) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
 export {
     addEquipment,
     getEquipment,
     deleteEquipment,
     updateEquipment,
-    getAllCategoryOfEquipment
+    getAllCategoryOfEquipment,
+    getEquipmentById
 };

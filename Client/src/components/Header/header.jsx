@@ -112,7 +112,7 @@ function Header() {
                     <Link to='/store' >
                       <Dropdown.Item>Cửa hàng</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/requestpage' >
                       <Dropdown.Item>Yêu cầu chỉnh sửa</Dropdown.Item>
                     </Link>
                     <Link to='/studioroom' >
@@ -165,6 +165,11 @@ function Header() {
                     {auth.role === "admin" && (
                       <Link to='/dashboard'>
                         <Dropdown.Item>Bảng Điều Khiển</Dropdown.Item>
+                      </Link>
+                    )}
+                    {auth.role === "editor" && (
+                      <Link to='/homeeditor'>
+                        <Dropdown.Item>Bảng Công Việc</Dropdown.Item>
                       </Link>
                     )}
                     <Link to='/profile' >

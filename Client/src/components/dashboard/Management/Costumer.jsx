@@ -9,6 +9,7 @@ import AuthContext from '../../../context/authProvider';
 import { Table, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { ToastContainer, toast } from 'react-toastify';
+import { formatCurrency, formatDateTime } from '../../helples/Format'
 
 
 const Costumer = () => {
@@ -205,7 +206,7 @@ const Costumer = () => {
                                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                             {role.name}
                                         </Table.Cell>
-                                        <Table.Cell>{role.price}</Table.Cell>
+                                        <Table.Cell>{formatCurrency(role.price)}</Table.Cell>
                                         <Table.Cell>{role.quantity}</Table.Cell>
 
                                         <Table.Cell>

@@ -96,18 +96,18 @@ const AddCostumer = () => {
             const performAddProduct = async () => {
                 try {
                     // Use Promise.all to handle asynchronous operations in map
-                    await Promise.all(imageUrls.map(async (url_photo) => {
-                        const dataImgCostumer = await photo.CreateAPhotoForCostumer(auth.accessToken, img_name, url_photo, costume_id);
-                        if (dataImgCostumer.statusCode === 201) {
-                            //notify(dataImgCostumer.response.message, 'success');
-                            setLoading(false);
-                            setSubmit(false);
-                        } else {
-                            //notify(dataImgCostumer.error.message);
-                            setLoading(false);
-                            setSubmit(false);
-                        }
-                    }));
+                    //await Promise.all(imageUrls.map(async (url_photo) => {
+                    const dataImgCostumer = await photo.CreateAPhotoForCostumer(auth.accessToken, img_name, imageUrls[0], costume_id);
+                    if (dataImgCostumer.statusCode === 201) {
+                        //notify(dataImgCostumer.response.message, 'success');
+                        setLoading(false);
+                        setSubmit(false);
+                    } else {
+                        //notify(dataImgCostumer.error.message);
+                        setLoading(false);
+                        setSubmit(false);
+                    }
+                    //}));
                 } catch (error) {
                     //console.error('Error in performaddEquipmentPhoto:', error);
                     setLoading(false);

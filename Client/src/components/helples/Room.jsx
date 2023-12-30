@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import * as room from '../../apis/room';
 import PhotoByRoomId from './PhotoByRoomStudio';
 import { ToastContainer, toast } from 'react-toastify';
+import { formatCurrency } from './Format'
+
 
 const Studio = ({ onSelectRoom }) => {
     const notify = (message, type) => {
@@ -105,8 +107,12 @@ const Studio = ({ onSelectRoom }) => {
                                 <PhotoByRoomId room_id={studio.id} />
                             </div>
                             <div className="card-body">
-                                <h2 className="card-title text-base">{studio.name}</h2>
-                                <p className='text-red-400 font-semibold animate-bounce'>{studio.price} .VND / 4 giờ</p>
+                                <div className='h-[60px]'>
+                                    <h2 className="card-title overflow-hidden overflow-ellipsis text-xl" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+                                        {studio.name}
+                                    </h2>
+                                </div>
+                                <p className='text-red-400 font-semibold animate-bounce'>{formatCurrency(studio.price)} / 4 giờ</p>
 
                                 <div className="card-actions justify-end">
                                     <button className="btn bg-btnprimary mx-2" onClick={() => {
@@ -122,7 +128,7 @@ const Studio = ({ onSelectRoom }) => {
             </div>
             <div className='flex items-center justify-center m-4'>
                 <div className="pagination join">
-                    {Array.from({ length: Math.ceil(currentStudios.length / itemsPerPage) }).map((_, index) => (
+                    {Array.from({ length: Math.ceil(studioRooms.length / itemsPerPage) }).map((_, index) => (
                         <input
                             key={index + 1}
                             className={`join-item btn btn-square`}

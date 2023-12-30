@@ -3,6 +3,8 @@ import * as price from '../../apis/priceList'
 import { useLocation } from 'react-router-dom';
 import BookingAlbums from '../Booking/bookingAlbums';
 import { Modal } from 'flowbite-react';
+import { formatCurrency } from '../helples/Format'
+
 
 const PriceList = () => {
 
@@ -50,8 +52,8 @@ const PriceList = () => {
                                     <p class="mt-2 text-base text-slate-700 leading-tight">Số lượng thợ chụp : {pricelist.number_photographer} ; Số lượng thợ phụ : {pricelist.number_assistant_photographer} </p>
                                     <p class="mt-2 text-base text-slate-700 leading-tight" style={{ whiteSpace: 'pre-line' }}>{pricelist.description}  </p>
                                     <p class="mt-8">
-                                        <span class="text-4xl font-bold text-red-400 animate-bounce'">{pricelist.price}</span>
-                                        <span class="text-base font-medium text-slate-500"> VND</span>
+                                        <span class="text-4xl font-bold text-red-400 animate-bounce'">{formatCurrency(pricelist.price)}</span>
+
                                     </p>
                                     <button
                                         class="mt-8 block w-full bg-btnprimary rounded-md py-4 text-xl text-white text-center font-semibold"

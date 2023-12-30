@@ -5,11 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./context/authProvider";
+
+
 import { ThemeProvider } from "@material-tailwind/react";
 
 import store, { persistor } from "./redux/store";
 import { Provider } from "react-redux";
-// import { ProductsProvider } from './context/productsProvider';
+import { ProductsProvider } from './context/productProvider';
 // import { UsersProvider } from './context/usersProvider';
 // import { OrdersProvider } from './context/ordersProvider';
 
@@ -17,17 +19,17 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Router>
     <AuthProvider>
-      {/* <ProductsProvider>
-                <UsersProvider>
+      <ProductsProvider>
+        {/* <UsersProvider>
                     <OrdersProvider> */}
-      <Provider store={store}>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </Provider>
-      {/* </OrdersProvider>
-                </UsersProvider>
-            </ProductsProvider> */}
+        <Provider store={store}>
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+        </Provider>
+        {/* </OrdersProvider>
+                </UsersProvider>*/}
+      </ProductsProvider>
     </AuthProvider>
   </Router>
 );

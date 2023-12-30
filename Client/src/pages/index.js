@@ -32,5 +32,8 @@ export { default as CartPage } from "./cartPage.jsx";
 export { default as Promotion } from "./promotionPage.jsx";
 export { default as Payment } from "./paymentPage.jsx";
 
+export { default as RequestEditPhoto } from "./requestEditPhoto.jsx";
+export { default as HomeEditor } from "./Employee/homeEditor.jsx";
+
 export { default as AddProduct } from "./addproduct.jsx";
 

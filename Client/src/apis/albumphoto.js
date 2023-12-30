@@ -24,10 +24,10 @@ const getAlbumsPhotoById = async (id) => {
         throw error;
     }
 };
-const createAlbumsPhoto = async (accessToken, name, cover_photo, sum_photo, category, location, date_create) => {
+const createAlbumsPhotoForCustomer = async (accessToken, name, user_id, cover_photo, sum_photo, category, location, date_create) => {
 
     try {
-        const response = await axiosClient.post('/createPhotoAlbum', { name: name, cover_photo: cover_photo, sum_photo: sum_photo, category: category, location: location, date_create: date_create }, {
+        const response = await axiosClient.post('/createPhotoAlbum', { name: name, user_id: user_id, cover_photo: cover_photo, sum_photo: sum_photo, category: category, location: location, date_create: date_create }, {
             headers: {
 
                 Authorization: `Bearer ${accessToken}`,
@@ -87,7 +87,7 @@ const deleteAlbums = async (accessToken, id) => {
 
 export {
     getAlbumsPhoto,
-    createAlbumsPhoto,
+    createAlbumsPhotoForCustomer,
     updateAlbums,
     deleteAlbums,
     getAlbumsPhotoById

@@ -3,7 +3,7 @@ import {
   ForgotPassWord, AlbumsPhotoPage, Login, SignUp, BookingOnline,
   testUpdate, PhotoOfAlbums, AlbumsPage, PriceList, ContactUs, BlogPost,
   Studio, Costumer, DashBoard, MakeUp, ComboTakePhoto, ResetPassword,
-  AddProduct, Location, AlbumsVideo,
+  AddProduct, Location, AlbumsVideo, RequestEditPhoto, HomeEditor,
   Store,
   CartPage,
   Promotion,
@@ -49,5 +49,10 @@ const router = [{ path: "/", component: Home },
 { path: "/cart", component: CartPage },
 { path: "/promotion", component: Promotion },
 { path: "/payment", component: Payment },
+
+{ path: "/requestpage", component: RequestEditPhoto },
+{ path: "/homeeditor", component: HomeEditor },
+
+
 ];
 export { router };

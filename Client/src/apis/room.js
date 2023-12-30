@@ -79,10 +79,22 @@ const getAllCategoryOfPhotographyRooms = async () => {
         throw error;
     }
 };
+const getRoomById = async (id) => {
+    try {
+        const response = await axiosClient.get(`/getPhotographyRoomById/${id}`)
+        if (response.data) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
 export {
     CreateARoom,
     getStudioRoom,
     deleteRoom,
     updateRoom,
-    getAllCategoryOfPhotographyRooms
+    getAllCategoryOfPhotographyRooms,
+    getRoomById
 };

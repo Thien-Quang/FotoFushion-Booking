@@ -11,6 +11,8 @@ import Albums from './Management/Albums';
 import PriceList from './Management/PriceList'
 import Booking from './Management/Booking';
 import Location from './Management/Location';
+import Product from './Management/Product';
+import EditPhoto from './Management/EditPhoto';
 import { Link } from "react-router-dom";
 
 const DashBoard = () => {
@@ -87,8 +89,8 @@ const DashBoard = () => {
                                 </Button>
                             </li>
                             <li>
-                                <Button outline gradientDuoTone="pinkToOrange" size="lg" onClick={() => setMenu("custumer")}>
-                                    Quản lí khách hàng
+                                <Button outline gradientDuoTone="pinkToOrange" size="lg" onClick={() => setMenu("editphoto")}>
+                                    Quản lí yêu cầu chỉnh sửa
                                 </Button>
                             </li>
                             <li>
@@ -126,9 +128,11 @@ const DashBoard = () => {
                 <div className='w-4/5  h-[100vh]'>
                     <div className='w-full'>
                         {menu === "overview" && <Overview />}
+                        {menu === "editphoto" && <EditPhoto />}
                         {menu === "account" && <Account />}
                         {menu === "equipment" && <Equipment />}
                         {menu === "costumer" && <Costumer />}
+                        {menu === "product" && <Product />}
                         {menu === "room" && <Room />}
                         {menu === "blogpost" && <BlogPost />}
                         {menu === "albums" && <Albums />}

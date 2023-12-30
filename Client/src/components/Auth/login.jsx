@@ -89,7 +89,13 @@ const Login = () => {
 
                     if (authorization.statusCode === 200) {
                         if (authorization.roles === 'admin') navigate('/dashboard', { state: { toastMessage: "Đăng nhập thành công" } });
-                        else if (authorization.roles === 'custumer') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'customer') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'editor') navigate('/homeeditor', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'photographer') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'makeup') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'cusSerRep') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+
+
                         else notify('Đăng nhập thất bại');
                     } else {
                         notify(authorization.error.response.data.message);

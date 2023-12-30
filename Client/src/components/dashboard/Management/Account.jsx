@@ -3,15 +3,12 @@ import AuthContext from '../../../context/authProvider'
 import * as roleApi from '../../../apis/role'
 import * as accountApi from '../../../apis/account'
 import * as userApi from '../../../apis/user'
-
-
 import { Modal, Table, Button } from 'flowbite-react';
-
 import AddRole from '../add/AddRole'
-import EdidRole from '../edid/edidRole';
-
+import EdidRole from '../edid/edidRoleAccount'
 import { ToastContainer, toast } from 'react-toastify';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import { Dropdown } from 'flowbite-react';
 
 const Account = () => {
     const { auth } = useContext(AuthContext);
@@ -34,6 +31,7 @@ const Account = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reloadPage, setReloadPage] = useState(false);
+
 
 
     const notify = (message, type) => {
@@ -93,20 +91,23 @@ const Account = () => {
     const handleDeleteAccount = async () => {
         try {
             const deleteUser = await userApi.deleteUserByEmail(auth.accessToken, email);
-            const deleteAccount = await accountApi.deleteAccount(auth.accessToken, email);
-            console.log(deleteAccount.statusCode);
-            if (deleteAccount.statusCode === 204) {
-                notify("Xóa tài khoản thành công", 'success');
-                handleCloseModal();
-            }
-            else {
-                notify("Xóa tài khoản không thành công", 'error');
+            if (deleteUser.statusCode === 204) {
+                const deleteAccount = await accountApi.deleteAccount(auth.accessToken, email);
+                if (deleteAccount.statusCode === 204) {
+                    notify("Xóa tài khoản thành công", 'success');
+                    handleCloseModal();
+                }
+                else {
+                    notify("Xóa tài khoản không thành công", 'error');
+                }
+            } else {
+                notify("Xóa người dùng không thành công", 'error');
+
             }
         } catch (error) {
-            notify(error, 'error');
+            notify('Không thể xóa vì người dùng có thể đã đặt dịch vụ', 'error');
         }
     };
-
     if (delete_role) {
         handleDeleteRole();
     }
@@ -132,6 +133,25 @@ const Account = () => {
         setIsModalOpen(false);
         setReloadPage(true);
 
+    };
+    const handleChangeRole = async (email, role_id) => {
+        console.log(email);
+        console.log(role_id);
+        try {
+            // Gọi API để thay đổi vai trò
+            const response = await accountApi.updateRoleAccount(auth.accessToken, email, role_id)
+
+            if (response.statusCode === 200) {
+                notify("Thay đổi vai trò cho tài khoản thành công", 'success')
+                setReloadPage(true)
+            } else {
+                notify("Thay đổi vai trò cho tài khoản không thành công")
+                setReloadPage(true)
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+            console.error('Error changing role:', error);
+        }
     };
     useEffect(() => {
         console.log(accounts);
@@ -241,6 +261,7 @@ const Account = () => {
                             <Table.Head>
                                 <Table.HeadCell>Email</Table.HeadCell>
                                 <Table.HeadCell>Số Điện Thoại</Table.HeadCell>
+                                <Table.HeadCell>Tình trạng</Table.HeadCell>
                                 <Table.HeadCell>Vai Trò</Table.HeadCell>
 
                                 <Table.HeadCell>
@@ -255,12 +276,19 @@ const Account = () => {
                                                 {item.email}
                                             </Table.Cell>
                                             <Table.Cell>{item.phone_number}</Table.Cell>
-                                            <Table.Cell>{item.Role.name}</Table.Cell>
+                                            <Table.Cell>{item.status}</Table.Cell>
+                                            <Table.Cell className='flex items-center justify-between'>
+                                                <span> {item.Role.name}</span>
+                                                <Dropdown dismissOnClick={true} label="Thay Đổi">
+                                                    {roles.map((role, index) => (
+                                                        <Dropdown.Item key={index} onClick={() => handleChangeRole(item.email, role.id)}>
+                                                            {role.name}
+                                                        </Dropdown.Item>
+                                                    ))}
+                                                </Dropdown>
+                                            </Table.Cell>
                                             <Table.Cell>
-                                                <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
-                                                    onClick={() => openEditModal(item)}>
-                                                    Sửa
-                                                </a>
+
                                                 <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
                                                     onClick={() => openDeleteAccountModal(item.email)}>
                                                     Xóa
@@ -269,17 +297,7 @@ const Account = () => {
                                         </Table.Row>
                                     )
                                 })}
-                                <dialog id="my_modal_4 edit" className="modal">
-                                    <div className="modal-box w-11/12 max-w-5xl">
-                                        <EdidRole item={selectedItem} />
-                                        <div className="modal-action">
-                                            <form method="dialog">
-                                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
-                                                <button className="btn" onClick={() => handleCloseModal()}>Close</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </dialog>
+
                                 <Modal show={openModalDeleteAccount} size="md" onClose={() => setOpenModalDeleteAccount(false)} popup>
                                     <Modal.Header />
                                     <Modal.Body>

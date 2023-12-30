@@ -8,6 +8,8 @@ import AddRoomPhoto from '../add/AddRoomPhoto'
 import EdidRoomPhoto from '../edid/edidRoom';
 import { ToastContainer, toast } from 'react-toastify';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import { formatCurrency, formatDateTime } from '../../helples/Format'
+
 
 
 const Room = () => {
@@ -198,7 +200,7 @@ const Room = () => {
                                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                             {item.name}
                                         </Table.Cell>
-                                        <Table.Cell>{item.price}</Table.Cell>
+                                        <Table.Cell>{formatCurrency(item.price)}</Table.Cell>
                                         <Table.Cell>{item.category}</Table.Cell>
                                         <Table.Cell>{item.is_status ? 'Đang sử dụng' : 'Chưa sử dụng'}</Table.Cell>
 

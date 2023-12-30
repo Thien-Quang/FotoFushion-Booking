@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import * as albumphoto from '../../../apis/albumphoto'
+import * as userApi from '../../../apis/user'
+
 import AuthContext from '../../../context/authProvider';
 import { Spinner } from '@material-tailwind/react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,39 +13,45 @@ import { v4 } from "uuid";
 const AddAlbumPhoto = () => {
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
-    const [cover_photo, setCover_photo] = useState('')
+
     const [sum_photo, setSum_photo] = useState('')
     const [location, setLocation] = useState(null)
     const [date_create, setDate_create] = useState('')
+    const [user_id, setUser_id] = useState('')
+    const [customers, setCustomers] = useState([])
+
 
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const { auth } = useContext(AuthContext);
 
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState("");
 
-
+    const [imageUploads, setImageUpload] = useState([]);
+    const [imageUrls, setImageUrls] = useState([]);
     const handleChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);
+        for (let i = 0; i < e.target.files.length; i++) {
+            const newImage = e.target.files[i];
+            newImage["id"] = Math.random();
+            setImageUpload((prevState) => [...prevState, newImage]);
         }
     };
     const uploadFile = async () => {
-        try {
-            const imageRef = ref(storage, `/Albums/Cover/${image.name + v4()}`);
-            const snapshot = await uploadBytes(imageRef, image);
 
-            // Assuming you want to set the URL for the uploaded image
-            const url = await getDownloadURL(snapshot.ref);
-            setUrl(url);
-            setCover_photo(url);
-        } catch (error) {
-            console.error("Error uploading image: ", error);
-        }
-    };
+        await Promise.all(
+            imageUploads.map(async (imageUpload) => {
+                const imageRef = ref(storage, `/Albums/Cover/${imageUpload.name + v4()}`);
 
+                try {
+                    const snapshot = await uploadBytes(imageRef, imageUpload);
+                    const url = await getDownloadURL(snapshot.ref);
+                    setImageUrls((prev) => [...prev, url]);
+                } catch (error) {
+                    console.error("Error uploading image: ", error);
+                }
+            })
+        );
+    }
     const notify = (message, type) => {
         const toastType = type === 'success' ? toast.success : toast.error;
         return toastType(message, {
@@ -58,9 +66,23 @@ const AddAlbumPhoto = () => {
         });
     };
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await userApi.getAllUsersIsCustomer(auth.accessToken)
+                console.log(response);
+                setCustomers(response);
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách :', error);
+            }
+        };
+        if (auth.accessToken) {
+            fetchData();
+        }
+    }, []);
+    useEffect(() => {
         const fetchAdd = async () => {
             try {
-                const addAlbums = await albumphoto.createAlbumsPhoto(auth.accessToken, name, cover_photo, sum_photo, category, location, date_create);
+                const addAlbums = await albumphoto.createAlbumsPhotoForCustomer(auth.accessToken, name, user_id, imageUrls[0], sum_photo, category, location, date_create);
                 if (addAlbums.statusCode === 201) {
                     notify("Thêm albums thành công", 'success');
                     setLoading(false);
@@ -83,13 +105,6 @@ const AddAlbumPhoto = () => {
         }
     }, [submit]);
 
-    //Thêm hình ảnh vào bảng hình ảnh
-
-    useEffect(() => {
-        console.log(url);
-        console.log(cover_photo);
-    }, [cover_photo, url])
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         await uploadFile();
@@ -99,7 +114,7 @@ const AddAlbumPhoto = () => {
     return (
         <>
             <ToastContainer />
-            <div className='w-full bg-cover bg-center object-fill' style={{ backgroundImage: 'url("https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/402193474_1072122090448818_9070160038261961007_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=46XD4qyNmaIAX8RVsZ5&_nc_ht=scontent.fsgn2-9.fna&cb_e2o_trans=t&oh=00_AfBRK6_t3nGkeE_GH7SH7-E3F2XZsp3tPGjGc9xd8AdoJQ&oe=655F8542")' }}>
+            <div className='w-full bg-cover bg-center object-fill' style={{ backgroundImage: 'url("https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/Albums%2FNewAlbums%2F394633957_3658271094408923_3818685567209092598_n.jpg34ecbff6-6764-4f1b-b078-459b8f706e1a?alt=media&token=ec0f57d9-3a50-45a3-9dfd-81e35d130220")' }}>
                 <div className='flex items-center justify-center'>
                     <div className='w-[70%] bg-black h-auto m-4 p-4 flex items-center justify-center'>
                         <span className=' text-white text-2xl'>Thêm một albums mới </span>
@@ -124,27 +139,38 @@ const AddAlbumPhoto = () => {
                                         value={name}
                                     />
                                 </div>
+                                <div className='flex items-center justify-between'>
 
-                                <div className="flex flex-col mb-6">
-                                    <label className="font-medium text-left text-lg mb-2 text-black " htmlFor="">
-                                        Nhập loại của Albums
-                                    </label>
-                                    <div className='flex items-center justify-between'>
-                                        <input
-                                            id="categoryInput"
-                                            className="w-2/3 px-4 py-3 border-2 border-[#afafaf] rounded-lg shadow-lg outline-none focus:border-primaryColor placeholder:text-lg text-lg"
-                                            required
-                                            type="text"
-                                            autoComplete=""
-                                            placeholder="Nhập loại sản phẩm"
-                                            onChange={(event) => { setCategory(event.target.value) }}
-                                            value={category}
-                                        />
-                                        <select className=" w-[30%] px-4 py-3 border-2 border-[#afafaf] rounded-lg shadow-lg outline-none focus:border-primaryColor placeholder:text-lg text-lg">
-                                            <option disabled selected>Lựa Chọn </option>
-                                            <option>Auto</option>
-                                            <option>Dark mode</option>
-                                            <option>Light mode</option>
+                                    <div className="flex flex-col mb-6 ">
+                                        <label className="font-medium text-left text-lg mb-2 text-black " htmlFor="">
+                                            Nhập loại của Albums
+                                        </label>
+                                        <div className='flex items-center justify-between'>
+                                            <input
+                                                id="categoryInput"
+                                                className="w-full px-4 py-3 border-2 border-[#afafaf] rounded-lg shadow-lg outline-none focus:border-primaryColor placeholder:text-lg text-lg"
+                                                required
+                                                type="text"
+                                                autoComplete=""
+                                                placeholder="Nhập loại sản phẩm"
+                                                onChange={(event) => { setCategory(event.target.value) }}
+                                                value={category}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col mb-6">
+                                        <label className="font-medium text-left text-lg mb-2 text-black" htmlFor="">
+                                            Lựa chọn khách hàng
+                                        </label>
+                                        <select
+                                            className="select select-warning w-full max-w-full"
+                                            defaultValue="default"
+                                            onChange={(e) => setUser_id(e.target.value)}
+                                        >
+                                            <option value="default" disabled>Lựa chọn khách hàng</option>
+                                            {customers.map((item) => (
+                                                <option key={item.id} value={item.id}>{item.name}</option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
@@ -200,7 +226,7 @@ const AddAlbumPhoto = () => {
 
                                 <div className="flex flex-col mb-6">
                                     <label className="font-medium text-left text-lg mb-2 text-black " htmlFor="">
-                                        Đưa hình ảnh của trang thiết bị lên
+                                        Đưa hình ảnh đại diện của albums lên
                                     </label>
                                     <input
                                         id="urlphotoinput"

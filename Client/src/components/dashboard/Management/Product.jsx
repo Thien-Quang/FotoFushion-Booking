@@ -1,21 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Table, Button, Modal } from 'flowbite-react';
-import AuthContext from '../../../context/authProvider';
-import * as equipment from '../../../apis/equipment'
+import * as costumerApi from '../../../apis/costumer'
 import * as photo from '../../../apis/photo'
 import * as firebase from '../../../apis/firebase'
-import AddEquipment from '../add/AddEquipment'
-import EdidEquipment from '../edid/edidEquipment';
-import { ToastContainer, toast } from 'react-toastify';
+
+import AddCostumer from '../add/AddCostumer';
+import EdidCostumer from '../edid/edidCostumer';
+import AuthContext from '../../../context/authProvider';
+import ProductContext from '../../../context/productProvider';
+
+import { Table, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import { ToastContainer, toast } from 'react-toastify';
 import { formatCurrency, formatDateTime } from '../../helples/Format'
 
 
-const Equipment = () => {
-    const [equipments, setEquipments] = useState([])
+const Product = () => {
+    const [costumers, setCostumers] = useState([])
     const { auth } = useContext(AuthContext);
+    const { productsList } = useContext(ProductContext);
+
     const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [equip_id, setEquip_id] = useState(null);
+    const [costume_id, setCostume_id] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [delete_costumer, setDelete_costumer] = useState(false);
     const [url_photo, setUrl_photo] = useState('')
@@ -23,6 +28,11 @@ const Equipment = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reloadPage, setReloadPage] = useState(false);
 
+    useEffect(() => {
+        if (!isModalOpen && reloadPage) {
+            window.location.reload();
+        }
+    }, [isModalOpen, reloadPage]);
 
     const notify = (message, type) => {
         const toastType = type === 'success' ? toast.success : toast.error;
@@ -37,22 +47,11 @@ const Equipment = () => {
             theme: 'colored',
         });
     };
-
-    useEffect(() => {
-        if (!isModalOpen && reloadPage) {
-            window.location.reload();
-        }
-    }, [isModalOpen, reloadPage]);
-
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await equipment.getEquipment(auth.accessToken);
-                // console.log(response);
-                setEquipments(response);
-
+                const response = await costumerApi.getAllCostumer(auth.accessToken);
+                setCostumers(response);
             } catch (error) {
                 console.error('Lỗi khi lấy danh sách ảnh:', error);
             }
@@ -60,50 +59,53 @@ const Equipment = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        console.log(equip_id);
-        const fetchData = async () => {
-            try {
-                const dataPhoto = await photo.getListPhotoByEquipmentId({ equip_id });
-                setUrl_photo(dataPhoto.url_photo)
-            } catch (error) {
-                console.error('Lỗi khi lấy danh sách ảnh:', error);
-            }
-        };
-        fetchData();
-    }, [equip_id]);
+    const fetchDataUrl = async () => {
+        try {
+            const dataPhoto = await photo.getListPhotoByCostumerId({ costume_id });
+            setUrl_photo(dataPhoto.url_photo)
+
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh:', error);
+        }
+    };
 
     const handleDeleteImage = async () => {
         try {
-            const deleteSuccess = await firebase.deleteImage(url_photo);
-            if (deleteSuccess) {
-                const deletePhoto = await photo.deletePhotoByEquipmentId(auth.accessToken, equip_id)
-                if (deletePhoto.statusCode === 204) {
-                    const deleteCostumer = await equipment.deleteEquipment(auth.accessToken, equip_id)
-                    if (deleteCostumer.statusCode === 204) {
-                        notify("Xóa thiết bị thành công", 'success');
-                        handleCloseModal();
-                    }
-                    else {
-                        notify("Xóa thiết bị không thành công", 'error');
-                    }
-                }
-                else {
-                    notify("Xóa hình ảnh thiết bị không thành công", 'error');
-                }
-            }
-            else {
-                // Xóa không thành công, thực hiện xử lý tương ứng
-                notify("Xóa hình ảnh trên firebase không thành công", 'error');
-            }
+            if (url_photo) {
+                const deleteSuccess = await firebase.deleteImage(url_photo);
+                if (deleteSuccess || !deleteSuccess) {
+                    // If image is not found in Firebase or deleted successfully
+                    const deletePhoto = await photo.deletePhotoByCostumerId(auth.accessToken, costume_id)
 
+                    if (deletePhoto.statusCode === 204 || !deletePhoto) {
+                        // If photo is not found or deleted successfully in the photo table
+                        const deleteCostumer = await costumerApi.deleteCostumer(auth.accessToken, costume_id)
+                        console.log();
+                        if (deleteCostumer.statusCode === 204) {
+                            // If costume is not found or deleted successfully in the costumer table
+                            notify("Xóa trang phục thành công", 'success');
+                            handleCloseModal();
+                        } else {
+                            notify("Xóa trang phục không thành công", 'error');
+                        }
+                    } else {
+                        notify("Xóa hình ảnh trang phục không thành công", 'error');
+                    }
+                } else {
+                    // Xóa không thành công trên Firebase, thực hiện xử lý tương ứng
+                    notify("Xóa hình ảnh trên firebase không thành công", 'error');
+                }
+            }
         } catch (error) {
-            notify("Xóa thiết bị không thành công", 'error');
-
+            notify("Xóa trang phục không thành công", 'error');
         }
     };
     if (delete_costumer) {
-        handleDeleteImage();
+        fetchDataUrl().then(() => {
+            handleDeleteImage();
+        }).catch((error) => {
+            console.error('Lỗi xử lý:', error);
+        });
     }
 
 
@@ -112,35 +114,30 @@ const Equipment = () => {
         document.getElementById('my_modal_4 edit').showModal();
     };
     const openDeleteModal = (id) => {
-        setEquip_id(id)
+        setCostume_id(id)
         setOpenModal(true)
     }
-
-    useEffect(() => {
-        console.log(equipments);
-
-    }, [equipments])
-
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setReloadPage(true);
+
     };
-    const [equipmentsCategory, setEquipmentCategory] = useState([]);
+    const [costumersCategory, setCostumersCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData1 = async () => {
             try {
-                const response = await equipment.getAllCategoryOfEquipment();
-                //console.log(response);
-                setEquipmentCategory(response);
+                const response = await costumerApi.getAllCategoryOfCostumes();
+                setCostumersCategory(response)
             } catch (error) {
                 console.error('Lỗi khi lấy danh sách ảnh:', error);
             }
         };
-        fetchData();
+        fetchData1();
     }, []);
-    const filteredStudios = equipments.filter((studio) => {
+    const filteredStudios = costumers.filter((studio) => {
         const lowerCaseName = studio.name.toLowerCase();
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         const isNameMatch = lowerCaseName.includes(lowerCaseSearchTerm);
@@ -156,7 +153,7 @@ const Equipment = () => {
         <div>
             <ToastContainer />
             <div className='w-full flex items-center justify-center m-2'>
-                <span className='text-2xl font-semibold'>Quản Lí Thiết Bị Cho Thuê</span>
+                <span className='text-2xl font-semibold'>Quản Lí Sản Phẩm</span>
             </div>
             <div className='flex items-center justify-center'>
                 <div className='w-3/5 h-10 m-4 flex items-center justify-center'>
@@ -171,7 +168,7 @@ const Equipment = () => {
                                 value={selectedCategory}
                                 onChange={(e) => setSelectedCategory(e.target.value)}>
                                 <option disabled selected>Lựa chọn</option>
-                                {equipmentsCategory.map((item) => {
+                                {costumersCategory.map((item) => {
                                     return (
                                         <option>{item}</option>
                                     )
@@ -180,13 +177,13 @@ const Equipment = () => {
                         </div>
                     </div>
                     <div className='flex items-center justify-center'>
-                        <Button gradientMonochrome="lime" onClick={() => document.getElementById('my_modal_4_1').showModal()}>Thêm Thiết Bị Mới</Button>
+                        <Button gradientMonochrome="lime" onClick={() => document.getElementById('my_modal_4_1').showModal()}>Thêm Trang Phục Mới</Button>
                     </div>
                 </div>
             </div>
             <dialog id="my_modal_4_1" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
-                    <AddEquipment />
+                    <AddCostumer />
                     <div className="modal-action">
                         <form method="dialog">
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
@@ -198,33 +195,36 @@ const Equipment = () => {
             <div className='flex items-center justify-center'>
                 <div className='w-[80%] m-4'>
                     <Table>
-                        <Table.Head>
+                        <Table.Head className='font-bold text-black'>
                             <Table.HeadCell>Tên</Table.HeadCell>
-                            <Table.HeadCell>Giá</Table.HeadCell>
+                            <Table.HeadCell>Giá mới</Table.HeadCell>
+                            <Table.HeadCell>Giá cũ</Table.HeadCell>
                             <Table.HeadCell>Loại</Table.HeadCell>
+                            <Table.HeadCell>Mô tả</Table.HeadCell>
                             <Table.HeadCell>Số lượng</Table.HeadCell>
                             <Table.HeadCell>
                                 <span className="sr-only">Edit</span>
                             </Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            {filteredStudios.map((item) => {
+                            {productsList.map((product) => {
                                 return (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                                            {item.name}
+                                        <Table.Cell className='font-bold text-black'>
+                                            {product.name}
                                         </Table.Cell>
-                                        <Table.Cell>{formatCurrency(item.price)}</Table.Cell>
-                                        <Table.Cell>{item.category}</Table.Cell>
-                                        <Table.Cell>{item.quantity}</Table.Cell>
+                                        <Table.Cell>{formatCurrency(product.discounted_price)}</Table.Cell>
+                                        <Table.Cell>{formatCurrency(product.price)}</Table.Cell>
+                                        <Table.Cell>{product.category}</Table.Cell>
+                                        <Table.Cell>{product.description}</Table.Cell>
 
                                         <Table.Cell>
                                             <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
-                                                onClick={() => openEditModal(item)}>
+                                                onClick={() => openEditModal(product)}>
                                                 Sửa
                                             </a>
                                             <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
-                                                onClick={() => openDeleteModal(item.id)}>
+                                                onClick={() => openDeleteModal(product.id)}>
                                                 Xóa
                                             </a>
                                         </Table.Cell>
@@ -233,7 +233,7 @@ const Equipment = () => {
                             })}
                             <dialog id="my_modal_4 edit" className="modal">
                                 <div className="modal-box w-11/12 max-w-5xl">
-                                    <EdidEquipment equipment={selectedCustomer} />
+                                    <EdidCostumer costumer={selectedCustomer} />
                                     <div className="modal-action">
                                         <form method="dialog">
                                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
@@ -248,7 +248,7 @@ const Equipment = () => {
                                     <div className="text-center">
                                         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                            Bạn có chắc rằng bạn muốn xóa thiết bị này?
+                                            Bạn có chắc rằng bạn muốn xóa trang phục này?
                                         </h3>
                                         <div className="flex justify-center gap-4">
                                             <Button color="failure" onClick={() => { setOpenModal(false); setDelete_costumer(true) }}>
@@ -261,6 +261,7 @@ const Equipment = () => {
                                     </div>
                                 </Modal.Body>
                             </Modal>
+
                         </Table.Body>
                     </Table>
                 </div>
@@ -269,4 +270,4 @@ const Equipment = () => {
     )
 }
 
-export default Equipment
+export default Product

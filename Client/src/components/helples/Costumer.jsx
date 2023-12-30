@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as costumer from '../../apis/costumer';
 import PhotoByCostumer from './PhotoByCostumer';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { formatCurrency } from './Format'
 
 const Costumer = ({ onSelectCostumer }) => {
     const notify = (message, type) => {
@@ -108,8 +108,12 @@ const Costumer = ({ onSelectCostumer }) => {
                                 <PhotoByCostumer costume_id={studio.id} />
                             </div>
                             <div className="card-body">
-                                <h2 className="card-title text-base">{studio.name}</h2>
-                                <p className='text-red-400 font-semibold animate-bounce'>{studio.price} .VND / {studio.rental_start_date}</p>
+                                <div className='h-[60px]'>
+                                    <h2 className="card-title text-base overflow-hidden overflow-ellipsis" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+                                        {studio.name}
+                                    </h2>
+                                </div>
+                                <p className='text-red-400 font-semibold animate-bounce'>{formatCurrency(studio.price)} / {studio.rental_start_date}</p>
                                 <p>Số lượng còn lại : {studio.quantity}</p>
                                 <div className="card-actions justify-end">
                                     <button className="btn bg-btnprimary mx-2" onClick={() => {

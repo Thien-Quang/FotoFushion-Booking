@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { icons } from "../../utils/icons";
 import HoSoCaNhan from './HoSoCaNhan';
-
+import bgProfile from '../../public/img/bgprofile.jpg'
 
 
 const Profile = () => {
@@ -72,7 +72,7 @@ const Profile = () => {
                     <div className="w-3/4 m-4 bg-black rounded-xl">
                         <div className='relative'>
                             <img
-                                src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fbgprofile.jpg?alt=media&token=9b1d45dc-0459-4109-826d-3a79de3fac95"
+                                src={bgProfile}
                                 alt="Background"
                                 style={{
                                     width: '100%', // Đặt chiều rộng theo mong muốn

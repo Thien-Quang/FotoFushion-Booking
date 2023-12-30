@@ -43,6 +43,7 @@ const updateCostumer = async (accessToken, id, name, category, price, quantity, 
         };
     }
 };
+
 const deleteCostumer = async (accessToken, id) => {
     try {
         const response = await axiosClient.delete(`/deleteCostumeById/${id}`, {
@@ -72,6 +73,17 @@ const getAllCostumer = async () => {
         throw error;
     }
 };
+const getAllCostumerById = async (id) => {
+    try {
+        const response = await axiosClient.get(`/getCostumeById/${id}`)
+        if (response.data) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
 const getAllCategoryOfCostumes = async () => {
     try {
         const response = await axiosClient.get(`/getAllCategoryOfCostumes`)
@@ -89,6 +101,7 @@ export {
     getAllCostumer,
     updateCostumer,
     deleteCostumer,
-    getAllCategoryOfCostumes
+    getAllCategoryOfCostumes,
+    getAllCostumerById
 
 };

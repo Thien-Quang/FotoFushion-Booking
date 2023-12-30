@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import AuthContext from '../../context/authProvider';
 
 const ContactUs = () => {
+    const { auth } = useContext(AuthContext);
+
     return (
         <div>
             <section class="m-32">
@@ -23,7 +26,7 @@ const ContactUs = () => {
                                             id="exampleInput90" />
                                         <label
                                             class="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none "
-                                            for="exampleInput90">Name
+                                            for="exampleInput90">{auth.fullName}
                                         </label>
                                     </div>
                                     <div class="relative mb-6" data-te-input-wrapper-init>
@@ -32,7 +35,7 @@ const ContactUs = () => {
                                             id="exampleInput91" />
                                         <label
                                             class="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none "
-                                            for="exampleInput91">Email address
+                                            for="exampleInput91">{auth.email}
                                         </label>
                                     </div>
                                     <div class="relative mb-6" data-te-input-wrapper-init>
@@ -52,7 +55,7 @@ const ContactUs = () => {
                                     </div>
                                     <button type="button"
                                         class="mb-6 w-full rounded bg-sky-500 text-white px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal   lg:mb-0">
-                                        Send
+                                        Gửi
                                     </button>
                                 </form>
                             </div>
@@ -71,13 +74,13 @@ const ContactUs = () => {
                                             </div>
                                             <div class="ml-6 grow">
                                                 <p class="mb-2 font-bold ">
-                                                    Technical support
+                                                    Liên hệ với chúng tôi
                                                 </p>
                                                 <p class="text-sm text-neutral-500">
-                                                    example@gmail.com
+                                                    fotofushion@gmail.com
                                                 </p>
                                                 <p class="text-sm text-neutral-500">
-                                                    1-600-890-4567
+                                                    0345.234.128
                                                 </p>
                                             </div>
                                         </div>
@@ -95,10 +98,10 @@ const ContactUs = () => {
                                             </div>
                                             <div class="ml-6 grow">
                                                 <p class="mb-2 font-bold ">
-                                                    Address
+                                                    Địa chỉ
                                                 </p>
                                                 <p class="text-sm text-neutral-500">
-                                                    abcd, <br /> xyz
+                                                    254 Nguyễn Văn Linh
                                                 </p>
                                             </div>
                                         </div>
@@ -120,8 +123,8 @@ const ContactUs = () => {
                                                 </div>
                                             </div>
                                             <div class="ml-6 grow">
-                                                <p class="mb-2 font-bold ">Land Line</p>
-                                                <p class="text-neutral-500"> (0421) 431 2030
+                                                <p class="mb-2 font-bold ">FaceBook</p>
+                                                <p class="text-neutral-500"> FOTO FUSHION
                                                 </p>
                                             </div>
                                         </div>

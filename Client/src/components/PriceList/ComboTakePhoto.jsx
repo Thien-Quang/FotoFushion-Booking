@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import * as price from '../../apis/priceList'
 import BookingAlbums from '../Booking/bookingAlbums';
+import { formatCurrency } from '../helples/Format'
+
 
 const ComboTakePhoto = () => {
 
@@ -36,16 +38,17 @@ const ComboTakePhoto = () => {
                         return (
                             <div class="border border-slate-200 rounded-lg shadow-sm divide-y divide-slate-200 bg-white">
                                 <div class="p-6">
-                                    <h2 class="text-xl leading-6 font-bold text-slate-900">{pricelist.name}</h2>
-                                    <p class="mt-2 text-base text-slate-700 leading-tight">Thiết bị chụp : {pricelist.camera_equipment}</p>
-                                    <p class="mt-2 text-base text-slate-700 leading-tight">Thiết bị chiếu sáng : {pricelist.light_equip}</p>
-                                    <p class="mt-2 text-base text-slate-700 leading-tight">Địa điểm : {pricelist.location}</p>
-                                    <p class="mt-2 text-base text-slate-700 leading-tight">Số lượng camera : {pricelist.number_camera} ; Số lượng hình ảnh : {pricelist.number_photo} </p>
-                                    <p class="mt-2 text-base text-slate-700 leading-tight">Số lượng thợ chụp : {pricelist.number_photographer} ; Số lượng thợ phụ : {pricelist.number_assistant_photographer} </p>
-                                    <p class="mt-2 text-base text-slate-700 leading-tight" style={{ whiteSpace: 'pre-line' }}>{pricelist.description}  </p>
+                                    <div className='min-h-[400px] '>
+                                        <h2 class="text-xl leading-6 font-bold text-slate-900">{pricelist.name}</h2>
+                                        <p class="mt-2 text-base text-slate-700 leading-tight">Thiết bị chụp : {pricelist.camera_equipment}</p>
+                                        <p class="mt-2 text-base text-slate-700 leading-tight">Thiết bị chiếu sáng : {pricelist.light_equip}</p>
+                                        <p class="mt-2 text-base text-slate-700 leading-tight">Địa điểm : {pricelist.location}</p>
+                                        <p class="mt-2 text-base text-slate-700 leading-tight">Số lượng camera : {pricelist.number_camera} ; Số lượng hình ảnh : {pricelist.number_photo} </p>
+                                        <p class="mt-2 text-base text-slate-700 leading-tight">Số lượng thợ chụp : {pricelist.number_photographer} ; Số lượng thợ phụ : {pricelist.number_assistant_photographer} </p>
+                                        <p class="mt-2 text-base text-slate-700 leading-tight" style={{ whiteSpace: 'pre-line' }}>{pricelist.description}  </p>
+                                    </div>
                                     <p class="mt-8">
-                                        <span class="text-4xl font-bold text-red-400 animate-bounce'">{pricelist.price}</span>
-                                        <span class="text-base font-medium text-slate-500"> VND</span>
+                                        <span class="text-4xl font-bold text-red-400 animate-bounce'">{formatCurrency(pricelist.price)}</span>
                                     </p>
                                     <button
                                         class="mt-8 block w-full bg-btnprimary rounded-md py-4 text-xl text-white text-center font-semibold"

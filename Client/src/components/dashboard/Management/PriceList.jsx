@@ -9,6 +9,8 @@ import EdidPriceList from '../edid/edidPriceList';
 import { ToastContainer, toast } from 'react-toastify';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
+import { formatCurrency, formatDateTime } from '../../helples/Format'
+
 
 const PriceList = () => {
     const [equipments, setEquipments] = useState([])
@@ -129,10 +131,10 @@ const PriceList = () => {
             <div className='flex items-center justify-center'>
                 <div className='w-[95%] m-4'>
                     <Table>
-                        <Table.Head>
-                            <Table.HeadCell>Tên</Table.HeadCell>
-                            <Table.HeadCell>Giá</Table.HeadCell>
-                            <Table.HeadCell>Vị trí</Table.HeadCell>
+                        <Table.Head className='font-bold text-black'>
+                            <Table.HeadCell className='flex items-center justify-center'>Tên</Table.HeadCell>
+                            <Table.HeadCell className='flex items-center justify-center'>Giá</Table.HeadCell>
+                            <Table.HeadCell >Vị trí</Table.HeadCell>
                             <Table.HeadCell>Mô tả </Table.HeadCell>
                             <Table.HeadCell>khách hàng đạt được</Table.HeadCell>
 
@@ -144,10 +146,10 @@ const PriceList = () => {
                             {filteredFriceList.map((item) => {
                                 return (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                        <Table.Cell className='font-bold text-black'>
                                             {item.name}
                                         </Table.Cell>
-                                        <Table.Cell>{item.price}</Table.Cell>
+                                        <Table.Cell>{formatCurrency(item.price)}</Table.Cell>
                                         <Table.Cell>{item.location}</Table.Cell>
                                         <Table.Cell>{item.description}</Table.Cell>
                                         <Table.Cell>{item.additional_info}</Table.Cell>

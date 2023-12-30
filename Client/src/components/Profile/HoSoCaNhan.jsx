@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AuthContext from '../../context/authProvider';
 import { Button } from 'flowbite-react'
+
 
 const HoSoCaNhan = () => {
     const { auth } = useContext(AuthContext);
@@ -47,43 +48,23 @@ const HoSoCaNhan = () => {
     return (
         <div className='w-full h-auto'>
             <div className='relative'>
-                <div className='absolute top-0 w-full '>
+                <div className='absolute top-0 w-full flex items-center justify-center'>
                     <div class="py-4 px-6 flex items-center justify-center">
-                        <div className='p-4 rounded shadow-sm m-2 w-full text-white'>
+                        <div className='p-4 rounded shadow-sm m-2 w-full text-white border bg-black'>
                             <div className='flex items-center justify-center'>
-                                <label class="block  font-bold mb-2 text-3xl text-white" for="name">
-                                    Thông Tin Cá Nhân
-                                </label>
+                                <div className="flex flex-col items-center pb-10">
+                                    <div className="avatar">
+                                        <div className="w-28 rounded-full">
+                                            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                        </div>
+                                    </div>
+                                    <h5 className="mb-1 text-xl font-medium text-white">{auth.fullName}</h5>
+                                    <span className="text-sm text-white">{auth.phone}</span>
+                                </div>
                             </div>
 
-                            <div class="mb-4 w-[48%]">
-                                <label class="block text-white font-bold mb-2" for="name">
-                                    Tên Khách Hàng
-                                </label>
-                                <input
-                                    className={`input input-bordered ${isEditing ? 'input-warning' : ''} w-full max-w-xs text-black font-semibold  max-sm:text-xs leading-tight focus:outline-none focus:shadow-outline`}
-                                    id="name"
-                                    type="text"
-                                    value={isEditing ? editedData.fullName : auth.fullName}
-                                    readOnly={!isEditing}
-                                    onChange={handleInputChange}
-                                    name="fullName"
-                                />
-                            </div>
-                            <div class="mb-4 w-[48%]">
-                                <label class="block text-white font-bold mb-2" for="phoneNumber">
-                                    Số Điện Thoại
-                                </label>
-                                <input
-                                    className={`input input-bordered ${isEditing ? 'input-warning' : ''} w-full max-w-xs text-black max-sm:text-xs font-semibold leading-tight focus:outline-none focus:shadow-outline`}
-                                    id="phoneNumber"
-                                    type="number"
-                                    value={isEditing ? editedData.phone : auth.phone}
-                                    readOnly={!isEditing}
-                                    onChange={handleInputChange}
-                                    name="phone"
-                                />
-                            </div>
+
+
                             <div class="mb-4 max-sm:text-xs">
                                 <label class="block text-white font-bold mb-2" for="email">
                                     Email
@@ -123,13 +104,14 @@ const HoSoCaNhan = () => {
                                     />
                                 )}
                             </div>
+
                             <div className='ml-[15%]'>
                                 {isEditing ? (
                                     <div className='flex items-start justify-start'>
-                                        <Button className='bg-green-400' onClick={handleSave}>
+                                        <Button className='bg-green-400 m-2' onClick={handleSave}>
                                             Lưu
                                         </Button>
-                                        <Button className='bg-red-400' onClick={handleCancel}>
+                                        <Button className='bg-red-400 m-2' onClick={handleCancel}>
                                             Hủy
                                         </Button>
                                     </div>

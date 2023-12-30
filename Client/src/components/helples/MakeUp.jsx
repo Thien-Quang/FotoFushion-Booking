@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as price from '../../apis/priceList'
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import { formatCurrency } from './Format'
 
 const MakeUp = ({ onSelectMakeUp }) => {
     const notify = (message, type) => {
@@ -44,8 +45,12 @@ const MakeUp = ({ onSelectMakeUp }) => {
                             return (
                                 <div className="card w-96 bg-white text-black m-4">
                                     <div className="card-body">
-                                        <h2 className="card-title">{price.name}</h2>
-                                        <p className='text-lg text-red-400 font-semibold animate-bounce'>{price.price} VND</p>
+                                        <div className='h-[60px]'>
+                                            <h2 className="card-title text-base overflow-hidden overflow-ellipsis text-xl" style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+                                                {price.name}
+                                            </h2>
+                                        </div>
+                                        <p className='text-lg text-red-400 font-semibold animate-bounce'>{formatCurrency(price.price)}</p>
                                         <p style={{ whiteSpace: 'pre-line' }}>{price.description}</p>
                                         <div className="card-actions justify-end">
                                             <Link to='/bookingonline' >

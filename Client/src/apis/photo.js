@@ -1,3 +1,4 @@
+
 import axiosClient from '../config/axios.config';
 
 const getListPhotoByAlbumsId = async ({ albumsid }) => {
@@ -120,15 +121,23 @@ const getAllPhotosByEventId = async ({ event_id }) => {
         throw error;
     }
 };
-const getAllPhotosByProductId = async ({ prod_id }) => {
-    console.log(prod_id);
+const getAllPhotosByProductId = async () => {
+
     try {
-        const response = await axiosClient.get(`/getAllPhotosByProductId/${prod_id}`)
+        const response = await axiosClient.get(`/getAllPhotosByProductId/`)
         console.log(response.data);
 
         // Trích xuất dữ liệu từ response và trả về chỉ dữ liệu.
         if (response) {
-            return response.data
+            const photoData = response.data.map(photo => ({
+                ...photo.product,
+                url_photo: photo.url_photo,
+            }));
+
+            return {
+                data: response.data,
+                photoData: photoData,
+            };
         }
     } catch (error) {
         console.error('Lỗi khi lấy danh sách ảnh:', error);

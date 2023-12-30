@@ -7,7 +7,23 @@ const getAllUser = async (accessToken) => {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        console.log(response);
+
+        return response.data
+    } catch (error) {
+        return {
+            error,
+            statusCode: error.status,
+        };
+    }
+};
+const getAllUsersIsCustomer = async (accessToken) => {
+    try {
+        const response = await axiosClient.get(`/getAllUsersIsCustomer`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
         return response.data
     } catch (error) {
         return {
@@ -54,5 +70,6 @@ const deleteUserByEmail = async (accessToken, email) => {
 };
 export {
     getAllUser,
-    deleteUserByEmail
+    deleteUserByEmail,
+    getAllUsersIsCustomer
 };

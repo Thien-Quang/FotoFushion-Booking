@@ -81,11 +81,23 @@ const getAllCategoryOfLocation = async () => {
         throw error;
     }
 };
+const getLocationById = async (id) => {
+    try {
+        const response = await axiosClient.get(`/getLocationsById/${id}`)
+        if (response.data) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        throw error;
+    }
+};
 export {
     createNewLocations,
     GetAllLocations,
     deleteLocationsById,
     UpdateLocationsById,
-    getAllCategoryOfLocation
+    getAllCategoryOfLocation,
+    getLocationById
 
 };

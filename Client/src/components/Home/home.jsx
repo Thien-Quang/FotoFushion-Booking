@@ -1,10 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SlidePhoto from '../SlidePhoto/SlidePhoto';
 import SlideHome from '../SlidePhoto/SlideHome';
 import { getAlbumsPhoto } from '../../apis/albumphoto'
 import { Link } from 'react-router-dom';
+import ProductsContext from '../../context/productProvider';
+import { formatCurrency } from '../helples/Format'
+
 
 const Home = () => {
+  const { productsList } = useContext(ProductsContext);
+
   const [albums, setAlbums] = useState([]);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -15,7 +20,9 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const response = await getAlbumsPhoto();
-        console.log(response);
+        //console.log(response);
+
+
         setAlbums(response);
       } catch (error) {
         console.error('Lỗi khi lấy danh sách ảnh:', error);
@@ -24,6 +31,11 @@ const Home = () => {
 
     fetchData();
   }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     console.log(products);
+  //   };
+  // }, [products])
 
   return (
     <div className='w-full bg-black'>
@@ -71,17 +83,24 @@ const Home = () => {
         </div>
         <div className='w-full flex items-center justify-center'>
           <div className='grid grid-cols-4 max-sm:grid-cols-1 max-lg:grid-cols-2 gap-4'>
-            {albums.slice(0, 8).map((album, index) => (
+            {productsList.slice(0, 8).map((product, index) => (
               <div className='h-auto w-64 bg-white cursor-pointer transition duration-500 ease-in-out hover:opacity-50 hover:shadow-xl '>
-                <img src={album.cover_photo} alt="" className='h-80 w-64 object-cover' />
+                <div className='h-80 flex items-center justify-center '>
+                  <img src={product.url_photo} alt="" className='h-full w-full object-cover rounded-t-md' />
+                </div>
                 <div className='flex items-center justify-center'>
-                  <div className='h-16 w-full bg-black border shadow-xl rounded-md'>
-                    <div className='flex items-center justify-start'>
-                      <span className='ml-3 text-white text-xl '>{album.name}</span>
+
+                  <div className='h-auto w-full bg-black border shadow-xl rounded-md'>
+                    <div className='h-16 flex items-center justify-start'>
+                      <span className='ml-3 text-white text-lg'>{product.name}</span>
                     </div>
-                    <div className='flex items-center justify-start'>
-                      <span class="ml-3 text-md font-medium text-white line-through ">$109</span>
-                      <span class="ml-3 text-white text-md font-medium">$79</span>
+                    <div className='flex items-end justify-between'>
+                      <span className="ml-3 text-md font-medium text-white line-through">
+                        {formatCurrency(product.price)}
+                      </span>
+                      <span className="ml-3 text-red-500 text-base font-medium animate-bounce">
+                        {formatCurrency(product.discounted_price)}
+                      </span>
                     </div>
                   </div>
                 </div>

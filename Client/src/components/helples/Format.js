@@ -14,3 +14,14 @@ export function formatDateTime(dateTimeString) {
 
     return formattedDateTime;
 }
+export function formatCurrency(amount) {
+    const formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0, // Số chữ số sau dấu phẩy
+        maximumFractionDigits: 0,
+    });
+
+    const formattedAmount = formatter.format(amount).replace(/\./g, ',');
+    return formattedAmount;
+}

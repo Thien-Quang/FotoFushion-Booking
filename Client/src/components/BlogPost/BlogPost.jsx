@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { icons } from '../../utils/icons';
 import { Dropdown } from 'flowbite-react';
 import * as blogpost from '../../apis/blogpost'
-
+import { formatDateTime } from '../helples/Format'
 import PhotoByBlogPost from '../helples/PhotoByBlogPost';
 import Comment from '../helples/Comment';
 
@@ -57,7 +57,7 @@ const BlogPost = () => {
                                         <img src="https://via.placeholder.com/200" class="float-left rounded-full w-10 h-10 m-1 mr-3" />
                                         <div>
                                             <h3 class="text-lg font-bold">{blogpost.author}</h3>
-                                            <p class="text-sm text-gray-600">{blogpost.date}</p>
+                                            <p class="text-sm text-gray-600">{formatDateTime(blogpost.date)}</p>
                                         </div>
                                     </header>
                                     <section >
