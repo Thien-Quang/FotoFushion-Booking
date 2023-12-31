@@ -175,10 +175,11 @@ class StoreService {
             console.error('Lỗi:', error);
           } 
     }
+    
 
 }
-const a = new StoreService();
-a.deleteAllProductInCart("eee3bc05-88d3-408b-9da3-553c854cd1eb");
+// const a = new StoreService();
+// a.deleteAllProductInCart("eee3bc05-88d3-408b-9da3-553c854cd1eb");
 // a.deleteProductInCart("U1","1");
 // .then((data) => {
 //     console.log(data);

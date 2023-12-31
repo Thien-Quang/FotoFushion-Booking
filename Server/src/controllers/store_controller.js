@@ -1,6 +1,8 @@
 const StoreService = require('../Services/store_service')
 const User = require('../models/users_models');
 const jwt = require('jsonwebtoken');
+let express = require('express');
+
 
 const getAllProductAndImg = async (req, res) => {
     try {
@@ -119,7 +121,9 @@ const deleteProduct = async (req, res) => {
         
         res.status(500).json({ error: 'Đã xảy ra lỗi xoá mặt hàng2.'});
     }
+
 };
+
 module.exports = {
     getAllProductAndImg,
     addProductToCart,
