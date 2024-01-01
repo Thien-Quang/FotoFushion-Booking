@@ -35,7 +35,7 @@ const Comment = () => {
                         <div className='flex items-start justify-start '>
                             <h1 className='text-base font-semibold'>Thiên Quang</h1>
                         </div>
-                        <div className='px-2'>
+                        <div className='px-2 w-full text-left'>
                             <h2>Hình chụp đẹp quá .Tôi muốn chụp theo phong cách này thì xem báo giá ở đâu vậy </h2>
                         </div>
                         <div className='flex'>
