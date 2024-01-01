@@ -1,6 +1,10 @@
 import axiosClient from "../config/axios.config";
 import axios from "axios";
 
+const header = {
+  baseURL: "https://vapi.vnappmob.com",
+};
+
 const getListAdressesByUserApi = async ({ userId }) => {
   const res = await axiosClient.get(`/address/list-addreeses/${userId}`);
   if (res) {
@@ -16,7 +20,7 @@ const addAddressApi = async ({ userId, data }) => {
 };
 
 const getListProvinceVietNamApi = async () => {
-  const res = await axios.get(`${process.env.REACT_APP_VAPI_URL}/api/province`);
+  const res = await axios.get(`/api/province`, header);
   if (res && res.data) {
     return res.data;
   }
@@ -32,9 +36,7 @@ const getListDistrictsVietNamApi = async ({ provinceId }) => {
 };
 
 const getListWardsVietNamApi = async ({ districtId }) => {
-  const res = await axios.get(
-    `${process.env.REACT_APP_VAPI_URL}/api/province/ward/${districtId}`
-  );
+  const res = await axios.get(`/api/province/ward/${districtId}`, header);
   if (res && res.data) {
     return res.data;
   }

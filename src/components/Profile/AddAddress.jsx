@@ -131,8 +131,10 @@ const AddAddress = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 bg-opacity border-2 border-white py-10 px-5 rounded-3xl">
-      <h4 className="font-bold text-lg uppercase text-center">Thêm Địa Chỉ</h4>
+    <div className="flex flex-col gap-5 bg-slate-300 border-2 border-white py-10 px-5 rounded-3xl">
+      <h4 className="font-bold text-lg text-black uppercase text-center">
+        Thêm Địa Chỉ
+      </h4>
 
       <div className="grid grid-cols-2 gap-3">
         <div className="">
@@ -245,7 +247,7 @@ const AddAddress = () => {
           />
         </div>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center text-black text-lg">
         <Button primary onClick={handleAddAddress}>
           Thêm
         </Button>

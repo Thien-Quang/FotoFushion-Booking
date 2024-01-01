@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
 const primaryStyle =
-  "text-sm text-white bg-primary-400 hover:bg-primary-500 transition-all";
+  "text-sm text-white bg-slate-500 hover:bg-slate-400 transition-all";
 const outlineStyle =
   "text-sm text-primary-400 border-2 border-primary-400 hover:bg-cyan-50 transition-all";
 
