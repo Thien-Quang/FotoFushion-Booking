@@ -9,10 +9,11 @@ const StoreService = require('../Services/store_service');
 const { email } = require('../helper/joi_schema');
 
 class PaymentService {
-    async sucessPaymentForRequest(user_id) {
+    async sucessPaymentForRequest(id, user_id) {
         try {
             Request.update({ is_status: true }, {
                 where: {
+                    id,
                   user_id
                 },
               })
@@ -27,11 +28,11 @@ class PaymentService {
             throw error;
         }
     }
-    async sucessPaymentForBookingdetails(user_id) {
+    async sucessPaymentForBookingdetails(id , user_id) {
         try {
             BookingDetail.update(
                 { payment_status: 'Đã thanh toán' },
-                { where: { user_id} }
+                { where: { id, user_id} }
               )
                 .then((result) => {
                   console.log(`Số dòng được cập nhật: ${result[0]}`);
@@ -106,8 +107,8 @@ class PaymentService {
         return email;
     }
 };
- const a = new PaymentService();
- a.test()
+//  const a = new PaymentService();
+//  a.test()
 //  .then((data) => {
 //     console.log(data);
 //  })

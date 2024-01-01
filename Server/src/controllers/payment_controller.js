@@ -12,7 +12,7 @@ const User = require('../models/users_models');
 
 const createPayment = async (req, res) => {
     process.env.TZ = 'Asia/Ho_Chi_Minh';
-    console.log("lllllllllllllllllllllllllllllll", req.body);
+    //console.log("lllllllllllllllllllllllllllllll", req.body);
     let date = new Date();
     let createDate = moment(date).format('YYYYMMDDHHmmss');
     
@@ -48,6 +48,7 @@ const createPayment = async (req, res) => {
     const user_name = user.name;
     
     let payment_type = req.body.payment_type;
+    let id = req.body.id;
     let payment_message = "";
     //1: thanh toan product 2: thanh toan chinh anh 3: thanh toan booking
     if(payment_type == "1"){
@@ -67,7 +68,7 @@ const createPayment = async (req, res) => {
     vnp_Params['vnp_Locale'] = locale;
     vnp_Params['vnp_CurrCode'] = currCode;
     vnp_Params['vnp_TxnRef'] = orderId;
-    vnp_Params['vnp_OrderInfo'] = payment_message + orderId + " Loai GD: fotofushion"+ payment_type + " email: "+ email ;
+    vnp_Params['vnp_OrderInfo'] = payment_message + orderId + " Loai GD: fotofushion"+ payment_type + " email: "+ email + " id :"  + id;
     vnp_Params['vnp_OrderType'] = 'other';
     vnp_Params['vnp_Amount'] = amount * 100;
     vnp_Params['vnp_ReturnUrl'] = returnUrl;
@@ -76,7 +77,7 @@ const createPayment = async (req, res) => {
     if(bankCode !== null && bankCode !== ''){
         vnp_Params['vnp_BankCode'] = bankCode;
     }
-
+    console.log(">>>>>>>>>>>>>>>", vnp_Params.vnp_OrderInfo);
     vnp_Params = sortObject(vnp_Params);
     //console.log(vnp_Params);
     let querystring = require('qs');
@@ -121,7 +122,7 @@ const vnp_Return =  async (req, res) =>{
     
    
 
-    
+    const id = getId(order_inf);
     const email = getEmail(order_inf);
     const payment_type = getPaymentType(order_inf );
     console.log(email);
@@ -130,6 +131,7 @@ const vnp_Return =  async (req, res) =>{
             email: email
         }
     });
+    
     if(!user){
         res.status(500).json({ error: 'Đã xảy ra lỗi không tìm thấy user' });
     }
@@ -139,11 +141,12 @@ const vnp_Return =  async (req, res) =>{
         PaymentService.sucessPaymentForStore(user_id);
     }else if(payment_type == "fotofushion2"){
         //console.log("theem du lieu vao bang reques");
-        PaymentService.sucessPaymentForRequest(user_id);
+        PaymentService.sucessPaymentForRequest(id, user_id);
     }else{
         //console.log("theem du lieu vao bang booking details");
-        PaymentService.sucessPaymentForBookingdetails(user_id, amount);
+        PaymentService.sucessPaymentForBookingdetails(id, user_id, amount);
     }
+
     const htmlReport = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -255,6 +258,17 @@ function getPaymentType(order_inf){
     // Kiểm tra xem có kết quả hay không và lấy giá trị từ nhóm thứ nhất
     const payment_type = match && match[1]; 
     return payment_type;
+}
+function getId(order_inf) {
+    const regex = /id\s*:\s*(\d+)/;
+    const match = order_inf.match(regex);
+    
+    // Kiểm tra xem có khớp với regex hay không
+    if (match && match[1]) {
+        return match[1];
+    } else {
+        return null; // Hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
 }
 module.exports = {
 
