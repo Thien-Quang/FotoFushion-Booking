@@ -32,27 +32,27 @@ const getAllUsersIsCustomer = async (accessToken) => {
         };
     }
 };
-// const updateRoleAccount = async (accessToken, email, role_id) => {
+const updateAddress = async (accessToken, id, address) => {
 
-//     try {
-//         const response = await axiosClient.put(`/updateAccountByEmail/${email}`, { role_id: role_id }, {
-//             headers: {
+    try {
+        const response = await axiosClient.put(`/updateUser/${id}`, { address: address }, {
+            headers: {
 
-//                 Authorization: `Bearer ${accessToken}`,
-//             },
-//         });
-//         return {
-//             id: response.data.id,
-//             response: response.data,
-//             statusCode: response.status,
-//         };
-//     } catch (e) {
-//         return {
-//             error: e.response.data,
-//             status: e.response.status,
-//         };
-//     }
-// };
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            id: response.data.id,
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
 const deleteUserByEmail = async (accessToken, email) => {
     try {
         const response = await axiosClient.delete(`/deleteUserByEmail/${email}`, {
@@ -71,5 +71,6 @@ const deleteUserByEmail = async (accessToken, email) => {
 export {
     getAllUser,
     deleteUserByEmail,
-    getAllUsersIsCustomer
+    getAllUsersIsCustomer,
+    updateAddress
 };

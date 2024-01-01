@@ -33,9 +33,10 @@ import {
     FaArrowAltCircleLeft,
     FaShippingFast,
     FaHeadphonesAlt,
-    FaStar,
+    FaStar, FaCartPlus,
     FaUserCheck,
     FaRegAddressCard,
+    FaPlus, FaMinus
 } from "react-icons/fa";
 
 import { FcGoogle } from "react-icons/fc";
@@ -55,7 +56,7 @@ import {
     BsFillPhoneVibrateFill,
     BsMessenger,
     BsFillPersonPlusFill,
-    BsEyeSlashFill,
+    BsEyeSlashFill,BsCart4,
     BsInstagram, BsTwitter, BsFillPenFill,
 } from "react-icons/bs";
 import {
@@ -85,8 +86,8 @@ export const icons = {
     BsInstagram, BsTwitter, BsFillPenFill,
     IoInformationCircleOutline, IoAlbumsOutline,
     CiLocationOn, BiShare, AiOutlineComment,
-    BiUser,
-    AiOutlineMail,
+    BiUser, FaPlus, FaMinus, FaCartPlus,
+    AiOutlineMail,BsCart4,
     AiOutlineFacebook,
     AiOutlineYoutube,
     AiOutlineDown,

@@ -4,8 +4,8 @@ import {
   testUpdate, PhotoOfAlbums, AlbumsPage, PriceList, ContactUs, BlogPost,
   Studio, Costumer, DashBoard, MakeUp, ComboTakePhoto, ResetPassword,
   AddProduct, Location, AlbumsVideo, RequestEditPhoto, HomeEditor,
-  Store,
-  CartPage,
+  Store, ProductDetail,
+  ShoppingCart,
   Promotion,
   Payment,
 
@@ -39,16 +39,13 @@ const router = [{ path: "/", component: Home },
 
 { path: "/makeup", component: MakeUp },
 { path: "/combotakephoto", component: ComboTakePhoto },
-// { path: "/updateCostumer", component: UpdateCostumer },
-// { path: "/updateRoom", component: AddRoomPhoto },
-// { path: "/updateRoom", component: AddRoomPhoto },
-// { path: "/updatePricelist", component: AddPriceList },
-{ path: "/addproduct", component: AddProduct },
-// // Tri-router
+
 { path: "/store", component: Store },
-{ path: "/cart", component: CartPage },
-{ path: "/promotion", component: Promotion },
+{ path: '/products/:id', component: ProductDetail },
+{ path: "/cart", component: ShoppingCart },
 { path: "/payment", component: Payment },
+
+{ path: "/promotion", component: Promotion },
 
 { path: "/requestpage", component: RequestEditPhoto },
 { path: "/homeeditor", component: HomeEditor },

@@ -7,13 +7,15 @@ import { storage } from '../../config/firebase.config';
 import { v4 } from "uuid";
 import { Spinner } from '@material-tailwind/react';
 import * as requestApi from '../../apis/request'
-
+import { formatCurrency } from '../helples/Format'
 const RequestEditPage = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const { auth } = useContext(AuthContext);
     const [selectedFile, setSelectedFile] = useState(null);
     const [message, setMessage] = useState(null);
+    const EditFee = 100000;
+
 
     const notify = (message, type) => {
         const toastType = type === 'success' ? toast.success : toast.error;
@@ -28,6 +30,9 @@ const RequestEditPage = () => {
             theme: 'colored',
         });
     };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
     const [imageUploads, setImageUpload] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
     const handleFileChange = (e) => {
@@ -121,6 +126,17 @@ const RequestEditPage = () => {
 
                                 <div className='w-full mt-6'>
                                     <div>
+                                        <div class="mb-4 w-full">
+                                            <label class=" text-gray-700 font-bold my-4 flex items-start justify-start text-2xl" >
+                                                Giá cố định :
+                                                <span className=' text-red-700 ml-10'>
+                                                    {formatCurrency(EditFee)}
+                                                </span>
+                                            </label>
+                                            <label class="block text-gray-700 font-bold mb-2" for="phone">
+                                                Thanh toán online qua VNPay
+                                            </label>
+                                        </div>
 
                                         <div className='w-full max-sm:w-full max-md:w-full'>
                                             <div class="mb-4">

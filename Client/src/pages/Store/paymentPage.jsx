@@ -1,11 +1,11 @@
 import React from "react";
-import PaymentPage from "../components/payment//PaymentPage";
+import CheckOut from "../../components/Store/payment/CheckOut";
 
 const paymentPage = () => {
-  document.title = "booking online ";
+  document.title = "Thanh toán ";
   return (
     <div>
-      <PaymentPage />
+      <CheckOut />
     </div>
   );
 };

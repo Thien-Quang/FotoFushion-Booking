@@ -148,9 +148,16 @@ function Header() {
                   </Link>
                 </div>
               </Navbar.Collapse>
-              {hasUser ? (
 
+              {hasUser ? (
                 <div className="flex md:order-2 text-white">
+                  <div className="flex items-center justify-center">
+                    <Link to='/cart' >
+                      <div className="w-10 h-10 rounded-full border border-white flex items-center justify-center mr-2 hover:bg-btnprimary hover:text-white ">
+                        <icons.BsCart4 />
+                      </div>
+                    </Link>
+                  </div>
                   <Dropdown
                     arrowIcon={true}
                     inline

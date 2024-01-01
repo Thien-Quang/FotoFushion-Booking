@@ -3,15 +3,20 @@ import AuthContext from '../../context/authProvider';
 import { Button } from 'flowbite-react'
 import { Link } from 'react-router-dom';
 
+
 import { CreateABookingAlbums } from '../../apis/booking'
+import * as VNpayApi from '../../apis/vnpay'
 
 const BookingAlbums = ({ priceList }) => {
 
     const { auth } = useContext(AuthContext);
-
     const [dateTaking, setdateTaking] = useState(null);
     const [message, setMessage] = useState(null);
+    const [paymentMethod, setPaymentMethod] = useState(''); // Biến state cho phương thức thanh toán
 
+    const handlePaymentMethodChange = (event) => {
+        setPaymentMethod(event.target.value); // Cập nhật giá trị biến state paymentMethod khi thay đổi
+    };
 
     useEffect(() => {
         console.log(priceList);
@@ -31,6 +36,10 @@ const BookingAlbums = ({ priceList }) => {
             alert('Ngày chụp phải sau ít nhất 3 ngày kể từ ngày đặt lịch');
             return;
         }
+        if (paymentMethod === '') {
+            alert('Bạn chưa chọn hình thức thanh toán ')
+            return;
+        }
         const result = await CreateABookingAlbums(
             auth.accessToken,
             auth.id,
@@ -41,16 +50,18 @@ const BookingAlbums = ({ priceList }) => {
             'Chưa Xác Nhận',
             message,
         );
-
-        // Xử lý kết quả, ví dụ:
-        if (result.error) {
+        if (result.statusCode === 201) {
+            if (paymentMethod === 'VNPAY') {
+                const vnpay = await VNpayApi.creatPayment(priceList.price, auth.email, 3)
+            }
+            else {
+                alert('Đặt lịch thành công! Hãy để ý điện thoại và email chúng tôi sẽ liên lạc sớm nhất có thể', 'success');
+                setdateTaking(null);
+                setMessage('')
+            }
+        } else {
             alert(`Đặt lịch không thành công. Lỗi: ${result.error.message}`);
 
-        } else {
-            alert('Đặt lịch thành công! Hãy để ý điện thoại và email chúng tôi sẽ liên lạc sớm nhất có thể', 'success');
-            // Đặt lại trạng thái nếu cần
-            setdateTaking(null);
-            setMessage('')
         }
     };
     const Booking = () => {
@@ -140,19 +151,27 @@ const BookingAlbums = ({ priceList }) => {
                                     </div>
                                     <div class="mb-4 w-[30%] max-sm:w-full max-md:w-full">
                                         <label class="block text-gray-700 font-bold mb-2" for="date">
-                                            Tên
+                                            Tên Gói
                                         </label>
                                         <input
                                             className="input input-bordered input-warning w-full max-w-xs cursor-none text-red-500"
                                             id="name" type="text" value={priceList?.name || ''} readOnly />
                                     </div>
                                 </div>
+                                <div className="mb-4 mt-5">
+                                    <h3 className="text-green-500 text-xl font-medium mb-6">Phương Thức Thanh Toán</h3>
+                                    <select className="select select-warning w-full " onChange={handlePaymentMethodChange}>
+                                        <option disabled selected>Lựa chọn hình thức thanh toán</option>
+                                        <option value="FOTOFUSHION">Thanh Toán Tại Studio FotoFushion</option>
+                                        <option value="VNPAY">Thanh Toán Online VNPay</option>
+                                    </select>
+                                </div>
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-bold mb-2" for="message">
-                                        Message
+                                    <label class="text-green-500 text-xl font-medium mb-4" for="message">
+                                        Lời Nhắn Cho Studio
                                     </label>
                                     <textarea
-                                        className="textarea textarea-warning w-full"
+                                        className="textarea textarea-warning w-full mt-6"
                                         id="message" rows="4" placeholder="Nhập yêu cầu hoặc ý tưởng của bạn về buổi chụp bạn muốn" onChange={(event) => setMessage(event.target.value)} >
 
                                     </textarea>

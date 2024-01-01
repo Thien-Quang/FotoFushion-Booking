@@ -27,13 +27,15 @@ export { default as MakeUp } from "./Rental_items/makeup.jsx";
 export { default as Location } from "./Rental_items/location.jsx";
 
 
-export { default as Store } from "./storePage.jsx";
-export { default as CartPage } from "./cartPage.jsx";
-export { default as Promotion } from "./promotionPage.jsx";
-export { default as Payment } from "./paymentPage.jsx";
+export { default as Store } from "./Store/storePage.jsx";
+export { default as ProductDetail } from "./Store/productDetail.jsx";
+export { default as ShoppingCart } from "./Store/shoppingCart.jsx";
+export { default as Payment } from "./Store/paymentPage.jsx";
 
+
+export { default as Promotion } from "./promotionPage.jsx";
 export { default as RequestEditPhoto } from "./requestEditPhoto.jsx";
 export { default as HomeEditor } from "./Employee/homeEditor.jsx";
 
-export { default as AddProduct } from "./addproduct.jsx";
+
 
