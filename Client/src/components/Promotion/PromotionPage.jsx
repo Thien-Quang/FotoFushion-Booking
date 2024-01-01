@@ -8,20 +8,44 @@ import banner2 from "../../assets/images/web-mobile.jpg";
 // import subBanner1 from "../../assets/images/sub-slide1.jpg";
 // import subBanner2 from "../../assets/images/sub-slide2.jpg";
 import Slider from "./Slider";
-import Comment from "../helples/Comment";
-import { Dropdown } from "flowbite-react";
-// import SliderListImage from "./SliderListImage";
-import { icons } from '../../utils/icons';
-import PhotoByBlogPost from "../helples/PhotoByBlogPost";
+import { DoubleRightOutlined } from '@ant-design/icons';
+import CardPromotion from "../Card/CardPromotion";
 
 const PromotionPage = () => {
   const [promotionList, setPromotionList] = useState(
     [
       {
         id: '111',
-        name: 'Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ',
+        name: 'Nắm bát khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ niệm',
         author: 'Nameauthor',
         date: '22/12/2023',
+        description: 'Người dùng được miễn phí 500 MB data trong 30 ngày, tương đương 15 GB dữ liệu mỗi tháng, với cước phí 70.000 đồng khi đăng ký gói cước Z70. ',
+        status: 'Sắp diễn ra',
+        type: 'Tinh thần, cộng đồng',
+      },
+      {
+        id: '12',
+        date: '22/12/2023',
+        author: 'Nameauthor',
+        name: 'Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ',
+        description: 'Nhà mạng MobiFone tung gói cước 2MF150 kèm nhiều ưu đãi cho thuê bao mới như miễn phí 200 phút gọi ngoại mạng, không cước thuê bao tháng. ',
+        status: 'Sắp diễn ra',
+        type: 'Tinh thần, cộng đồng',
+      },
+      {
+        id: '12',
+        date: '22/12/2023',
+        author: 'Nameauthor',
+        name: 'Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ',
+        description: ' Content Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ',
+        status: 'Sắp diễn ra',
+        type: 'Tinh thần, cộng đồng',
+      },
+      {
+        id: '12',
+        date: '22/12/2023',
+        author: 'Nameauthor',
+        name: 'Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ',
         description: ' Content Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ',
         status: 'Sắp diễn ra',
         type: 'Tinh thần, cộng đồng',
@@ -54,116 +78,50 @@ const PromotionPage = () => {
   return (
     <>
       {/* {loading && <Loading />} */}
-      <div>
-        <div className="mx-auto w-full flex flex-col gap-6 pb-20 mt-28">
+      <>
+        <div className=" mx-auto w-3/4 flex flex-col gap-6 pb-20 mt-28">
           <div className="w-full grid grid-cols-10 gap-1 h-[150px]">
             <div className="col-span-10">
               <Slider listBanner={[banner1, banner2, banner1]} />
             </div>
           </div>
         </div>
-        <div className='w-full py-10 bg-zinc-400 min-h-[1000px] mt-[420px] flex items-center justify-center text-center'>
-          <div className='w-[80%]'>
-            {promotionList.map((promotion) => {
-              return (
-                <div className='m-4' key={promotion.id}>
-                  <div class="bg-white  rounded-lg shadow-lg max-w-[80%] mx-auto ">
-                    <header class="p-4 flex justify-between">
-                      <div class="flex" >
-                        <img
-                          src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                          class="float-left rounded-full w-10 h-10 m-1 mr-3"
-                          alt='avatar'
-                        />
-                        <div>
-                          <h3 class="text-lg font-bold">{promotion.author}</h3>
-                          <p class="text-sm text-gray-600">{promotion.date}</p>
-                        </div>
-                      </div>
+        <div class='mt-[320px] w-full flex justify-center'>
+          <div class='py-10 flex flex-col w-3/4 justify-center'>
+            <h1 class='text-6xl text-btnprimary bold' >Thông tin khuyến mãi</h1>
+            {/* blogList */}
+            <div class="w-full mt-10 flex flex-col gap-10">
+              {promotionList?.map((item) => (
+                <CardPromotion
+                  id={item?.id}
+                  // imageLink={item?.imageLink}
+                  title={item?.name}
+                  date={item?.date}
+                  description={item?.description}
+                  type={item?.type}
+                  status={item?.status}
+                  author={item?.author}
+                />
+              ))}
+            </div>
 
-                      <div class='flex justify-end gap-1'>
-                        <div class='rounded-md bg-red-500 text-white px-2 py-1 h-[35px]' >
-                          <span class='font-bold bold ' >{promotion?.status}</span>
-                        </div>
-                        <div class='rounded-md bg-btnprimary px-2 py-1 h-[35px]' >
-                          <span class='font-bold bold ' >{promotion?.type}</span>
-                        </div>
-                      </div>
-
-                    </header>
-
-                    <section >
-                      <div className='flex items-center justify-center'>
-                        <span className='text-2xl w-[75%] font-semibold flex items-start justify-start max-sm:text-base'>
-                          {promotion.name}
-                        </span>
-                      </div>
-                      <div>
-                        <PhotoByBlogPost blog_id={promotion.id} />
-                      </div>
-                      <div className='flex items-center justify-center'>
-                        <div className='w-[90%]  flex items-center justify-center'>
-                          <div className="collapse bg-base-200">
-                            <input type="checkbox" />
-                            <div className="collapse-title text-xl font-medium">
-                              Xem thêm ...
-                            </div>
-                            <div className="collapse-content">
-                              <p style={{ whiteSpace: 'pre-line' }}>
-                                {promotion.description}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-
-                    <footer class="p-4">
-                      <div className='grid grid-cols-3'>
-                        <div className='flex items-center justify-center'>
-                          <span className='py-2 px-6 rounded-md cursor-pointer hover:bg-blue-300 font-semibold flex items-center justify-center'
-                            onClick={handleLikeClick}>
-                            <span className='mr-2 '>
-                              {liked ? <icons.FcLike /> : <icons.FcLikePlaceholder />}
-                            </span>
-                            <span>
-                              {likes}  Thích
-                            </span>
-                          </span>
-                        </div>
-                        <div className='flex items-center justify-center'>
-                          <div className='py-2 px-6 rounded-md cursor-pointer hover:bg-blue-300 font-semibold flex items-center justify-center'>
-                            <span className='mr-2 '>
-                              <icons.AiOutlineComment />
-                            </span>
-                            <span>Bình Luận</span>
-                          </div>
-                        </div>
-                        <div className='flex items-center justify-center'>
-                          <div className='py-2 px-6 rounded-md cursor-pointer hover:bg-blue-300 font-semibold flex items-center justify-center'>
-                            <span className='mr-2 '>
-                              <icons.BiShare />
-                            </span>
-                            <Dropdown label="Chia sẻ" inline className='bg-gray-600'>
-                              <Dropdown.Item className='text-white hover:text-black'>Chia sẻ lên FaceBook</Dropdown.Item>
-                              <Dropdown.Item className='text-white hover:text-black'>Chia sẻ lên Instagram</Dropdown.Item>
-                              <Dropdown.Item className='text-white hover:text-black'>Chia sẻ qua messenger</Dropdown.Item>
-                              <Dropdown.Item className='text-white hover:text-black'>Chia sẻ qua zalo</Dropdown.Item>
-                            </Dropdown>
-                          </div>
-                        </div>
-                      </div>
-                      <div className='w-full'>
-                        <Comment />
-                      </div>
-                    </footer>
-                  </div>
+            {/* paging */}
+            <div class='cursor-pointer w-full mt-10 h-10 flex items-center justify-center text-btnprimary'>
+              <div class=' h-10 flex flex-row gap-4'>
+                <div class='w-20 border-1 border-solid border-2  border-btnprimary flex items-center justify-center '>Page 1/3</div>
+                <div class='flex gap-4'>
+                  <div class='w-10 border-1 flex items-center justify-center '>1</div>
+                  <div class='w-10 border-1 border-solid border-2  border-btnprimary flex items-center justify-center '>2</div>
+                  <div class='w-10 border-1 border-solid border-2  border-btnprimary flex items-center justify-center '>3</div>
+                  <div class='w-10 border-1 border-solid border-2  border-btnprimary flex items-center justify-center '>3</div>
+                  <div class='w-10 border-1 border-solid border-2  border-btnprimary flex items-center justify-center '>  <DoubleRightOutlined /></div>
                 </div>
-              );
-            })}
-          </div >
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
+      </>
     </>
   );
 };
