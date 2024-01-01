@@ -50,6 +50,8 @@ const createPayment = async (req, res) => {
     let payment_type = req.body.payment_type;
     let id = req.body.id;
     let payment_message = "";
+    let url = req.body.url;
+    let request = req.body.request;
     //1: thanh toan product 2: thanh toan chinh anh 3: thanh toan booking
     if(payment_type == "1"){
         payment_message = "Thanh toan hoa don cua hang cho nguoi dung ";
@@ -68,7 +70,7 @@ const createPayment = async (req, res) => {
     vnp_Params['vnp_Locale'] = locale;
     vnp_Params['vnp_CurrCode'] = currCode;
     vnp_Params['vnp_TxnRef'] = orderId;
-    vnp_Params['vnp_OrderInfo'] = payment_message + orderId + " Loai GD: fotofushion"+ payment_type + " email: "+ email + " id :"  + id;
+    vnp_Params['vnp_OrderInfo'] = payment_message + orderId + " Loai GD: fotofushion"+ payment_type + " email: "+ email + " id :"  + id +  " url: " + url +  " request:" + request;
     vnp_Params['vnp_OrderType'] = 'other';
     vnp_Params['vnp_Amount'] = amount * 100;
     vnp_Params['vnp_ReturnUrl'] = returnUrl;
@@ -125,6 +127,9 @@ const vnp_Return =  async (req, res) =>{
     const id = getId(order_inf);
     const email = getEmail(order_inf);
     const payment_type = getPaymentType(order_inf );
+    const img_url_old = getUrl(order_inf);
+    
+    const request = getRequest(order_inf );
     console.log(email);
     const user = await User.findOne({
         where: {
@@ -141,7 +146,7 @@ const vnp_Return =  async (req, res) =>{
         PaymentService.sucessPaymentForStore(user_id);
     }else if(payment_type == "fotofushion2"){
         //console.log("theem du lieu vao bang reques");
-        PaymentService.sucessPaymentForRequest(id, user_id);
+        PaymentService.sucessPaymentForRequest(user_id , img_url_old, request);
     }else{
         //console.log("theem du lieu vao bang booking details");
         PaymentService.sucessPaymentForBookingdetails(id, user_id, amount);
@@ -238,7 +243,7 @@ function sortObject(obj) {
     return sorted;
 };
 function getEmail (order_inf){
-        console.log(order_inf);
+        //console.log(order_inf);
         // Sử dụng biểu thức chính quy để lấy đoạn email
         const emailRegex = /email:\s*([^\s]+)/;
         const match = order_inf.match(emailRegex);
@@ -261,6 +266,33 @@ function getPaymentType(order_inf){
 }
 function getId(order_inf) {
     const regex = /id\s*:\s*(\d+)/;
+    const match = order_inf.match(regex);
+    
+    // Kiểm tra xem có khớp với regex hay không
+    if (match && match[1]) {
+        return match[1];
+    } else {
+        return null; // Hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
+}
+function getUrl(order_inf) {
+   
+    const text = order_inf;
+
+    const regex = /url\s*:\s*(https?:\/\/[^\s]+)/;
+    
+    const match = text.match(regex);
+    //console.log("EEEEEEEEEEEEEEEEEEE=>",   match[1] ,order_inf);
+    // Kiểm tra xem có khớp với regex hay không
+    if (match && match[1]) {
+        
+        return match[1];
+    } else {
+        return null; // Hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
+}
+function getRequest(order_inf) {
+    const regex = /request\s*:\s*([^\n]+)/;
     const match = order_inf.match(regex);
     
     // Kiểm tra xem có khớp với regex hay không

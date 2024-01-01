@@ -9,22 +9,24 @@ const StoreService = require('../Services/store_service');
 const { email } = require('../helper/joi_schema');
 
 class PaymentService {
-    async sucessPaymentForRequest(id, user_id) {
+    async sucessPaymentForRequest( user_id, img_url_old , request) {
         try {
-            Request.update({ is_status: true }, {
-                where: {
-                    id,
-                  user_id
-                },
-              })
+            Request.create(
+                { id : uuidv4(),
+                user_id,
+                img_url_old,
+                img_url_new: null,
+                is_status: true, 
+                request    
+            })
                 .then((result) => {
-                  console.log(`Rows updated: ${result[0]}`);
+                  console.log(`Rows create: `,  result.toJSON());
                 })
                 .catch((error) => {
-                  console.error('Error updating rows:', error);
+                  console.error('Error creating rows:', error);
                 });
         } catch (error) {
-            console.error('Lỗi khi cập nhật chi tiết đặt yêu cầu chỉnh sửa:', error);
+            console.error('Lỗi khi tạo chi tiết đặt yêu cầu chỉnh sửa:', error);
             throw error;
         }
     }
@@ -92,11 +94,11 @@ class PaymentService {
         }
     }
     async test (){
-        const text = 'Thanh toan hoa don cua hang cho nguoi dung ThienQuang24 voi ma GD: 31161944 Loai GD: fotofushion1 email: ThienQuang24@gmail.com';
+        const text = 'Thanh toan hoa don chinh sua anh cho nguoi dung ThienQuang24 voi ma GD: 01232443 Loai GD: fotofushion2 email: ThienQuang24@gmail.com id :5 url: https://sfsfsafasdsjhgdsjgh.gdf.dfsf/dfsf/sdfdf/sdf request:chinh cho dep NHAA';
 
         // Sử dụng biểu thức chính quy để lấy đoạn email
-        const emailRegex = /email:\s*([^\s]+)/;
-        const match = text.match(emailRegex);
+        const regex = /url\s*:\s*(https?:\/\/[^\s]+)/;
+        const match = text.match(regex);
 
         if (match && match[1]) {
         const email = match[1];
@@ -112,7 +114,7 @@ class PaymentService {
 //  .then((data) => {
 //     console.log(data);
 //  })
-// a.sucessPaymentForStore("eee3bc05-88d3-408b-9da3-553c854cd1eb", 123123);
+// a.sucessPaymentForStore("eee3bc05-88d3-408b-9da3-553c854cd1eb",123123);
 
 
 
