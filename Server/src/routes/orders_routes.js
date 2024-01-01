@@ -3,6 +3,7 @@ const router = express.Router();
 const { getAllOrders,
     getOrderById,
     createNewOrder,
+    getOrderByUserId,
     updateOrderById,
     deleteOrderById } = require('../controllers/orders_controllers');
 const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
@@ -13,9 +14,11 @@ const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
 //Admin
 
 router.get('/api/getAllOrders', verifyToken, isAdminSystem, getAllOrders);
-router.get('/api/getOrderById/:id', verifyToken, isAdminSystem, getOrderById);
-router.post('/api/createOrder', verifyToken, isAdminSystem, createNewOrder);
-router.put('/api/updateOrder/:id', verifyToken, isAdminSystem, updateOrderById);
-router.delete('/api/deleteOrder/:id', verifyToken, isAdminSystem, deleteOrderById);
+router.get('/api/getOrderById/:id', verifyToken, getOrderById);
+router.get('/api/getOrderById/:id', verifyToken, getOrderByUserId);
+
+router.post('/api/createOrder', verifyToken, createNewOrder);
+//router.put('/api/updateOrder/:id', verifyToken, isAdminSystem, updateOrderById);
+router.delete('/api/deleteOrder/:id', verifyToken, deleteOrderById);
 
 module.exports = router;

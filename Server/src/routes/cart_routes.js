@@ -1,12 +1,15 @@
-// const express = require('express');
-// const router = express.Router();
-// const { getAllCarts, getCartById, createNewCart, updateCartById, deleteCartById } = require('../controllers/cart_controllers');
+const express = require('express');
+const router = express.Router();
+const { getCartByUserId,
+    createNewCart,
+    updateCartByUserId,
+    deleteCartByUserId } = require('../controllers/cart_controllers');
 
-// // Định tuyến các yêu cầu liên quan đến đơn hàng (cart) tới controller
-// router.get('/api/getAllCarts', getAllCarts);
-// router.get('/api/getCartById/:id', getCartById);
-// router.post('/api/createNewCart', createNewCart);
-// router.put('/api/updateCartById/:id', updateCartById);
-// router.delete('/api/deleteCartById/:id', deleteCartById);
+// Định tuyến các yêu cầu liên quan đến đơn hàng (cart) tới controller
+//router.get('/api/getAllCarts', getCartByUserId);
+router.get('/api/getCartById/:id', getCartByUserId);
+router.post('/api/createNewCart', createNewCart);
+router.put('/api/updateCartById/:id', updateCartByUserId);
+router.delete('/api/deleteCartById/:id', deleteCartByUserId);
 
-// module.exports = router;
+module.exports = router;

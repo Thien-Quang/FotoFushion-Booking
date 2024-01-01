@@ -68,14 +68,15 @@ const createNewUser = async (req, res) => {
 const updateUserById = async (req, res) => {
     try {
         const id = req.params.id;
-        const userData = req.body;
+        const inputData = req.body;
+        const userData = { id, ...inputData };;
         const updatedUser = await UserService.updateUser(id, userData);
 
         if (!updatedUser) {
             return res.status(404).json({ error: 'Người dùng không tồn tại' });
         }
 
-        res.json(updatedUser);
+        res.status(200).json(updatedUser);
     } catch (error) {
         console.error('Lỗi khi cập nhật người dùng:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật người dùng.' });

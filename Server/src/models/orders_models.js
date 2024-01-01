@@ -13,8 +13,9 @@ const Order = sequelize.define('Order', {
         collate: 'utf8mb4_unicode_ci',
     },
     order_date: DataTypes.DATE,
-    total_amount: DataTypes.FLOAT,
+    total_amount: DataTypes.DECIMAL(18, 3),
     user_id: DataTypes.STRING(50),
+    shipping_fee: DataTypes.DECIMAL(18, 3),
 }, {
     tableName: 'orders',
     timestamps: false,

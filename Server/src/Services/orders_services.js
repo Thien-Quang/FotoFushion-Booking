@@ -20,6 +20,19 @@ class OrderService {
             throw error;
         }
     }
+    async getAllOrdersByUserId(user_id) {
+        try {
+            const orders = await Order.findAll({
+                where: {
+                    user_id: user_id
+                }
+            });
+            return orders;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách đơn hàng:', error);
+            throw error;
+        }
+    }
 
     async createOrder(orderData) {
         try {

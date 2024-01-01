@@ -27,13 +27,28 @@ const getOrderDetailById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin chi tiết đơn hàng.' });
     }
 };
+// Lấy thông tin chi tiết đơn hàng bằng ID
+const getOrderDetailByOrderId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const orderDetail = await OrderDetailService.getOrderDetailByOrderId(id);
+        if (!orderDetail) {
+            return res.status(404).json({ error: 'Không tìm thấy chi tiết đơn hàng.' });
+        }
+
+        res.json(orderDetail);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin chi tiết đơn hàng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin chi tiết đơn hàng.' });
+    }
+};
 
 // Tạo chi tiết đơn hàng mới
 const createNewOrderDetail = async (req, res) => {
     try {
-        const { order_id, prod_id, quantity, unit_price, shipping_fee, total_price } = req.body;
         const id = uuidv4();
-        const orderDetailData = { id, order_id, prod_id, quantity, unit_price, shipping_fee, total_price };
+        const inputData = req.body;
+        const orderDetailData = { id, ...inputData };
         const orderDetail = await OrderDetailService.createOrderDetail(orderDetailData);
         res.status(201).json(orderDetail);
     } catch (error) {
@@ -82,5 +97,6 @@ module.exports = {
     getOrderDetailById,
     createNewOrderDetail,
     updateOrderDetailById,
-    deleteOrderDetailById
+    deleteOrderDetailById,
+    getOrderDetailByOrderId
 };

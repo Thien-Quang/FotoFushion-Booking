@@ -27,13 +27,27 @@ const getOrderById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin đơn hàng.' });
     }
 };
+const getOrderByUserId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const order = await OrdersService.getAllOrdersByUserId(id);
+        if (!order) {
+            return res.status(404).json({ error: 'Không tìm thấy đơn hàng.' });
+        }
+
+        res.json(order);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin đơn hàng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin đơn hàng.' });
+    }
+};
 
 // Tạo đơn hàng mới
 const createNewOrder = async (req, res) => {
     try {
-        const { payment_method, order_date, total_amount, user_id } = req.body;
         const id = uuidv4();
-        const orderData = { id, payment_method, order_date, total_amount, user_id };
+        const inputData = req.body;
+        const orderData = { id, ...inputData };
         const order = await OrdersService.createOrder(orderData);
         res.status(201).json(order);
     } catch (error) {
@@ -82,5 +96,6 @@ module.exports = {
     getOrderById,
     createNewOrder,
     updateOrderById,
-    deleteOrderById
+    deleteOrderById,
+    getOrderByUserId
 };
