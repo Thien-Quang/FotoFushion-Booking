@@ -3,99 +3,47 @@ import { icons } from "../../utils/icons";
 import HoSoCaNhan from './HoSoCaNhan';
 import bgProfile from '../../public/img/bgprofile.jpg'
 
-
 const Profile = () => {
 
-    const [activeTab, setActiveTab] = useState("profile");
-    const handleTabClick = (tabName) => {
-        setActiveTab(tabName); // Cập nhật trạng thái khi nhấn vào thẻ li
-    };
-
     return (
-        <div className='w-full bg-black pt-40'>
-            <div className='flex justify-center items-start'>
-                <div className='w-3/4 text-white flex items-start justify-center'>
-                    <div className='w-1/4 h-auto m-4 bg-white text-black flex items-center justify-center rounded-lg'>
-                        <ul className='w-3/4'>
-                            <li
-                                className={`m-4 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "profile" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
-                                    }`}
-                                onClick={() => handleTabClick("profile")}
-                            >
-                                <span className='mx-2'><icons.BiSolidUser /></span>
-                                Hồ Sơ
-                            </li>
-
-                            <li
-                                className={`m-4 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "address" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
-                                    }`}
-                                onClick={() => handleTabClick("address")}
-                            >
-
-                                <span className='mx-2'><icons.FaRegAddressCard /></span>
-
-                                Địa Chỉ
-
-                            </li>
-                            <li
-                                className={`m-4 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "ChangePassword" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
-                                    }`}
-                                onClick={() => handleTabClick("ChangePassword")}
-                            >
-
-                                <span className='mx-2'><icons.GiSkeletonKey /></span>
-
-                                Đổi Mật Khẩu
-
-                            </li>
-                            <li
-                                className={`m-4 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "myorder" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
-                                    }`}
-                                onClick={() => handleTabClick("myorder")}
-                            >
-
-                                <span className='mx-2'><icons.RiListUnordered /></span>
-
-                                Đơn Mua
-
-                            </li>
-                            <li
-                                className={`m-10 cursor-pointer flex items-center border border-yellow-300 p-2 rounded-2xl ${activeTab === "logout" && "bg-yellow-200" // Kiểm tra trạng thái để áp dụng lớp CSS khác nhau
-                                    }`}
-                                onClick={() => handleTabClick("logout")}
-                            >
-                                Đăng Xuất
-                            </li>
-                        </ul>
-
-                    </div>
-                    <div className="w-3/4 m-4 bg-black rounded-xl">
-                        <div className='relative'>
-                            <img
-                                src={bgProfile}
-                                alt="Background"
-                                style={{
-                                    width: '100%', // Đặt chiều rộng theo mong muốn
-                                    height: 'auto', // Để tự động tính chiều cao dựa trên chiều rộng
-                                    borderRadius: '20px', // Đặt bo tròn theo mong muốn
-                                }}
-                            />
-                            <div className='absolute top-0 w-full'>
-                                {/* {activeTab === "address" && <Address />} */}
-                                {activeTab === "profile" && <HoSoCaNhan />}
-                                {/* {activeTab === "bank" && <Hoso />}
-                                {activeTab === "myorder" && <Order />}
-                                {activeTab === "ChangePassword" && <ChangePasswordPage />} */}
-                            </div>
+        <div>
+            <div class='flex items-center justify-center min-h-screen'>
+                <ul class="mx-auto grid max-w-full w-full grid-cols-3  ">
+                    <li class="">
+                        <input class="peer sr-only" type="radio" value="yes" name="answer" id="yes" checked />
+                        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="yes">Hồ Sơ Cá Nhân</label>
+                        <div class="h-auto">
+                            <HoSoCaNhan />
                         </div>
+                    </li>
 
-                    </div>
+                    <li class="">
+                        <input class="peer sr-only" type="radio" value="no" name="answer" id="no" />
+                        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="no">About</label>
 
-                </div>
+                        <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                        </div>
+                    </li>
+
+                    <li class="">
+                        <input class="peer sr-only" type="radio" value="yesno" name="answer" id="yesno" />
+                        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out " for="yesno">Something</label>
+
+                        <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                        </div>
+                    </li>
+                </ul>
+
             </div>
-
         </div>
-    )
+    );
 }
 
 export default Profile

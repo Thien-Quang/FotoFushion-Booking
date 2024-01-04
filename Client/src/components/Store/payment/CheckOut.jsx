@@ -4,6 +4,7 @@ import AuthContext from '../../../context/authProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import { formatCurrency } from '../../helples/Format'
 
+import * as VNpayApi from '../../../apis/vnpay'
 import * as shopApi from '../../../apis/shop';
 import * as orderApi from '../../../apis/order';
 
@@ -83,19 +84,20 @@ const CheckOut = () => {
     }, [auth.address]);
 
     const handleCheckout = async () => {
-        if (auth.fullName === '' || /*auth.address === '' || */auth.phone === '') {
+        if (auth.fullName === '' || /*auth.address === ''  || */ auth.phone === '') {
             notify("Vui lòng điền đầy đủ thông tin giao hàng");
+            // navigation('/profile', { state: { toastMessage: 'Bạn chưa có địa chỉ giao hàng!' } });
+
         } else {
             setLoading(true);
             if (paymentMethod === '') {
                 notify('Bạn chưa lựa chọn phương thức thanh toán');
             } else if (paymentMethod === 'VNPAY') {
-                notify('Bạn thanh toán bằng VNPAY');
+                console.log(totalAmount);
+                const vnpay = await VNpayApi.creatPayment(totalAmount, auth.email, 1, 8, "", "")
             } else {
                 try {
                     const responseOrder = await orderApi.createOrder(auth.accessToken, paymentMethod, today, totalAmount, TransportFee, auth.id);
-                    console.log(responseOrder.id);
-                    console.log(responseOrder.statusCode === 201);
                     if (responseOrder.statusCode === 201) {
                         for (const product of cartList) {
                             let totalPriceOfProd = product.price * product.quantity;

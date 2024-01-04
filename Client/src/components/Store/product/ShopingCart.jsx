@@ -116,8 +116,9 @@ const ShoppingCart = () => {
         if (auth.accessToken && auth.id && prodId) {
             const deleteResponse = await shopApi.removeProductInCart(auth.accessToken, auth.id, prodId);
             if (deleteResponse.statusCode === 200) {
-                notify('Xóa Sản Phẩm Thành Công !', 'success');
+                await notify('Xóa Sản Phẩm Thành Công !', 'success');
                 setCartList((prevCartList) => prevCartList.filter((product) => product.id !== prodId));
+                window.location.reload();
             } else {
                 notify(deleteResponse.error.message, 'error');
             }

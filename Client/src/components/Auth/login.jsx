@@ -83,9 +83,10 @@ const Login = () => {
                     const address = getUser.address;
                     const role = authorization.roles
                     const gender = getUser.gender
+                    const avatar = getUser.avatar_url
 
-                    setAuth({ id, email, password, accessToken, fullName, phone, address, role, gender });
-                    localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phone, address, role, gender }));
+                    setAuth({ id, email, password, accessToken, fullName, phone, address, role, gender, avatar });
+                    localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phone, address, role, gender, avatar }));
 
                     if (authorization.statusCode === 200) {
                         if (authorization.roles === 'admin') navigate('/dashboard', { state: { toastMessage: "Đăng nhập thành công" } });

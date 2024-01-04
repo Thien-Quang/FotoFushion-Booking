@@ -52,7 +52,7 @@ const BookingAlbums = ({ priceList }) => {
         );
         if (result.statusCode === 201) {
             if (paymentMethod === 'VNPAY') {
-                const vnpay = await VNpayApi.creatPayment(priceList.price, auth.email, 3)
+                const vnpay = await VNpayApi.creatPayment(priceList.price, auth.email, 3, result.id, "", "")
             }
             else {
                 alert('Đặt lịch thành công! Hãy để ý điện thoại và email chúng tôi sẽ liên lạc sớm nhất có thể', 'success');

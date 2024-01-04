@@ -1,6 +1,10 @@
 import axiosClient from "../config/axios.config";
 import axios from "axios";
 
+const header = {
+  baseURL: "https://vapi.vnappmob.com",
+};
+
 const getListAdressesByUserApi = async ({ userId }) => {
   const res = await axiosClient.get(`/address/list-addreeses/${userId}`);
   if (res) {
@@ -16,7 +20,7 @@ const addAddressApi = async ({ userId, data }) => {
 };
 
 const getListProvinceVietNamApi = async () => {
-  const res = await axios.get(`${process.env.REACT_APP_VAPI_URL}/api/province`);
+  const res = await axios.get(`/api/province`, header);
   if (res && res.data) {
     return res.data;
   }
@@ -24,17 +28,14 @@ const getListProvinceVietNamApi = async () => {
 
 const getListDistrictsVietNamApi = async ({ provinceId }) => {
   const res = await axios.get(
-    `${process.env.REACT_APP_VAPI_URL}/api/province/district/${provinceId}`
-  );
+    `/api/province/district/${provinceId}`, header);
   if (res && res.data) {
     return res.data;
   }
 };
 
 const getListWardsVietNamApi = async ({ districtId }) => {
-  const res = await axios.get(
-    `${process.env.REACT_APP_VAPI_URL}/api/province/ward/${districtId}`
-  );
+  const res = await axios.get(`/api/province/ward/${districtId}`, header);
   if (res && res.data) {
     return res.data;
   }
@@ -55,13 +56,28 @@ const setupDefaultAddressApi = async ({ userId, addressId }) => {
     return res;
   }
 };
+const updateAddress = async (accessToken, id, address) => {
 
-// router.get('/list-addreeses/:userId', getAddressDefault);
-// router.get('/address-default/:userId', getListAdressesByUser);
-// router.post('/add-address/:userId', addAddress);
-// router.put('/update-address/:userId/:addressId', updateAddress);
-// router.put('/set-default/:userId/:addressId', setupDefaultAddress);
-// router.delete('/remove-address/:userId/:addressId', removeAddress);
+  try {
+    const response = await axiosClient.put(`/updateUser/${id}`, { address: address }, {
+      headers: {
+
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return {
+      id: response.data.id,
+      response: response.data,
+      statusCode: response.status,
+    };
+  } catch (e) {
+    return {
+      error: e.response.data,
+      status: e.response.status,
+    };
+  }
+};
+
 
 export {
   getListAdressesByUserApi,
@@ -71,4 +87,5 @@ export {
   getListWardsVietNamApi,
   getAddressDefaultApi,
   setupDefaultAddressApi,
+  updateAddress
 };

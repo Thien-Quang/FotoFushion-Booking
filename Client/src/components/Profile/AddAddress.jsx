@@ -1,16 +1,16 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import {
   getListDistrictsVietNamApi,
   getListWardsVietNamApi,
   getListProvinceVietNamApi,
-  addAddressApi,
+  updateAddress
 } from "../../apis/address";
-import { useForm, Controller } from "react-hook-form";
+
 import Label from "../ButtonLabelLoadingModelCheckbox/Label";
-import Button from "../ButtonLabelLoadingModelCheckbox/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { authSelect } from "../../redux/features/authSlice";
-import { addAddressThunkAction } from "../../redux/features/addressSlice";
+import { useDispatch } from "react-redux";
+import AuthContext from '../../context/authProvider';
+
+
 import Swal from "sweetalert2";
 
 const AddAddress = () => {
@@ -23,14 +23,13 @@ const AddAddress = () => {
   const [districtId, setDistrictId] = useState("");
   const [wardValue, setWardValue] = useState("");
   const [wardId, setWardId] = useState("");
-  const [phoneValue, setPhoneValue] = useState("");
-  const [userNameValue, setUserNameValue] = useState("");
   const [exactAddressValue, setExactAddressValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector(authSelect);
+  const { auth } = useContext(AuthContext);
+
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -59,7 +58,7 @@ const AddAddress = () => {
             }
           }
         }
-      } catch (error) {}
+      } catch (error) { }
     };
     fetchApi();
   }, [provinceId, districtId]);
@@ -91,8 +90,6 @@ const AddAddress = () => {
   const handleAddAddress = async () => {
     try {
       if (
-        !userNameValue ||
-        !phoneValue ||
         !provinceValue ||
         !districtValue ||
         !wardValue ||
@@ -101,28 +98,21 @@ const AddAddress = () => {
         return;
       }
 
-      let data = {
-        displayName: userNameValue,
-        phone: phoneValue,
-        province: provinceValue,
-        district: districtValue,
-        ward: wardValue,
-        exactAddress: exactAddressValue,
-      };
+      let dataAddress = exactAddressValue + ", " + wardValue + ", " + districtValue + ", " + provinceValue
+
+      console.log(dataAddress);
 
       setIsLoading(true);
-
-      const res = await dispatch(
-        addAddressThunkAction({ userId: userInfo?._id, data })
-      );
-
-      if (res && res.payload && res.payload.success) {
-        Swal.fire({
-          title: "Thành công",
-          text: "Đã thêm địa chỉ thành công",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
+      if (auth.accesstoken && auth.id) {
+        const res = await updateAddress(auth.accesstoken, auth.id, dataAddress)
+        if (res.statusCode === 200) {
+          Swal.fire({
+            title: "Thành công",
+            text: "Đã thêm địa chỉ thành công",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        }
       }
       setIsLoading(false);
     } catch (error) {
@@ -131,8 +121,10 @@ const AddAddress = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 bg-opacity border-2 border-white py-10 px-5 rounded-3xl">
-      <h4 className="font-bold text-lg uppercase text-center">Thêm Địa Chỉ</h4>
+    <div className="flex flex-col gap-5 bg-slate-300 border-2 border-white py-10 px-5 rounded-3xl">
+      <h4 className="font-bold text-lg text-black uppercase text-center">
+        Thêm Địa Chỉ
+      </h4>
 
       <div className="grid grid-cols-2 gap-3">
         <div className="">
@@ -225,30 +217,11 @@ const AddAddress = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="">
-          <Label label="Tên người dùng" />
-          <input
-            className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
-            placeholder="Nhập tên người dùng"
-            value={userNameValue}
-            onChange={(e) => setUserNameValue(e.target.value)}
-          />
-        </div>
-        <div className="">
-          <Label label="Số điện thoại" />
-          <input
-            className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
-            placeholder="Nhập số điện thoại"
-            value={phoneValue}
-            onChange={(e) => setPhoneValue(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="w-full flex justify-center">
-        <Button primary onClick={handleAddAddress}>
+
+      <div className="w-full flex justify-center text-black text-lg">
+        <button className="btn btn-success px-8" onClick={handleAddAddress}>
           Thêm
-        </Button>
+        </button>
       </div>
     </div>
   );

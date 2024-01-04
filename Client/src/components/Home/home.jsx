@@ -84,27 +84,29 @@ const Home = () => {
         <div className='w-full flex items-center justify-center'>
           <div className='grid grid-cols-4 max-sm:grid-cols-1 max-lg:grid-cols-2 gap-4'>
             {productsList.slice(0, 8).map((product, index) => (
-              <div className='h-auto w-64 bg-white cursor-pointer transition duration-500 ease-in-out hover:opacity-50 hover:shadow-xl '>
-                <div className='h-80 flex items-center justify-center '>
-                  <img src={product.url_photo} alt="" className='h-full w-full object-cover rounded-t-md' />
-                </div>
-                <div className='flex items-center justify-center'>
+              <Link to={`/products/${product.id}`}>
+                <div className='h-auto w-64 bg-white cursor-pointer transition duration-500 ease-in-out hover:opacity-50 hover:shadow-xl '>
+                  <div className='h-80 flex items-center justify-center '>
+                    <img src={product.url_photo} alt="" className='h-full w-full object-cover rounded-t-md' />
+                  </div>
+                  <div className='flex items-center justify-center'>
 
-                  <div className='h-auto w-full bg-black border shadow-xl rounded-md'>
-                    <div className='h-16 flex items-center justify-start'>
-                      <span className='ml-3 text-white text-lg'>{product.name}</span>
-                    </div>
-                    <div className='flex items-end justify-between'>
-                      <span className="ml-3 text-md font-medium text-white line-through">
-                        {formatCurrency(product.price)}
-                      </span>
-                      <span className="ml-3 text-red-500 text-base font-medium animate-bounce">
-                        {formatCurrency(product.discounted_price)}
-                      </span>
+                    <div className='h-auto w-full bg-black border shadow-xl rounded-md'>
+                      <div className='h-16 flex items-center justify-start'>
+                        <span className='ml-3 text-white text-lg'>{product.name}</span>
+                      </div>
+                      <div className='flex items-end justify-between'>
+                        <span className="ml-3 text-md font-medium text-white line-through">
+                          {formatCurrency(product.price)}
+                        </span>
+                        <span className="ml-3 text-red-500 text-base font-medium animate-bounce">
+                          {formatCurrency(product.discounted_price)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

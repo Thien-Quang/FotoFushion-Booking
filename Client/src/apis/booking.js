@@ -22,7 +22,7 @@ const CreateABookingOnlineAll = async (accessToken, user_id, room_id, costume_id
             },
         });
         return {
-            //id: response.data.id,
+            id: response.data.id,
             //response: response.data,
             statusCode: response.status,
         };

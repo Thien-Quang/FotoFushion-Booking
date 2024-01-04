@@ -7,7 +7,9 @@ import { storage } from '../../config/firebase.config';
 import { v4 } from "uuid";
 import { Spinner } from '@material-tailwind/react';
 import * as requestApi from '../../apis/request'
+import * as vnpayApi from '../../apis/vnpay'
 import { formatCurrency } from '../helples/Format'
+import shortenUrl from 'shorten-url';
 const RequestEditPage = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -35,6 +37,8 @@ const RequestEditPage = () => {
     }, [])
     const [imageUploads, setImageUpload] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
+    const [imageUrlsShort, setImageUrlsShort] = useState('');
+
     const handleFileChange = (e) => {
         for (let i = 0; i < e.target.files.length; i++) {
             const newImage = e.target.files[i];
@@ -46,7 +50,7 @@ const RequestEditPage = () => {
     const uploadFile = async () => {
         await Promise.all(
             imageUploads.map(async (imageUpload) => {
-                const imageRef = ref(storage, `/PhotoEdit/${imageUpload.name + v4()}`);
+                const imageRef = ref(storage, `/PhotoEdit/${v4()}`);
                 try {
                     const snapshot = await uploadBytes(imageRef, imageUpload);
                     const url = await getDownloadURL(snapshot.ref);
@@ -57,24 +61,15 @@ const RequestEditPage = () => {
             })
         );
     }
+
+
     useEffect(() => {
         if (imageUrls.length === imageUploads.length) {
             //console.log(imageUrls[0]);
             const performAddRequest = async () => {
                 try {
-                    const requestData = await requestApi.createRequest(auth.accessToken, auth.id, imageUrls[0], message)
-                    if (requestData.status === 201) {
-                        notify("Bạn gửi yêu cầu thành công", "success")
-                        setLoading(false)
-                        setSubmit(false);
-                        setSelectedFile(null)
-                        setMessage(null)
-                    }
-                    else {
-                        notify("Bạn gửi yêu cầu thất bại")
-                        setLoading(false)
-                        setSubmit(false);
-                    }
+                    const requestData = await vnpayApi.creatPayment(EditFee, auth.email, 2, 8, imageUrls[0], message)
+
                 } catch (error) {
                     setLoading(false)
                     setSubmit(false)
@@ -99,6 +94,7 @@ const RequestEditPage = () => {
         setLoading(true);
         try {
             await uploadFile();
+
             setSubmit(true);
         } catch (error) {
             // Handle the error if the upload fails

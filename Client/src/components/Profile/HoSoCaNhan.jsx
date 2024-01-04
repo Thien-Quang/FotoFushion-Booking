@@ -10,6 +10,7 @@ const HoSoCaNhan = () => {
         fullName: auth.fullName,
         phone: auth.phone,
         email: auth.email,
+        address: auth.address,
         gender: auth.gender,
     });
 
@@ -62,8 +63,6 @@ const HoSoCaNhan = () => {
                                     <span className="text-sm text-white">{auth.phone}</span>
                                 </div>
                             </div>
-
-
 
                             <div class="mb-4 max-sm:text-xs">
                                 <label class="block text-white font-bold mb-2" for="email">

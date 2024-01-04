@@ -10,6 +10,8 @@ import Comment from '../helples/Comment';
 
 const BlogPost = () => {
     const [blogposts, setBlogposts] = useState([]);
+    const [blogpostID, setBlogpostID] = useState('');
+
     const [likes, setLikes] = useState(0);
     const [liked, setLiked] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -50,6 +52,7 @@ const BlogPost = () => {
             <div className='flex items-center justify-center mt-[-5%]'>
                 <div className='w-[80%]'>
                     {blogposts.map((blogpost) => {
+
                         return (
                             <div className='m-4' key={blogpost.id}>
                                 <div class="bg-white rounded shadow-lg max-w-[80%] mx-auto ">
@@ -123,7 +126,7 @@ const BlogPost = () => {
                                             </div>
                                         </div>
                                         <div className='w-full'>
-                                            <Comment />
+                                            <Comment id={blogpost.id} />
                                         </div>
                                     </footer>
                                 </div>
