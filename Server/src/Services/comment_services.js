@@ -20,6 +20,17 @@ class CommentService {
             throw error;
         }
     }
+    async getAllCommentsByBlogId(id) {
+        try {
+            const comments = await Comment.findAll({
+                where: { blog_post_id: id },
+            });
+            return comments;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách bình luận:', error);
+            throw error;
+        }
+    }
 
     async createComment(commentData) {
         try {

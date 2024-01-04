@@ -33,6 +33,7 @@ const getBlogPostById = async (req, res) => {
     }
 };
 
+
 // Tạo bài viết mới
 const createNewBlogPost = async (req, res) => {
     try {

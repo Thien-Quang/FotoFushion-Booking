@@ -9,10 +9,12 @@ const PaymentService = require('../Services/payment_services');
 const User = require('../models/users_models');
 
 
+let url_old = "";
+
 
 const createPayment = async (req, res) => {
     process.env.TZ = 'Asia/Ho_Chi_Minh';
-    // console.log("lllllllllllllllllllllllllllllll", req.body);
+    //console.log("lllllllllllllllllllllllllllllll", req.body);
     let date = new Date();
     let createDate = moment(date).format('YYYYMMDDHHmmss');
 
@@ -48,7 +50,10 @@ const createPayment = async (req, res) => {
     const user_name = user.name;
 
     let payment_type = req.body.payment_type;
+    let id = req.body.id;
     let payment_message = "";
+    url_old = req.body.url;
+    let request = req.body.request;
     //1: thanh toan product 2: thanh toan chinh anh 3: thanh toan booking
     if (payment_type == "1") {
         payment_message = "Thanh toan hoa don cua hang cho nguoi dung ";
@@ -67,7 +72,7 @@ const createPayment = async (req, res) => {
     vnp_Params['vnp_Locale'] = locale;
     vnp_Params['vnp_CurrCode'] = currCode;
     vnp_Params['vnp_TxnRef'] = orderId;
-    vnp_Params['vnp_OrderInfo'] = payment_message + orderId + " Loai GD: fotofushion" + payment_type + " email: " + email;
+    vnp_Params['vnp_OrderInfo'] = payment_message + orderId + " Loai GD: fotofushion" + payment_type + " email: " + email + " id :" + id + " request:" + request;
     vnp_Params['vnp_OrderType'] = 'other';
     vnp_Params['vnp_Amount'] = amount * 100;
     vnp_Params['vnp_ReturnUrl'] = returnUrl;
@@ -76,7 +81,7 @@ const createPayment = async (req, res) => {
     if (bankCode !== null && bankCode !== '') {
         vnp_Params['vnp_BankCode'] = bankCode;
     }
-
+    console.log(">>>>>>>>>>>>>>>", vnp_Params.vnp_OrderInfo);
     vnp_Params = sortObject(vnp_Params);
     //console.log(vnp_Params);
     let querystring = require('qs');
@@ -102,7 +107,7 @@ const vnp_Return = async (req, res) => {
 
     const order_inf = vnp_Params['vnp_OrderInfo'];
     let secureHash = vnp_Params['vnp_SecureHash'];
-    console.log();
+
     delete vnp_Params['vnp_SecureHash'];
     delete vnp_Params['vnp_SecureHashType'];
 
@@ -119,17 +124,21 @@ const vnp_Return = async (req, res) => {
     let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
 
 
+    let img_url_old = url_old;
 
-
-
+    const id = getId(order_inf);
     const email = getEmail(order_inf);
     const payment_type = getPaymentType(order_inf);
-    console.log(email);
+    // img_url_old = img_url_old + getUrl(order_inf);
+
+    const request = getRequest(order_inf);
+    //console.log(email);
     const user = await User.findOne({
         where: {
             email: email
         }
     });
+
     if (!user) {
         res.status(500).json({ error: 'Đã xảy ra lỗi không tìm thấy user' });
     }
@@ -139,11 +148,12 @@ const vnp_Return = async (req, res) => {
         PaymentService.sucessPaymentForStore(user_id);
     } else if (payment_type == "fotofushion2") {
         //console.log("theem du lieu vao bang reques");
-        PaymentService.sucessPaymentForRequest(user_id);
+        PaymentService.sucessPaymentForRequest(user_id, img_url_old, request);
     } else {
         //console.log("theem du lieu vao bang booking details");
-        PaymentService.sucessPaymentForBookingdetails(user_id, amount);
+        PaymentService.sucessPaymentForBookingdetails(id, user_id, amount);
     }
+
     const htmlReport = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -158,7 +168,7 @@ const vnp_Return = async (req, res) => {
                 flex-direction: column;
                 height: 100vh;
                 margin: 0;
-                font-family: 'Arial', sans-serif;
+font-family: 'Arial', sans-serif;
                 background-color: #f4f4f4;
             }
     
@@ -201,8 +211,10 @@ const vnp_Return = async (req, res) => {
         <div>
             <h1>FOTO FUSHION</h1>
             <p>Thanh Toán Thành Công!</p>
-            <p>Fotofushion xin chân thành cảm ơn quý khách đã sử dụng dịch vụ</p>
-            <a href="http://localhost:3000" target="_blank">Trở lại trang fotofushion để xem thêm dịch vụ</a>
+            <p>Trân trọng Cảm ơn Quý Khách đã sử dụng dịch vụ của chúng tôi</p>
+            <p>Chúng tôi yêu mọi người</p>
+            <a href="http://localhost:3000" target="_blank">Trở lại Website FotoFushion để xem thêm dịch vụ</a>
+            
         </div>
     </body>
     </html>
@@ -235,7 +247,7 @@ function sortObject(obj) {
     return sorted;
 };
 function getEmail(order_inf) {
-    console.log(order_inf);
+    //console.log(order_inf);
     // Sử dụng biểu thức chính quy để lấy đoạn email
     const emailRegex = /email:\s*([^\s]+)/;
     const match = order_inf.match(emailRegex);
@@ -255,6 +267,44 @@ function getPaymentType(order_inf) {
     // Kiểm tra xem có kết quả hay không và lấy giá trị từ nhóm thứ nhất
     const payment_type = match && match[1];
     return payment_type;
+}
+function getId(order_inf) {
+    const regex = /id\s*:\s*(\d+)/;
+    const match = order_inf.match(regex);
+
+    // Kiểm tra xem có khớp với regex hay không
+    if (match && match[1]) {
+        return match[1];
+    } else {
+        return null; // Hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
+}
+function getUrl(order_inf) {
+
+    const text = order_inf;
+
+    const regex = /url\s*:\s*(https?:\/\/[^\s]+)/;
+
+    const match = text.match(regex);
+    //console.log("EEEEEEEEEEEEEEEEEEE=>",   match[1] ,order_inf);
+    // Kiểm tra xem có khớp với regex hay không
+    if (match && match[1]) {
+
+        return match[1];
+    } else {
+        return null; // Hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
+}
+function getRequest(order_inf) {
+    const regex = /request\s*:\s*([^\n]+)/;
+    const match = order_inf.match(regex);
+
+    // Kiểm tra xem có khớp với regex hay không
+    if (match && match[1]) {
+        return match[1];
+    } else {
+        return null; // Hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
 }
 module.exports = {
 
