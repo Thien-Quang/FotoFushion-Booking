@@ -149,7 +149,7 @@ function Header() {
                   </Link>
                 </div>
               </Navbar.Collapse>
-              {hasUser ? (
+              {!hasUser ? (
 
                 <div className="flex md:order-2 text-white">
                   <Notification/>
