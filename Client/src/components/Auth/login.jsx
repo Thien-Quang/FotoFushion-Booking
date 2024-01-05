@@ -27,9 +27,7 @@ const Login = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
-
     const [headings, setHeadings] = useState(['Chụp Ảnh', 'Mua Bán', 'Chỉnh Sửa']);
-
     const [visibleIndex, setVisibleIndex] = useState(0);
     const switchHeading = () => {
         setVisibleIndex((prevIndex) => (prevIndex + 1) % headings.length);
@@ -74,21 +72,29 @@ const Login = () => {
                 if (authentication.statusCode === 200) {
                     const accessToken = authentication.response.accessToken;
                     const authorization = await authApis.authorization(accessToken, email);
+                    console.log(authorization);
+
                     const getUser = await authApis.getUser(accessToken, email);
                     const id = getUser.id;
                     const fullName = getUser.name;
-                    const phoneNumber = authorization.phone;
+                    const phone = authorization.phoneNumber;
                     const address = getUser.address;
                     const role = authorization.roles
                     const gender = getUser.gender
-                    const voucher_id = getUser.voucher_id
+                    const avatar = getUser.avatar
 
-                    setAuth({ id, email, password, accessToken, fullName, phoneNumber, address, role, gender, voucher_id });
-                    localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phoneNumber, address, role, gender, voucher_id }));
+                    setAuth({ id, email, password, accessToken, fullName, phone, address, role, gender, avatar });
+                    localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phone, address, role, gender, avatar }));
 
                     if (authorization.statusCode === 200) {
-                        if (authorization.roles === '33d1f078-9118-4683-93cc-0d75d7cb7e66') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
-                        else if (authorization.roles === '75ae40df-dd1a-4d49-be2f-b6c7af885b4c') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        if (authorization.roles === 'admin') navigate('/dashboard', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'customer') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'editor') navigate('/homeeditor', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'photographer') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'makeup') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+                        else if (authorization.roles === 'cusSerRep') navigate('/', { state: { toastMessage: "Đăng nhập thành công" } });
+
+
                         else notify('Đăng nhập thất bại');
                     } else {
                         notify(authorization.error.response.data.message);
@@ -103,6 +109,7 @@ const Login = () => {
             };
 
             fetchAuth();
+
         }
     }, [email, navigate, password, setAuth, submit]);
 
@@ -179,9 +186,6 @@ const Login = () => {
                                                 className="absolute top-5 right-6">
                                                 <icons.BsEyeSlashFill />
                                             </span>
-
-
-
                                         ) : (
                                             <span onClick={handleHiddenPassword}
                                                 className="absolute top-5 right-6">
@@ -192,7 +196,7 @@ const Login = () => {
                                     </div>
                                 </div>
                                 <div className=" text-right mt-2 mb-9 ">
-                                    <Link to="/forgot-password" className="text-lg text-primaryColor">
+                                    <Link to="/forgotpassword" className="text-lg text-primaryColor">
                                         Quên mật khẩu?
                                     </Link>
                                 </div>

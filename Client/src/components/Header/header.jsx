@@ -6,12 +6,12 @@ import AuthContext from '../../context/authProvider';
 
 import { Avatar, Dropdown, Navbar, Button } from 'flowbite-react';
 
-
 function Header() {
   const navigate = useNavigate();
-
   const { auth, setAuth } = useContext(AuthContext);
   const [hasUser, setHasUser] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     if (Object.keys(auth).length === 0) {
@@ -19,8 +19,28 @@ function Header() {
     } else {
       setHasUser(true);
     }
-
   }, [auth]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const isScrolledDown = currentScrollPos > prevScrollPos;
+
+      setPrevScrollPos(currentScrollPos);
+
+      if (isScrolledDown && isVisible) {
+        setIsVisible(false);
+      } else if (!isScrolledDown && !isVisible) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isVisible, prevScrollPos]);
 
   const handleLogOut = () => {
     setAuth({});
@@ -29,7 +49,7 @@ function Header() {
     navigate('/');
   };
   return (
-    <div className="fixed top-0 left-0 right-0 w-full z-50 ">
+    <div className={`fixed top-0 left-0 right-0 w-full z-50 transition-transform transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="w-full flex p-2 bg-black text-white bg-opacity-50">
 
         <div className="w-1/2 flex justify-center items-center font-sans text-xs">
@@ -84,7 +104,9 @@ function Header() {
                 <span className="self-center whitespace-nowrap text-xl font-semibold text-white">FotoFusion</span>
               </Navbar.Brand>
               <div className="flex md:order-2">
-                <Button className="bg-btnprimary">BOOKING</Button>
+                <Link to='/bookingonline' >
+                  <Button className="bg-btnprimary">BOOKING</Button>
+                </Link>
                 <Navbar.Toggle />
               </div>
               <Navbar.Collapse className="text-white">
@@ -99,7 +121,7 @@ function Header() {
                     <Link to='/albumspage' >
                       <Dropdown.Item>Albums Ảnh</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/albumsvideo' >
                       <Dropdown.Item>Albums Video</Dropdown.Item>
                     </Link>
                   </Dropdown>
@@ -107,71 +129,87 @@ function Header() {
 
                 <div className="text-white hover:text-red-500">
                   <Dropdown label="DỊCH VỤ" inline>
-                    <Link to='/' >
+                    <Link to='/store' >
                       <Dropdown.Item>Cửa hàng</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/requestpage' >
                       <Dropdown.Item>Yêu cầu chỉnh sửa</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Chụp ảnh</Dropdown.Item>
-                    </Link>
-                    <Link to='/' >
+                    <Link to='/studioroom' >
                       <Dropdown.Item>Phòng studio</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Quay phim</Dropdown.Item>
+                    <Link to='/costumer' >
+                      <Dropdown.Item>Trang phục</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/equipment' >
                       <Dropdown.Item>Thiết bị</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/makeup' >
                       <Dropdown.Item>Make-up</Dropdown.Item>
+                    </Link>
+                    <Link to='/combotakephoto' >
+                      <Dropdown.Item>Combo Chụp Hình</Dropdown.Item>
                     </Link>
                   </Dropdown>
                 </div>
                 <div className="text-white hover:text-red-500">
-                  <Link to='/' >
+                  <Link to='/promotion' >
                     KHUYỄN MÃI
                   </Link>
                 </div>
                 <div className="text-white hover:text-red-500">
-                  <Link to='/' >
+                  <Link to='/blogpost' >
                     BÀI VIẾT
                   </Link>
                 </div>
                 <div className="text-white hover:text-red-500">
-                  <Link to='/' >
+                  <Link to='/contactus' >
                     LIÊN HỆ
                   </Link>
                 </div>
               </Navbar.Collapse>
-              {hasUser ? (
 
+              {hasUser ? (
                 <div className="flex md:order-2 text-white">
+
+                  <div className="flex items-center justify-center">
+                    <Link to='/cart' >
+                      <div className="w-10 h-10 rounded-full border border-white flex items-center justify-center mr-2 hover:bg-btnprimary hover:text-white ">
+                        <icons.BsCart4 />
+                      </div>
+                    </Link>
+                  </div>
                   <Dropdown
                     arrowIcon={true}
                     inline
                     label={
-                      <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+                      <Avatar alt="User settings" img={auth.avatar} rounded />
                     }
                   >
                     <Dropdown.Header>
                       <span className="flex items-center justify-center text-xl m-2 ">{auth.fullName}</span>
                       <span className="block truncate text-sm font-medium">{auth.email}</span>
                     </Dropdown.Header>
+                    {auth.role === "admin" && (
+                      <Link to='/dashboard'>
+                        <Dropdown.Item>Bảng Điều Khiển</Dropdown.Item>
+                      </Link>
+                    )}
+                    {auth.role === "editor" && (
+                      <Link to='/homeeditor'>
+                        <Dropdown.Item>Bảng Công Việc</Dropdown.Item>
+                      </Link>
+                    )}
                     <Link to='/profile' >
                       <Dropdown.Item>Thông Tin cá Nhân</Dropdown.Item>
                     </Link>
                     <Link to='/' >
-                      <Dropdown.Item>Thông Báo</Dropdown.Item>
+                      <Dropdown.Item>Thông Báo </Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/myalbums' >
                       <Dropdown.Item>Albums Của Tôi</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Đơn Hàng</Dropdown.Item>
-                    </Link>
+
                     <Link to='/' >
                       <Dropdown.Item>Voucher Của Tôi</Dropdown.Item>
                     </Link>
@@ -179,6 +217,7 @@ function Header() {
                     <Link to='/' onClick={handleLogOut}>
                       <Dropdown.Item>Đăng Xuất</Dropdown.Item>
                     </Link>
+                    { }
                   </Dropdown>
                 </div>
               ) : (

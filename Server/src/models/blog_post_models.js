@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database'); // Import từ file cấu hình kết nối
 
+
 const BlogPost = sequelize.define('blog_post', {
     id: {
         type: DataTypes.STRING(50),
@@ -24,6 +25,7 @@ const BlogPost = sequelize.define('blog_post', {
     tableName: 'blog_post', // Tên của bảng trong cơ sở dữ liệu
     timestamps: false // Không tạo cột 'createdAt' và 'updatedAt'
 });
+
 
 // Đồng bộ hóa model với cơ sở dữ liệu
 // BlogPost.sync()

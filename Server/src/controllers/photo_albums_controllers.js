@@ -27,6 +27,19 @@ const getPhotoAlbumById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin album ảnh.' });
     }
 };
+const getPhotoAlbumByUserId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const photoAlbum = await PhotoAlbumsService.getPhotoAlbumByUserId(id);
+        if (!photoAlbum) {
+            return res.status(404).json({ error: 'Không tìm thấy album ảnh.' });
+        }
+        res.status(200).json(photoAlbum);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin album ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin album ảnh.' });
+    }
+};
 
 // Tạo album ảnh mới
 const createNewPhotoAlbum = async (req, res) => {
@@ -82,5 +95,6 @@ module.exports = {
     getPhotoAlbumById,
     createNewPhotoAlbum,
     updatePhotoAlbumById,
-    deletePhotoAlbumById
+    deletePhotoAlbumById,
+    getPhotoAlbumByUserId
 };

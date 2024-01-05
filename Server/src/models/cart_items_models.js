@@ -11,15 +11,15 @@ const CartItem = sequelize.define('CartItem', {
     },
     cart_id: DataTypes.STRING(50),
     prod_id: DataTypes.STRING(50),
-    quantity: DataTypes.DECIMAL(18, 3),
+    quantity: DataTypes.INTEGER,
     price: DataTypes.DECIMAL(18, 3),
 }, {
     tableName: 'cart_items',
     timestamps: false,
 });
 
-CartItem.belongsTo(Cart, { foreignKey: 'cart_id', targetKey: 'id' });
-CartItem.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
+CartItem.belongsTo(Cart, { foreignKey: 'cart_id', targetKey: 'id', as: 'cart' });
+CartItem.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id', as: 'product' });
 
 CartItem.sync()
     .then(() => {

@@ -9,7 +9,7 @@ const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
 
 
 // Định tuyến các yêu cầu tới controller
-router.get('/api/getAllVideos', verifyToken, isAdminSystem, getAllVideos);
+router.get('/api/getAllVideos', getAllVideos);
 router.get('/api/getVideoById/:id', verifyToken, isAdminSystem, getVideoById);
 router.post('/api/createVideo', verifyToken, isAdminSystem, createNewVideo);
 router.put('/api/updateVideo/:id', verifyToken, isAdminSystem, updateVideoById);

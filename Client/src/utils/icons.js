@@ -1,4 +1,4 @@
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiSend } from "react-icons/fi";
 import { HiReceiptPercent } from "react-icons/hi2";
 import {
     MdShoppingCart,
@@ -7,6 +7,8 @@ import {
     MdDeleteForever,
 } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
+import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+
 
 import {
     AiOutlineEye,
@@ -19,6 +21,7 @@ import {
     AiOutlineDown,
     AiOutlineSearch,
     AiOutlineUnorderedList,
+    AiOutlineComment,
 
 } from "react-icons/ai";
 import {
@@ -30,9 +33,10 @@ import {
     FaArrowAltCircleLeft,
     FaShippingFast,
     FaHeadphonesAlt,
-    FaStar,
+    FaStar, FaCartPlus,
     FaUserCheck,
     FaRegAddressCard,
+    FaPlus, FaMinus
 } from "react-icons/fa";
 
 import { FcGoogle } from "react-icons/fc";
@@ -52,7 +56,7 @@ import {
     BsFillPhoneVibrateFill,
     BsMessenger,
     BsFillPersonPlusFill,
-    BsEyeSlashFill,
+    BsEyeSlashFill,BsCart4,
     BsInstagram, BsTwitter, BsFillPenFill,
 } from "react-icons/bs";
 import {
@@ -69,7 +73,7 @@ import {
     IoInformationCircleOutline, IoAlbumsOutline,
 } from "react-icons/io5";
 
-import { BiChevronUp, BiChevronDown, BiLoaderCircle, BiSolidUser, BiSolidBank, BiUser } from "react-icons/bi";
+import { BiChevronUp, BiChevronDown, BiLoaderCircle, BiSolidUser, BiSolidBank, BiUser, BiShare } from "react-icons/bi";
 
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { DiMongodb } from "react-icons/di";
@@ -78,12 +82,12 @@ import { SiExpress, SiTailwindcss } from "react-icons/si";
 import { GiSkeletonKey } from "react-icons/gi";
 
 export const icons = {
-    BsEyeSlashFill,
+    BsEyeSlashFill, FcLike, FcLikePlaceholder, FiSend,
     BsInstagram, BsTwitter, BsFillPenFill,
     IoInformationCircleOutline, IoAlbumsOutline,
-    CiLocationOn,
-    BiUser,
-    AiOutlineMail,
+    CiLocationOn, BiShare, AiOutlineComment,
+    BiUser, FaPlus, FaMinus, FaCartPlus,
+    AiOutlineMail,BsCart4,
     AiOutlineFacebook,
     AiOutlineYoutube,
     AiOutlineDown,

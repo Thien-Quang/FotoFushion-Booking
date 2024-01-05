@@ -24,6 +24,13 @@ const Request = sequelize.define('Request', {
         collate: 'utf8mb4_unicode_ci',
     },
     is_status: DataTypes.BOOLEAN,
+    status: {
+        type: DataTypes.ENUM('Chưa Thực Hiện', 'Đang Thực Hiện', 'Hoàn Thành'),
+        allowNull: false,
+        defaultValue: 'Chưa Thực Hiện',
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_unicode_ci',
+    },
 }, {
     tableName: 'request',
     timestamps: false,

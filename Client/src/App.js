@@ -7,12 +7,12 @@ function App() {
   return (
     <>
       <Routes>
-        <Route element={<Layout hideHeaderPaths={['/login', '/signup',]} />}>
+        <Route element={<Layout hideHeaderPaths={['/login', '/signup', '/forgotpassword', '/resetpassword', '/dashboard']} />}>
           {router.map((route, index) => {
             return <Route key={index} path={route.path} element={
-              //<LayoutAdmin>
+
               <route.component />
-              // </LayoutAdmin>
+
             }></Route>;
           })}
         </Route>

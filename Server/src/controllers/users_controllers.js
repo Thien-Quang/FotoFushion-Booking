@@ -11,7 +11,15 @@ const getAllUsers = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách người dùng.' });
     }
 };
-
+const getAllUsersIsCustomer = async (req, res) => {
+    try {
+        const users = await UserService.getAllUsersIsCustomer();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách người dùng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách người dùng.' });
+    }
+};
 // Lấy thông tin người dùng bằng ID
 const getUserById = async (req, res) => {
     try {
@@ -60,14 +68,15 @@ const createNewUser = async (req, res) => {
 const updateUserById = async (req, res) => {
     try {
         const id = req.params.id;
-        const userData = req.body;
+        const inputData = req.body;
+        const userData = { id, ...inputData };;
         const updatedUser = await UserService.updateUser(id, userData);
 
         if (!updatedUser) {
             return res.status(404).json({ error: 'Người dùng không tồn tại' });
         }
 
-        res.json(updatedUser);
+        res.status(200).json(updatedUser);
     } catch (error) {
         console.error('Lỗi khi cập nhật người dùng:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật người dùng.' });
@@ -90,6 +99,21 @@ const deleteUserById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa người dùng.' });
     }
 };
+const deleteUserbyEmail = async (req, res) => {
+    try {
+        const email = req.params.email;
+        const deleteResult = await UserService.deleteUserbyEmail(email);
+
+        if (!deleteResult) {
+            return res.status(404).json({ error: 'Không tìm thấy người dùng.' });
+        }
+
+        res.sendStatus(204);
+    } catch (error) {
+        console.error('Lỗi khi xóa người dùng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa người dùng.' });
+    }
+};
 
 module.exports = {
     getAllUsers,
@@ -97,5 +121,7 @@ module.exports = {
     createNewUser,
     updateUserById,
     deleteUserById,
-    getUserByEmail
+    getUserByEmail,
+    deleteUserbyEmail,
+    getAllUsersIsCustomer
 };

@@ -31,14 +31,14 @@ const getVideoById = async (req, res) => {
 // Tạo video mới
 const createNewVideo = async (req, res) => {
     try {
-        const { albums_id, url_video, name } = req.body;
+        const inputData = req.body;
         const id = uuidv4();
-        const videoData = { id, albums_id, url_video, name };
-        const createdVideo = await VideoService.createVideo(videoData);
-        res.status(201).json(createdVideo);
+        const videoData = { id, ...inputData };
+        const video = await VideoService.createVideo(videoData);
+        res.status(201).json(video);
     } catch (error) {
-        console.error('Lỗi khi tạo video mới:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi tạo video mới.' });
+        console.error('Lỗi khi tạo ảnh mới:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi tạo ảnh mới.' });
     }
 };
 

@@ -1,5 +1,5 @@
 const PriceList = require('../models/price_list_models');
-
+const { Op } = require('sequelize');
 class PriceListService {
     async getPriceListById(id) {
         try {
@@ -13,7 +13,14 @@ class PriceListService {
 
     async getAllPriceLists() {
         try {
-            const priceLists = await PriceList.findAll();
+            const priceLists = await PriceList.findAll({
+                where: {
+                    photo_album_id: {
+                        [Op.not]: '038057a3-668e-4b76-ade8-082cc984bb51',
+                    },
+
+                },
+            });
             return priceLists;
         } catch (error) {
             console.error('Lỗi khi lấy danh sách bảng giá:', error);
@@ -21,6 +28,18 @@ class PriceListService {
         }
     }
 
+    async getAllPriceListByAlbumsId(albumId) {
+        try {
+            const priceLists = await PriceList.findAll({
+                where: { photo_album_id: albumId },
+                order: [['price', 'ASC']],
+            });
+            return priceLists;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách giá theo albumId:', error);
+            throw error;
+        }
+    }
     async createPriceList(priceListData) {
         try {
             const priceList = await PriceList.create(priceListData);

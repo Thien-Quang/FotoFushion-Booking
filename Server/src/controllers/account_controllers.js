@@ -46,7 +46,7 @@ const updateAccountByEmail = async (req, res) => {
             return res.status(404).json({ error: 'Không tìm thấy tài khoản.' });
         }
 
-        res.json(updatedAccount);
+        res.status(200).json(updatedAccount);
     } catch (error) {
         console.error('Lỗi khi cập nhật tài khoản:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật tài khoản.' });

@@ -46,7 +46,31 @@ class PhotographyRoomService {
             throw error;
         }
     }
+    async getAllCategoryOfRoom() {
+        try {
+            // Use Sequelize's findAll method to retrieve only the 'category' field
+            const rooms = await PhotographyRoom.findAll({
+                attributes: ['category'],
+            });
 
+            // Consolidate categories to get a unique list
+            const uniqueCategories = {};
+            const consolidatedCategories = rooms.reduce((acc, room) => {
+                const category = room.category;
+                if (!uniqueCategories[category]) {
+                    uniqueCategories[category] = true;
+                    acc.push(category);
+                }
+                return acc;
+            }, []);
+            // Return the array of unique categories
+            return consolidatedCategories;
+        } catch (error) {
+            // If an error occurs during the database query, log the error and rethrow it
+            console.error('Lỗi khi lấy danh sách phòng chụp :', error);
+            throw error;
+        }
+    }
     async deletePhotographyRoom(id) {
         try {
             const room = await PhotographyRoom.findByPk(id);

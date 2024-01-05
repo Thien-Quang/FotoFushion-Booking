@@ -9,6 +9,7 @@ const User = require('./users_models'); // Import mô hình User
 const Product = require('./product_models'); // Import mô hình Product
 const BlogPost = require('./blog_post_models'); // Import mô hình BlogPost
 const Equipment = require('./equipment_models'); // Import mô hình Equipment
+const Location = require('./locations_models'); // Import mô hình Equipment
 
 const Photo = sequelize.define('Photo', {
     id: {
@@ -32,6 +33,8 @@ const Photo = sequelize.define('Photo', {
     prod_id: DataTypes.STRING(50),
     blog_id: DataTypes.STRING(50),
     equip_id: DataTypes.STRING(50),
+    locations_id: DataTypes.STRING(50),
+
 }, {
     tableName: 'photos',
     timestamps: false,
@@ -42,9 +45,11 @@ Photo.belongsTo(PhotoAlbum, { foreignKey: 'albums_id', targetKey: 'id' });
 Photo.belongsTo(PromotionEvent, { foreignKey: 'event_id', targetKey: 'id' });
 Photo.belongsTo(PhotographyRoom, { foreignKey: 'room_id', targetKey: 'id' });
 Photo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
-Photo.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
+Photo.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id', as: 'product' });
 Photo.belongsTo(BlogPost, { foreignKey: 'blog_id', targetKey: 'id' });
 Photo.belongsTo(Equipment, { foreignKey: 'equip_id', targetKey: 'id' });
+Photo.belongsTo(Location, { foreignKey: 'locations_id', targetKey: 'id', as: 'location' });
+
 
 Photo.sync()
     .then(() => {

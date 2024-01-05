@@ -11,8 +11,6 @@ const OrderDetail = sequelize.define('OrderDetail', {
     order_id: DataTypes.STRING(50),
     prod_id: DataTypes.STRING(50),
     quantity: DataTypes.INTEGER,
-    unit_price: DataTypes.DECIMAL(18, 3),
-    shipping_fee: DataTypes.DECIMAL(18, 3),
     total_price: DataTypes.DECIMAL(18, 3),
 }, {
     tableName: 'order_detail',
@@ -20,7 +18,7 @@ const OrderDetail = sequelize.define('OrderDetail', {
 });
 
 OrderDetail.belongsTo(Order, { foreignKey: 'order_id', targetKey: 'id' });
-OrderDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
+OrderDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id', as: 'product' });
 
 OrderDetail.sync()
     .then(() => {

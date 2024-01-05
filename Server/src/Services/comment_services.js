@@ -1,5 +1,5 @@
 const Comment = require('../models/comment_models');
-
+const Users = require('../models/users_models')
 class CommentService {
     async getCommentById(id) {
         try {
@@ -14,6 +14,23 @@ class CommentService {
     async getAllComments() {
         try {
             const comments = await Comment.findAll();
+            return comments;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách bình luận:', error);
+            throw error;
+        }
+    }
+    async getAllCommentsByBlogId(id) {
+        try {
+            const comments = await Comment.findAll({
+                where: { blog_post_id: id },
+                include: [
+                    {
+                        model: Users,
+                        as: 'user',
+                    },
+                ],
+            });
             return comments;
         } catch (error) {
             console.error('Lỗi khi lấy danh sách bình luận:', error);

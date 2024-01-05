@@ -18,6 +18,8 @@ const Costume = sequelize.define('Costume', {
     },
     price: DataTypes.DECIMAL(18, 3),
     quantity: DataTypes.INTEGER,
+    rental_start_date: DataTypes.STRING(100),
+
 }, {
     tableName: 'costume',
     timestamps: false,

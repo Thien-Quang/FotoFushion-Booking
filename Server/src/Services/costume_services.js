@@ -20,6 +20,32 @@ class CostumeService {
             throw error;
         }
     }
+    async getAllCategoryOfCostumes() {
+        try {
+            // Use Sequelize's findAll method to retrieve only the 'category' field
+            const costumes = await Costume.findAll({
+                attributes: ['category'],
+            });
+
+            // Consolidate categories to get a unique list
+            const uniqueCategories = {};
+            const consolidatedCategories = costumes.reduce((acc, costume) => {
+                const category = costume.category;
+                if (!uniqueCategories[category]) {
+                    uniqueCategories[category] = true;
+                    acc.push(category);
+                }
+                return acc;
+            }, []);
+
+            // Return the array of unique categories
+            return consolidatedCategories;
+        } catch (error) {
+            // If an error occurs during the database query, log the error and rethrow it
+            console.error('Lỗi khi lấy danh sách trang phục:', error);
+            throw error;
+        }
+    }
 
     async createCostume(costumeData) {
         try {

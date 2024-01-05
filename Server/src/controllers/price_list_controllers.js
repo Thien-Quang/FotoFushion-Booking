@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const PriceListService = require('../services/price_list_services');
 
+
 // Lấy danh sách tất cả các bảng giá
 const getAllPriceLists = async (req, res) => {
     try {
@@ -9,6 +10,19 @@ const getAllPriceLists = async (req, res) => {
     } catch (error) {
         console.error('Lỗi khi lấy danh sách bảng giá:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách bảng giá.' });
+    }
+};
+const getAllPriceListByAlbumsId = async (req, res) => {
+    try {
+        const photo_album_id = req.params.photo_album_id;
+        console.log(photo_album_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const data = await PriceListService.getAllPriceListByAlbumsId(photo_album_id);
+        res.json(data);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
     }
 };
 
@@ -31,9 +45,10 @@ const getPriceListById = async (req, res) => {
 // Tạo bảng giá mới
 const createNewPriceList = async (req, res) => {
     try {
-        const { photo_album_id, video_albums_id, name, price, number_camera, number_photo, light_equip } = req.body;
         const id = uuidv4();
-        const priceListData = { id, photo_album_id, video_albums_id, name, price, number_camera, number_photo, light_equip };
+        const inputData = req.body;
+        const priceListData = { id, ...inputData };
+
         const priceList = await PriceListService.createPriceList(priceListData);
         res.status(201).json(priceList);
     } catch (error) {
@@ -46,7 +61,8 @@ const createNewPriceList = async (req, res) => {
 const updatePriceListById = async (req, res) => {
     try {
         const id = req.params.id;
-        const priceListData = req.body;
+        const inputData = req.body;
+        const priceListData = { id, ...inputData };
         const updatedPriceList = await PriceListService.updatePriceList(id, priceListData);
 
         if (!updatedPriceList) {
@@ -82,5 +98,6 @@ module.exports = {
     getPriceListById,
     createNewPriceList,
     updatePriceListById,
-    deletePriceListById
+    deletePriceListById,
+    getAllPriceListByAlbumsId
 };

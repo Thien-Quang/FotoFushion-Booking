@@ -13,6 +13,15 @@ const getAllCostumes = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách trang phục.' });
     }
 };
+const getAllCategoryOfCostumes = async (req, res) => {
+    try {
+        const costumes = await CostumeService.getAllCategoryOfCostumes();
+        res.json(costumes);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách trang phục:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách trang phục.' });
+    }
+};
 
 // Lấy thông tin trang phục bằng ID
 const getCostumeById = async (req, res) => {
@@ -33,9 +42,9 @@ const getCostumeById = async (req, res) => {
 // Tạo trang phục mới
 const createNewCostume = async (req, res) => {
     try {
-        const { name, category, price, quantity } = req.body;
         const id = uuidv4();
-        const costumeData = { id, name, category, price, quantity };
+        const inputData = req.body;
+        const costumeData = { id, ...inputData };
         const costume = await CostumeService.createCostume(costumeData);
         res.status(201).json(costume);
     } catch (error) {
@@ -47,7 +56,8 @@ const createNewCostume = async (req, res) => {
 const updateCostumeById = async (req, res) => {
     try {
         const id = req.params.id;
-        const costumeData = req.body;
+        const inputData = req.body;
+        const costumeData = { ...inputData };
         const updatedCostume = await CostumeService.updateCostume(id, costumeData);
 
         if (!updatedCostume) {
@@ -82,5 +92,6 @@ module.exports = {
     getCostumeById,
     createNewCostume,
     updateCostumeById,
-    deleteCostumeById
+    deleteCostumeById,
+    getAllCategoryOfCostumes
 }

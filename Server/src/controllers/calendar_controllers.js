@@ -1,97 +1,88 @@
 const express = require('express');
-
 const { v4: uuidv4 } = require('uuid');
-const CartItemService = require('../services/cart_items_services');
+const CalendarService = require('../services/calendar_services');
 
-// Lấy danh sách tất cả các mục trong giỏ hàng
-const getAllCartItems = async (req, res) => {
+// Lấy danh sách tất cả các mục trong calendar
+const getAllCalendarItems = async (req, res) => {
     try {
-        const cartItems = await CartItemService.getAllCartItems();
-        res.json(cartItems);
+        const calendarItems = await CalendarService.getAllCalendars();
+        res.json(calendarItems);
     } catch (error) {
-        console.error('Lỗi khi lấy danh sách các mục trong giỏ hàng:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách các mục trong giỏ hàng.' });
+        console.error('Lỗi khi lấy danh sách các mục trong calendar:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách các mục trong calendar.' });
     }
 };
 
-// Lấy thông tin mục trong giỏ hàng bằng ID
-const getCartItemById = async (req, res) => {
+// Lấy thông tin mục trong calendar bằng ID
+const getCalendarItemById = async (req, res) => {
     try {
         const id = req.params.id;
-        const cartItem = await CartItemService.getCartItemById(id);
-        if (!cartItem) {
-            return res.status(404).json({ error: 'Không tìm thấy mục trong giỏ hàng.' });
+        const calendarItem = await CalendarService.getCalendarById(id);
+        if (!calendarItem) {
+            return res.status(404).json({ error: 'Không tìm thấy mục trong calendar.' });
         }
 
-        res.json(cartItem);
+        res.json(calendarItem);
     } catch (error) {
-        console.error('Lỗi khi lấy thông tin mục trong giỏ hàng:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin mục trong giỏ hàng.' });
+        console.error('Lỗi khi lấy thông tin mục trong calendar:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin mục trong calendar.' });
     }
 };
 
-// Tạo mục mới trong giỏ hàng
-const createNewCartItem = async (req, res) => {
+// Tạo một mục mới trong calendar
+const createNewCalendarItem = async (req, res) => {
     try {
-        // Lấy thông tin mục từ request body
-        const { cart_id, prod_id, quantity, price } = req.body;
-        const id = uuidv4(); // Tạo ID mới cho mục
-        const cartItemData = { id, cart_id, prod_id, quantity, price };
+        const { calendar_id, prod_id, quantity, price } = req.body;
+        const id = uuidv4();
+        const calendarItemData = { id, calendar_id, prod_id, quantity, price };
+        const calendarItem = await CalendarService.createCalendar(calendarItemData);
 
-        // Gọi service để tạo mục trong giỏ hàng
-        const cartItem = await CartItemService.createCartItem(cartItemData);
-
-        // Trả về thông tin mục vừa tạo
-        res.status(201).json(cartItem);
+        res.status(201).json(calendarItem);
     } catch (error) {
-        console.error('Lỗi khi tạo mục mới trong giỏ hàng:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi tạo mục mới trong giỏ hàng.' });
+        console.error('Lỗi khi tạo mục mới trong calendar:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi tạo mục mới trong calendar.' });
     }
 };
 
-// Cập nhật thông tin mục trong giỏ hàng bằng ID
-const updateCartItemById = async (req, res) => {
+// Cập nhật thông tin mục trong calendar bằng ID
+const updateCalendarItemById = async (req, res) => {
     try {
         const id = req.params.id;
-        const cartItemData = req.body;
+        const calendarItemData = req.body;
+        const updatedCalendarItem = await CalendarService.updateCalendar(id, calendarItemData);
 
-        // Gọi service để cập nhật mục trong giỏ hàng
-        const updatedCartItem = await CartItemService.updateCartItem(id, cartItemData);
-
-        if (!updatedCartItem) {
-            return res.status(404).json({ error: 'Mục trong giỏ hàng không tồn tại' });
+        if (!updatedCalendarItem) {
+            return res.status(404).json({ error: 'Mục trong calendar không tồn tại' });
         }
 
-        res.json(updatedCartItem);
+        res.json(updatedCalendarItem);
     } catch (error) {
-        console.error('Lỗi khi cập nhật mục trong giỏ hàng:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật mục trong giỏ hàng.' });
+        console.error('Lỗi khi cập nhật mục trong calendar:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi cập nhật mục trong calendar.' });
     }
 };
 
-// Xóa mục trong giỏ hàng bằng ID
-const deleteCartItemById = async (req, res) => {
+// Xóa mục trong calendar bằng ID
+const deleteCalendarItemById = async (req, res) => {
     try {
         const id = req.params.id;
-
-        // Gọi service để xóa mục trong giỏ hàng
-        const deleteResult = await CartItemService.deleteCartItem(id);
+        const deleteResult = await CalendarService.deleteCalendar(id);
 
         if (!deleteResult) {
-            return res.status(404).json({ error: 'Không tìm thấy mục trong giỏ hàng.' });
+            return res.status(404).json({ error: 'Không tìm thấy mục trong calendar.' });
         }
 
         res.sendStatus(204);
     } catch (error) {
-        console.error('Lỗi khi xóa mục trong giỏ hàng:', error);
-        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa mục trong giỏ hàng.' });
+        console.error('Lỗi khi xóa mục trong calendar:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa mục trong calendar.' });
     }
 };
 
 module.exports = {
-    getAllCartItems,
-    getCartItemById,
-    createNewCartItem,
-    updateCartItemById,
-    deleteCartItemById
+    getAllCalendarItems,
+    getCalendarItemById,
+    createNewCalendarItem,
+    updateCalendarItemById,
+    deleteCalendarItemById
 };

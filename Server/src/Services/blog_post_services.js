@@ -1,6 +1,5 @@
+
 const BlogPost = require('../models/blog_post_models');
-
-
 class BlogPostService {
     async getBlogPostById(id) {
         try {

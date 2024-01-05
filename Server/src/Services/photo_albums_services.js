@@ -10,16 +10,31 @@ class PhotoAlbumService {
             throw error;
         }
     }
+    async getPhotoAlbumByUserId(id) {
+        try {
+            const photoAlbum = await PhotoAlbum.findOne({
+                where: { user_id: id }
+            });
+            return photoAlbum;
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin album ảnh:', error);
+            throw error;
+        }
+    }
 
     async getAllPhotoAlbums() {
         try {
-            const photoAlbums = await PhotoAlbum.findAll();
+            const photoAlbums = await PhotoAlbum.findAll({
+                order: [['date_create', 'ASC']],
+            });
+
             return photoAlbums;
         } catch (error) {
             console.error('Lỗi khi lấy danh sách album ảnh:', error);
             throw error;
         }
     }
+
 
     async createPhotoAlbum(photoAlbumData) {
         try {

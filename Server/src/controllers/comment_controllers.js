@@ -30,14 +30,27 @@ const getCommentById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin bình luận.' });
     }
 };
+// Lấy thông tin bình luận bằng ID
+const getAllCommentsByBlogId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const comment = await CommentService.getAllCommentsByBlogId(id);
+        if (!comment) {
+            return res.status(404).json({ error: 'Không tìm thấy bình luận.' });
+        }
 
+        res.status(200).json(comment);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin bình luận:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin bình luận.' });
+    }
+};
 // Tạo bình luận mới
 const createNewComment = async (req, res) => {
     try {
-        // Lấy thông tin bình luận từ request body
-        const { user_id, vidab_id, phoab_id, prod_id, blog_post_id, content } = req.body;
-        const id = uuidv4(); // Tạo ID mới cho bình luận
-        const commentData = { id, user_id, vidab_id, phoab_id, prod_id, blog_post_id, content };
+        const id = uuidv4();
+        const inputData = req.body;
+        const commentData = { id, ...inputData };
 
         // Gọi service để tạo bình luận
         const comment = await CommentService.createComment(commentData);
@@ -94,5 +107,6 @@ module.exports = {
     getCommentById,
     createNewComment,
     updateCommentById,
-    deleteCommentById
+    deleteCommentById,
+    getAllCommentsByBlogId
 };
