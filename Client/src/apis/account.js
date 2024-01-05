@@ -37,6 +37,7 @@ const updateRoleAccount = async (accessToken, email, role_id) => {
         };
     }
 };
+
 const deleteAccount = async (accessToken, email) => {
     try {
         const response = await axiosClient.delete(`/deleteAccountByEmail/${email}`, {

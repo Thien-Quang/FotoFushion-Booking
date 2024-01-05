@@ -54,7 +54,7 @@ const MainProducts = () => {
     };
 
     const handleAddProduct = (id) => {
-        if (auth.accessToken !== undefined) {
+        if (auth && Object.keys(auth).length > 0) {
             addProduct(id, 1);
         } else {
             notify('Đăng Nhập Trước Khi Thêm Sản Phẩm')

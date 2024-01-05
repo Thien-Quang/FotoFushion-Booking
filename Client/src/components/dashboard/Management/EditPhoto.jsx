@@ -5,6 +5,8 @@ import AuthContext from '../../../context/authProvider';
 const EditPhoto = () => {
     const { auth } = useContext(AuthContext);
     const [requests, setRequests] = useState([])
+    const [openModal, setOpenModal] = useState(false);
+
     useEffect(() => {
         const fetchAdd = async () => {
             try {
@@ -19,10 +21,10 @@ const EditPhoto = () => {
             fetchAdd();
         }
     }, [auth.accessToken])
+
+
     return (
-
         <div className='w-full'>
-
             <div className='flex items-center justify-center'>
                 <h1 className='font-bold text-5xl m-10'>Bảng Yêu Cầu Chỉnh Sửa Hình Ảnh</h1>
             </div>
@@ -63,7 +65,7 @@ const EditPhoto = () => {
                                             </td>
                                             <th>
                                                 <button className="btn btn-success"
-                                                //onClick={() => openModal(item)}
+                                                    onClick={() => openModal(item)}
                                                 >Xóa</button>
                                             </th>
                                         </tr>

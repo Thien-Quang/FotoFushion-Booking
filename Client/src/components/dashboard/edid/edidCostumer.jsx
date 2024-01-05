@@ -4,6 +4,7 @@ import AuthContext from '../../../context/authProvider';
 import { Spinner } from '@material-tailwind/react';
 import { ToastContainer, toast } from 'react-toastify';
 import PhotoByCostumer from '../../helples/PhotoByCostumer';
+import { formatCurrency } from '../../helples/Format'
 
 
 const EdidCostumer = (costumer) => {
@@ -93,7 +94,6 @@ const EdidCostumer = (costumer) => {
             <ToastContainer />
             <div className='w-full'>
                 <div className="card card-side bg-base-100 shadow-xl">
-                    <PhotoByCostumer costume_id={id} />
                     {isEditing ? (
                         <form onSubmit={handleSubmit}>
                             <div className="card-body ">
@@ -155,7 +155,7 @@ const EdidCostumer = (costumer) => {
                     ) : (
                         <div className="card-body">
                             <h2 className="card-title">Tên trang phục : {name} </h2>
-                            <h2 className="card-title">Giá : {price} VND</h2>
+                            <h2 className="card-title">Giá : {formatCurrency(price)} VND</h2>
                             <p>Loại :{category} </p>
                             <p>Số lượng còn lại :{quantity} </p>
                             <p>Số ngày thuê :{rental_start_date} </p>

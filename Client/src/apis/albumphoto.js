@@ -24,6 +24,25 @@ const getAlbumsPhotoById = async (id) => {
         throw error;
     }
 };
+const getPhotoAlbumByUserId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.get(`/getPhotoAlbumByUserId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+
+        if (response) {
+            return {
+                statusCode: response.status,
+                data: response.data
+            }
+        }
+    } catch (error) {
+        console.error('Lỗi khi lấy albums:', error);
+        throw error;
+    }
+};
 const createAlbumsPhotoForCustomer = async (accessToken, name, user_id, cover_photo, sum_photo, category, location, date_create) => {
 
     try {
@@ -90,5 +109,6 @@ export {
     createAlbumsPhotoForCustomer,
     updateAlbums,
     deleteAlbums,
-    getAlbumsPhotoById
+    getAlbumsPhotoById,
+    getPhotoAlbumByUserId
 }

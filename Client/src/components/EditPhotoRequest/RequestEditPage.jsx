@@ -6,10 +6,10 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from '../../config/firebase.config';
 import { v4 } from "uuid";
 import { Spinner } from '@material-tailwind/react';
-import * as requestApi from '../../apis/request'
+
 import * as vnpayApi from '../../apis/vnpay'
 import { formatCurrency } from '../helples/Format'
-import shortenUrl from 'shorten-url';
+
 const RequestEditPage = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -37,7 +37,6 @@ const RequestEditPage = () => {
     }, [])
     const [imageUploads, setImageUpload] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
-    const [imageUrlsShort, setImageUrlsShort] = useState('');
 
     const handleFileChange = (e) => {
         for (let i = 0; i < e.target.files.length; i++) {
@@ -83,25 +82,30 @@ const RequestEditPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!selectedFile) {
-            notify("Vui lòng chọn ảnh.", "error");
-            return;
-        }
-        if (!message) {
-            notify("Vui lòng nhập mô tả yêu cầu.", "error");
-            return;
-        }
-        setLoading(true);
-        try {
-            await uploadFile();
+        if (auth && Object.keys(auth).length > 0) {
+            if (!selectedFile) {
+                notify("Vui lòng chọn ảnh.", "error");
+                return;
+            }
+            if (!message) {
+                notify("Vui lòng nhập mô tả yêu cầu.", "error");
+                return;
+            }
+            setLoading(true);
+            try {
+                await uploadFile();
 
-            setSubmit(true);
-        } catch (error) {
-            // Handle the error if the upload fails
-            // console.error("Error during file upload:", error);
-            notify("Đã xảy ra lỗi trong quá trình tải ảnh lên.", "error");
-            setLoading(false);
+                setSubmit(true);
+            } catch (error) {
+                // Handle the error if the upload fails
+                // console.error("Error during file upload:", error);
+                notify("Đã xảy ra lỗi trong quá trình tải ảnh lên.", "error");
+                setLoading(false);
+            }
+        } else {
+            notify("Bạn phải đăng nhập để sử dụng dịch vụ này")
         }
+
     };
     return (
         <>

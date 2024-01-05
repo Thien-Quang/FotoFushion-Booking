@@ -3,6 +3,7 @@ import * as costumer from '../../apis/costumer';
 import PhotoByCostumer from './PhotoByCostumer';
 import { ToastContainer, toast } from 'react-toastify';
 import { formatCurrency } from './Format'
+import { Link } from 'react-router-dom';
 
 const Costumer = ({ onSelectCostumer }) => {
     const notify = (message, type) => {
@@ -116,10 +117,14 @@ const Costumer = ({ onSelectCostumer }) => {
                                 <p className='text-red-400 font-semibold animate-bounce'>{formatCurrency(studio.price)} / {studio.rental_start_date}</p>
                                 <p>Số lượng còn lại : {studio.quantity}</p>
                                 <div className="card-actions justify-end">
-                                    <button className="btn bg-btnprimary mx-2" onClick={() => {
-                                        notify("Bạn đã lựa chọn thành công trang phục", 'success');
-                                        onSelectCostumer(studio)
-                                    }}>Lựa Chọn</button>
+                                    <Link to='/bookingonline' >
+                                        <button className="btn bg-btnprimary mx-2" onClick={() => {
+                                            notify("Bạn đã lựa chọn thành công trang phục", 'success');
+                                            onSelectCostumer(studio);
+                                        }}>
+                                            Lựa Chọn
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

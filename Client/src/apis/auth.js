@@ -21,7 +21,6 @@ export const loginApi = async (email, password) => {
 };
 
 export const authorization = async (accessToken, email) => {
-
   try {
     const responseRoles = await axiosClient.get(`/getAccountByEmail/${email}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -39,24 +38,6 @@ export const authorization = async (accessToken, email) => {
       statusCode: error.status,
     };
   }
-
-  // try {
-  //   const responseRoles = await axiosClient.get(`/getAccountByEmail/${email}`, {
-  //     headers: { Authorization: `Bearer ${accessToken}` },
-  //   });
-  //   //console.log(responseRoles);
-  //   return {
-  //     roles: responseRoles.data.role_id,
-  //     phoneNumber: responseRoles.data.phone_number,
-  //     statusCode: responseRoles.status,
-  //   };
-  // } catch (error) {
-  //   return {
-  //     error,
-  //     statusCode: error.status,
-  //   };
-  // }
-
 };
 export const getUser = async (accessToken, email) => {
   try {
@@ -70,6 +51,7 @@ export const getUser = async (accessToken, email) => {
       address: responseRoles.data.address,
       gender: responseRoles.data.gender,
       statusCode: responseRoles.status,
+      avatar: responseRoles.data.avatar_url,
     };
   } catch (error) {
     return {
@@ -116,7 +98,6 @@ export const confirmOtp = async (email, otp) => {
   }
 };
 const FORGOTPASSWORD_ENDPOINT = 'auth/forgotpassword';
-
 export const forgotPassword = async (email) => {
   try {
     const response = await axiosClient.post(FORGOTPASSWORD_ENDPOINT, {
@@ -154,32 +135,23 @@ export const resetPassword = async (otp, password) => {
   }
 }
 
-export const logoutApi = async () => {
-  const res = await axiosClient.post("/auth/logout");
-  if (res) {
-    return res;
+
+export const changePassword = async (email, oldPassword, newPassword) => {
+  try {
+    const response = await axiosClient.post(`/auth/changepassword/${email}`, { oldPassword: oldPassword, newPassword: newPassword, });
+    return {
+      response: response,
+      statusCode: response.status,
+    };
+  } catch (error) {
+    return {
+      error,
+      statusCode: error.status,
+    };
   }
 };
 
-export const refreshTokenApi = async () => {
-  const res = await axiosClient.post("/auth/refresh-token");
-  if (res) {
-    return res;
-  }
 
-};
 
-export const socialLoginApi = async (data) => {
-  const res = await axiosClient.post("/auth/social-login", data);
-  if (res) {
-    return res;
-  }
-};
 
-export const registerApi = async (data) => {
-  const res = await axiosClient.post("/auth/register", data);
-  if (res) {
-    return res;
-  }
-};
 

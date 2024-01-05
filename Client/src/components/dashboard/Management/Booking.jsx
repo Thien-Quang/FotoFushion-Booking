@@ -16,8 +16,6 @@ const Booking = () => {
     const [booking_id, setBooking_id] = useState(null);
     const [loading, setLoading] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-
-    const [itemDeleteId, setItemDeleteId] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [delete_booking, setDelete_booking] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -234,8 +232,8 @@ const Booking = () => {
                                     <EditBooking item={selectedItem} />
                                     <div className="modal-action">
                                         <form method="dialog">
-                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
-                                            <button className="btn" onClick={() => handleCloseModal()}>Close</button>
+                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" >✕</button>
+                                            <button className="btn">Close</button>
                                         </form>
                                     </div>
                                 </div>

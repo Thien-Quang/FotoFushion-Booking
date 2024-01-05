@@ -1,5 +1,8 @@
 export function formatDateTime(dateTimeString) {
     // Tạo đối tượng Date từ chuỗi thời gian
+    if (!dateTimeString) {
+        return "Không có thời gian"
+    }
     const dateTime = new Date(dateTimeString);
 
     // Lấy thông tin ngày, tháng, năm, giờ và phút

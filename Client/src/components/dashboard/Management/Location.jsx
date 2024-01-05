@@ -5,7 +5,7 @@ import * as locationAPI from '../../../apis/location'
 import * as photo from '../../../apis/photo'
 import * as firebase from '../../../apis/firebase'
 import AddLocation from '../add/AddLocation'
-import EdidRoomPhoto from '../edid/edidRoom';
+
 import { ToastContainer, toast } from 'react-toastify';
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
@@ -203,31 +203,15 @@ const Location = () => {
                                         <Table.Cell>{item.address}</Table.Cell>
                                         <Table.Cell>{item.type}</Table.Cell>
                                         <Table.Cell>{item.description}</Table.Cell>
-
                                         <Table.Cell>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
-                                                onClick={() => openEditModal(item)}>
-                                                Sửa
-                                            </a>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
+                                            <button href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
                                                 onClick={() => openDeleteModal(item.id)}>
                                                 Xóa
-                                            </a>
+                                            </button>
                                         </Table.Cell>
                                     </Table.Row>
                                 )
                             })}
-                            <dialog id="my_modal_4 edit" className="modal">
-                                <div className="modal-box w-11/12 max-w-5xl">
-                                    <EdidRoomPhoto item={selectedItem} />
-                                    <div className="modal-action">
-                                        <form method="dialog">
-                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
-                                            <button className="btn" onClick={() => handleCloseModal()}>Close</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </dialog>
                             <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
                                 <Modal.Header />
                                 <Modal.Body>

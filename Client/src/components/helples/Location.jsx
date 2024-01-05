@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as locationApi from '../../apis/location';
 import PhotoByCostumer from './PhotoByLocation';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const Location = ({ onSelectRoom }) => {
     const notify = (message, type) => {
@@ -113,10 +114,14 @@ const Location = ({ onSelectRoom }) => {
                                 <p>Mô tả: {studio.description}</p>
 
                                 <div className="card-actions justify-end">
-                                    <button className="btn bg-btnprimary mx-2" onClick={() => {
-                                        notify("Bạn đã lựa chọn thành công trang phục", 'success');
-                                        onSelectRoom(studio)
-                                    }}>Lựa Chọn</button>
+                                    <Link to='/bookingonline' >
+
+                                        <button className="btn bg-btnprimary mx-2" onClick={() => {
+                                            notify("Bạn đã lựa chọn thành công trang phục", 'success');
+                                            onSelectRoom(studio)
+                                        }}>Lựa Chọn</button>
+                                    </Link>
+
                                 </div>
                             </div>
                         </div>

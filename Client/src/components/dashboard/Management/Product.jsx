@@ -219,14 +219,14 @@ const Product = () => {
                                         <Table.Cell>{product.description}</Table.Cell>
 
                                         <Table.Cell>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
+                                            <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
                                                 onClick={() => openEditModal(product)}>
                                                 Sửa
-                                            </a>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
+                                            </button>
+                                            <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
                                                 onClick={() => openDeleteModal(product.id)}>
                                                 Xóa
-                                            </a>
+                                            </button>
                                         </Table.Cell>
                                     </Table.Row>
                                 )

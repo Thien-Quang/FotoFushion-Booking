@@ -62,18 +62,80 @@ const getOrderDetailByOrderId = async (accessToken, id) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    //console.log(response);
-    return response.data
+
+    const processedData = response.data.map((orderDetail) => {
+
+      const {
+        order_id,
+        quantity,
+        product: { category, discounted_price, name, price },
+      } = orderDetail;
+      return {
+        order_id, quantity, category, discounted_price, name, price
+      };
+    });
+
+    return processedData;
 
   } catch (error) {
     console.error('Lỗi khi lấy video:', error);
     throw error;
   }
 };
+const getAllOrder = async (accessToken) => {
+  try {
+    const response = await axiosClient.get(`/getAllOrders`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log(response);
+
+    return {
+      data: response.data,
+      statusCode: response.status
+    }
+
+  } catch (error) {
+    console.error('Lỗi khi lấy order:', error);
+    throw error;
+  }
+};
+const deleteOrder = async (accessToken, id) => {
+  try {
+    const response = await axiosClient.delete(`/deleteOrder/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.status
+
+  } catch (error) {
+    console.error('Lỗi khi lấy order:', error);
+    throw error;
+  }
+}
+const deleteAllOrderByOrderId = async (accessToken, id) => {
+  try {
+    const response = await axiosClient.delete(`/deleteAllOrderByOrderId/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.status
+
+  } catch (error) {
+    console.error('Lỗi khi lấy order:', error);
+    throw error;
+  }
+}
 
 export {
   createOrder,
   createOrderDetail,
   getOrderByUserId,
-  getOrderDetailByOrderId
+  getOrderDetailByOrderId,
+  getAllOrder,
+  deleteOrder,
+  deleteAllOrderByOrderId
 }

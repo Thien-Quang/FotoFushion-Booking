@@ -1,6 +1,8 @@
 export { default as Home } from "./home.jsx";
 export { default as Calendar } from "./Booking/Calendar.jsx";
 export { default as Profile } from "./profile.jsx";
+export { default as MyAlbums } from "./myAlbums.jsx";
+
 export { default as Equipment } from "./Rental_items/equiment.jsx";
 export { default as BookingAlbums } from "./Booking/bookingAlbums.jsx";
 export { default as BookingOnline } from "./Booking/bookingOnline.jsx";

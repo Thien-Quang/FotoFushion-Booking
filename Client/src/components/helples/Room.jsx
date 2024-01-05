@@ -3,6 +3,7 @@ import * as room from '../../apis/room';
 import PhotoByRoomId from './PhotoByRoomStudio';
 import { ToastContainer, toast } from 'react-toastify';
 import { formatCurrency } from './Format'
+import { Link } from 'react-router-dom';
 
 
 const Studio = ({ onSelectRoom }) => {
@@ -115,10 +116,12 @@ const Studio = ({ onSelectRoom }) => {
                                 <p className='text-red-400 font-semibold animate-bounce'>{formatCurrency(studio.price)} / 4 giờ</p>
 
                                 <div className="card-actions justify-end">
-                                    <button className="btn bg-btnprimary mx-2" onClick={() => {
-                                        notify("Bạn đã lựa chọn thành công phòng chụp", 'success');
-                                        onSelectRoom(studio)
-                                    }}>Lựa Chọn</button>
+                                    <Link to='/bookingonline' >
+                                        <button className="btn bg-btnprimary mx-2" onClick={() => {
+                                            notify("Bạn đã lựa chọn thành công phòng chụp", 'success');
+                                            onSelectRoom(studio)
+                                        }}>Lựa Chọn</button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

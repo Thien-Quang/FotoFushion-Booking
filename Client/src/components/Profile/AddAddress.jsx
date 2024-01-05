@@ -7,13 +7,25 @@ import {
 } from "../../apis/address";
 
 import Label from "../ButtonLabelLoadingModelCheckbox/Label";
-import { useDispatch } from "react-redux";
 import AuthContext from '../../context/authProvider';
+import { ToastContainer, toast } from 'react-toastify';
 
 
-import Swal from "sweetalert2";
 
 const AddAddress = () => {
+  const notify = (message, type) => {
+    const toastType = type === 'success' ? toast.success : toast.error;
+    return toastType(message, {
+      position: 'top-right',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+  };
   const [listProvices, setListProvinces] = useState([]);
   const [listDistricts, setListDistricts] = useState([]);
   const [listWards, setListWards] = useState([]);
@@ -26,9 +38,9 @@ const AddAddress = () => {
   const [exactAddressValue, setExactAddressValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch = useDispatch();
 
-  const { auth } = useContext(AuthContext);
+
+  const { auth, setAuth } = useContext(AuthContext);
 
 
   useEffect(() => {
@@ -86,7 +98,6 @@ const AddAddress = () => {
       setWardValue(value.wardValue);
     }
   };
-
   const handleAddAddress = async () => {
     try {
       if (
@@ -95,23 +106,25 @@ const AddAddress = () => {
         !wardValue ||
         !exactAddressValue
       ) {
+        notify("Bắt buộc điền hết tất cả các trường")
         return;
       }
-
       let dataAddress = exactAddressValue + ", " + wardValue + ", " + districtValue + ", " + provinceValue
-
-      console.log(dataAddress);
-
+      ///console.log(dataAddress);
       setIsLoading(true);
-      if (auth.accesstoken && auth.id) {
-        const res = await updateAddress(auth.accesstoken, auth.id, dataAddress)
+      if (auth.accessToken && auth.id) {
+
+        console.log(dataAddress);
+        const res = await updateAddress(auth.accessToken, auth.id, dataAddress);
+
         if (res.statusCode === 200) {
-          Swal.fire({
-            title: "Thành công",
-            text: "Đã thêm địa chỉ thành công",
-            icon: "success",
-            confirmButtonText: "OK",
-          });
+          const updatedAuth = {
+            ...auth,
+            address: dataAddress,
+          };
+          setAuth(updatedAuth);
+          localStorage.setItem('auth', JSON.stringify(updatedAuth));
+          notify("Cập Nhật Địa Chỉ Thành Công", "success")
         }
       }
       setIsLoading(false);
@@ -121,109 +134,112 @@ const AddAddress = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 bg-slate-300 border-2 border-white py-10 px-5 rounded-3xl">
-      <h4 className="font-bold text-lg text-black uppercase text-center">
-        Thêm Địa Chỉ
-      </h4>
+    <>
+      <ToastContainer />
+      <div className="flex flex-col gap-5 bg-slate-300 border-2 border-white py-10 px-5 rounded-3xl">
+        <h4 className="font-bold text-lg text-black uppercase text-center">
+          Thêm Địa Chỉ
+        </h4>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="">
-          <Label label="Tỉnh/Thành Phố" className="mb-5" />
-          <select
-            className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer"
-            onChange={handleSelectProvince}
-          >
-            <option defaultValue key="0">
-              Chọn Tỉnh/Thành Phố
-            </option>
-            {listProvices?.length > 0 &&
-              listProvices.map((item) => {
-                return (
-                  <option
-                    value={JSON.stringify({
-                      provinceId: item?.province_id,
-                      provinceValue: item?.province_name,
-                    })}
-                    key={item?.province_id}
-                  >
-                    {item?.province_name}
-                  </option>
-                );
-              })}
-          </select>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="">
+            <Label label="Tỉnh/Thành Phố" className="mb-5" />
+            <select
+              className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer"
+              onChange={handleSelectProvince}
+            >
+              <option defaultValue key="0">
+                Chọn Tỉnh/Thành Phố
+              </option>
+              {listProvices?.length > 0 &&
+                listProvices.map((item) => {
+                  return (
+                    <option
+                      value={JSON.stringify({
+                        provinceId: item?.province_id,
+                        provinceValue: item?.province_name,
+                      })}
+                      key={item?.province_id}
+                    >
+                      {item?.province_name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+
+          <div className="">
+            <Label label="Quận/Huyện" />
+            <select
+              className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer"
+              onChange={handleSelectDistrict}
+            >
+              <option defaultValue key="0">
+                Chọn Quận/Huyện
+              </option>
+              {listDistricts?.length > 0 &&
+                listDistricts.map((item) => {
+                  return (
+                    <option
+                      value={JSON.stringify({
+                        districtId: item?.district_id,
+                        districtValue: item?.district_name,
+                      })}
+                      key={item?.district_name}
+                    >
+                      {item?.district_name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+        </div>
+        <div className="col-span-2">
+          <div className="">
+            <Label label="Phường/Xã" />
+            <select
+              className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
+              onChange={handleSelectWard}
+            >
+              <option defaultValue key="0">
+                Chọn Phường/Xã
+              </option>
+              {listWards?.length > 0 &&
+                listWards.map((item) => {
+                  return (
+                    <option
+                      value={JSON.stringify({
+                        wardId: item?.ward_id,
+                        wardValue: item?.ward_name,
+                      })}
+                      key={item?.ward_id}
+                    >
+                      {item?.ward_name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+        </div>
+        <div className="col-span-2">
+          <div className="">
+            <Label label="Địa chỉ chính xác" />
+            <input
+              className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
+              placeholder="Địa chỉ cụ thể"
+              value={exactAddressValue}
+              onChange={(e) => setExactAddressValue(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="">
-          <Label label="Quận/Huyện" />
-          <select
-            className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer"
-            onChange={handleSelectDistrict}
-          >
-            <option defaultValue key="0">
-              Chọn Quận/Huyện
-            </option>
-            {listDistricts?.length > 0 &&
-              listDistricts.map((item) => {
-                return (
-                  <option
-                    value={JSON.stringify({
-                      districtId: item?.district_id,
-                      districtValue: item?.district_name,
-                    })}
-                    key={item?.district_name}
-                  >
-                    {item?.district_name}
-                  </option>
-                );
-              })}
-          </select>
+        <div className="w-full flex justify-center text-black text-lg">
+          <button className="btn btn-success px-8" onClick={handleAddAddress}>
+            Cập Nhật
+          </button>
         </div>
       </div>
-      <div className="col-span-2">
-        <div className="">
-          <Label label="Phường/Xã" />
-          <select
-            className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
-            onChange={handleSelectWard}
-          >
-            <option defaultValue key="0">
-              Chọn Phường/Xã
-            </option>
-            {listWards?.length > 0 &&
-              listWards.map((item) => {
-                return (
-                  <option
-                    value={JSON.stringify({
-                      wardId: item?.ward_id,
-                      wardValue: item?.ward_name,
-                    })}
-                    key={item?.ward_id}
-                  >
-                    {item?.ward_name}
-                  </option>
-                );
-              })}
-          </select>
-        </div>
-      </div>
-      <div className="col-span-2">
-        <div className="">
-          <Label label="Địa chỉ chính xác" />
-          <input
-            className="w-full outline-none px-2 py-3 text-sm text-gray-900 rounded-md bg-white border border-gray-300 cursor-pointer "
-            placeholder="Địa chỉ cụ thể"
-            value={exactAddressValue}
-            onChange={(e) => setExactAddressValue(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="w-full flex justify-center text-black text-lg">
-        <button className="btn btn-success px-8" onClick={handleAddAddress}>
-          Thêm
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

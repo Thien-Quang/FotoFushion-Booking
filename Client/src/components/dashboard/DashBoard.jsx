@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import logoFushion from "../../public/img/logoFushion.jpg";
 import { Button } from 'flowbite-react';
-import Overview from './Management/Overview';
+import Order from './Management/Orders';
 import Account from './Management/Account';
 import Equipment from './Management/Equipment'
 import Costumer from './Management/Costumer';
@@ -22,8 +22,6 @@ const DashBoard = () => {
     });
 
     useEffect(() => {
-        //console.log(menu);
-        // Lưu giá trị menu vào localStorage khi menu thay đổi
         localStorage.setItem('menu', menu);
     }, [menu]);
     return (
@@ -59,7 +57,7 @@ const DashBoard = () => {
                         <ul className="menu bg-base-500 w-full rounded-box font-bold  h-[100vh]">
                             <li>
                                 <Button outline gradientDuoTone="pinkToOrange" size="lg" onClick={() => setMenu("overview")}>
-                                    Tổng Quan
+                                    Đơn đặt hàng
                                 </Button>
                             </li>
                             <li>
@@ -127,7 +125,7 @@ const DashBoard = () => {
                 </div>
                 <div className='w-4/5  h-[100vh]'>
                     <div className='w-full'>
-                        {menu === "overview" && <Overview />}
+                        {menu === "overview" && <Order />}
                         {menu === "editphoto" && <EditPhoto />}
                         {menu === "account" && <Account />}
                         {menu === "equipment" && <Equipment />}

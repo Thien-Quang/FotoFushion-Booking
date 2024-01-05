@@ -6,8 +6,10 @@ import MakeUp from '../helples/MakeUp'
 import Costumer from '../helples/Costumer'
 import Location from '../helples/Location'
 import { CreateABookingOnlineAll } from '../../apis/booking'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { HiEye, HiInformationCircle } from 'react-icons/hi';
+import { Alert } from 'flowbite-react';
 
 const BookingOnline = () => {
     const notify = (message, type) => {
@@ -30,6 +32,8 @@ const BookingOnline = () => {
     const [dateTryCostumer, setDateTryCostumer] = useState(null);
     const [display, setDisplay] = useState(null)
     const [displayDateTryCos, setDisplayDateTryCos] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [dateTaking, setdateTaking] = useState(null);
     const [message, setMessage] = useState(null);
@@ -45,7 +49,18 @@ const BookingOnline = () => {
         console.log(dateTryCostumer);
 
     }, [selectedMakeUp, selectedRoom, selectedCostumer, dateTryCostumer])
+    useEffect(() => {
+        if (location.state?.toastMessage !== '') {
+            notify(location.state?.toastMessage, 'success');
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, []);
+    useEffect(() => {
+        if (auth && Object.keys(auth).length <= 0) {
 
+            navigate("/login", { state: { toastMessage: "Bạn Phải Đăng Nhập Để Sử Dụng Dịch Vụ Này" } })
+        }
+    }, [auth])
     const handleBooking = async () => {
         // Kiểm tra các trường bắt buộc đã được chọn
         if (!dateTaking) {
@@ -103,7 +118,11 @@ const BookingOnline = () => {
         }
     };
     const Booking = () => {
-        handleBooking()
+        if (auth && Object.keys(auth).length > 0) {
+            handleBooking()
+        } else {
+            notify("Bạn Phải Đăng Nhập Để Sử Dụng Dịch Vụ Này")
+        }
     }
 
     useEffect(() => {

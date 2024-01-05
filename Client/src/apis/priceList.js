@@ -117,7 +117,7 @@ const getPriceListByAlbumsid = async ({ albumsid }) => {
 };
 const getPriceListtById = async (id) => {
     try {
-        const response = await axiosClient.get(`/getEquipmentById/${id}`)
+        const response = await axiosClient.get(`/getPriceListById/${id}`)
         if (response.data) {
             return response.data;
         }

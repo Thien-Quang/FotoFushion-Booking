@@ -21,6 +21,7 @@ const PriceList = () => {
     const [delete_costumer, setDelete_costumer] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reloadPage, setReloadPage] = useState(false);
+
     const notify = (message, type) => {
         const toastType = type === 'success' ? toast.success : toast.error;
         return toastType(message, {

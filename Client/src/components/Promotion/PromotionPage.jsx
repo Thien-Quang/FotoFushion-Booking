@@ -1,35 +1,45 @@
-// import { useDispatch, useSelector } from "react-redux";
-import React from "react";
-// import React, { Suspense, useEffect, useState } from "react";
-// import { getListCategoriesApi } from "../../apis/category";
-// import { loyaltyProgramItem, sliderItem } from "../../utils/constant";
-import banner1 from "../../assets/images/promation.jpg";
-import banner2 from "../../assets/images/web-mobile.jpg";
-// import subBanner1 from "../../assets/images/sub-slide1.jpg";
-// import subBanner2 from "../../assets/images/sub-slide2.jpg";
-import Slider from "./Slider";
-// import SliderListImage from "./SliderListImage";
+import React, { useEffect, useState } from "react";
+import CardPromotion from "./CardPromotion";
+import * as eventApi from '../../apis/promotionEvent'
 
 const PromotionPage = () => {
+  const [promotionList, setPromotionList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dataProEvent = await eventApi.getPromotionEvent();
+        setPromotionList(dataProEvent);
+      } catch (error) {
+        console.error('Error fetching blogposts:', error);
+      }
+    };
+
+    fetchData();
+  }, [])
+
   return (
     <>
-      {/* {loading && <Loading />} */}
-      <div>
-        <div className="mx-auto w-full flex flex-col gap-6 pb-20 mt-28">
-          <div className="w-full grid grid-cols-10 gap-1 h-[290px]">
-            <div className="col-span-10">
-              <Slider listBanner={[banner1, banner2, banner1]} />
-            </div>
+      <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2FbnEvent.png?alt=media&token=b83e93f2-0ead-45bc-be04-5f229d93825e" alt="" />
+      <div class='w-full flex justify-center'>
+        <div class='py-4 flex flex-col w-3/4 justify-center'>
+          {/* blogList */}
+
+          <div class="w-full mt-10 flex flex-col gap-10">
+            {promotionList?.map((item) => (
+              <CardPromotion
+                id={item?.id}
+                title={item?.name}
+                startdate={item?.start_day}
+                enddate={item?.end_day}
+                description={item?.description}
+                type={item?.type}
+                status={item?.status}
+              />
+            ))}
           </div>
         </div>
-        <div className=" w-full bg-zinc-400 h-[1000px] mt-120 flex items-center justify-center text-center">
-          <div className="">
-            <span className="text-xl text-white font-semibold z-40">
-              Nắm bắt khoảnh khắc - Tạo nên Hồi ức Vĩnh cửu - Nơi lưu trữ kỉ
-              niệm!
-            </span>
-          </div>
-        </div>
+
       </div>
     </>
   );

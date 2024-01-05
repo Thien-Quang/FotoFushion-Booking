@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import * as albumsphoto from '../../../apis/albumphoto'
-
 import AuthContext from '../../../context/authProvider';
 import { Spinner } from '@material-tailwind/react';
 import { ToastContainer, toast } from 'react-toastify';
-
-
+import { formatDateTime } from '../../helples/Format'
 
 const EdidAlbums = (item) => {
     const [id, setId] = useState('');
@@ -15,17 +13,12 @@ const EdidAlbums = (item) => {
     const [category, setCategory] = useState('');
     const [location, setLocation] = useState('');
     const [date_create, setDate_create] = useState('');
-
-
-
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [isEditing, setIsEditing] = useState(false); // Add state to manage editing mode
+    const [isEditing, setIsEditing] = useState(false);
     const { auth } = useContext(AuthContext);
 
     useEffect(() => {
-
-        // Update state only if costumer object is not null
         if (item?.item) {
             setId(item.item.id || '')
             setName(item.item.name || '');
@@ -34,7 +27,6 @@ const EdidAlbums = (item) => {
             setSum_photo(item.item.sum_photo || '');
             setLocation(item.item.location || '');
             setDate_create(item.item.date_create || '');
-
         }
     }, [item]);
     const handleEditClick = () => {
@@ -100,7 +92,6 @@ const EdidAlbums = (item) => {
             <ToastContainer />
             <div className='w-full'>
                 <div className="card card-side bg-base-100 shadow-xl">
-                    <figure><img className='w-64 h-64' src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/RentalProducts%2FCostomer%2FCosplay%2F1b7c0af57d273bbb34f95005750f6ac3.jpg?alt=media&token=e5d80974-580f-4126-90eb-e4fbf1023707" alt="Movie" /></figure>
                     {isEditing ? (
                         <form onSubmit={handleSubmit}>
                             <div className="card-body ">
@@ -163,9 +154,9 @@ const EdidAlbums = (item) => {
                     ) : (
                         <div className="card-body">
                             <h2 className="card-title">Tên Albums : {name} </h2>
-                            <h2 className="card-title">Tình trạng : {category} VND</h2>
+                            <h2 className="card-title">Tình trạng : {category}</h2>
                             <p>Số lượng ảnh :{sum_photo} </p>
-                            <p>Ngày tạo :{date_create} </p>
+                            <p>Ngày tạo :{formatDateTime(date_create)} </p>
                             <div className="card-actions justify-end">
                                 <button onClick={handleEditClick} className="btn btn-primary">Chỉnh Sửa</button>
                             </div>

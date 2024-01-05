@@ -3,8 +3,8 @@ import {
   ForgotPassWord, AlbumsPhotoPage, Login, SignUp, BookingOnline,
   testUpdate, PhotoOfAlbums, AlbumsPage, PriceList, ContactUs, BlogPost,
   Studio, Costumer, DashBoard, MakeUp, ComboTakePhoto, ResetPassword,
-  AddProduct, Location, AlbumsVideo, RequestEditPhoto, HomeEditor,
-  Store, ProductDetail,
+  Location, AlbumsVideo, RequestEditPhoto, HomeEditor,
+  Store, ProductDetail, MyAlbums,
   ShoppingCart,
   Promotion,
   Payment,
@@ -22,6 +22,8 @@ const router = [{ path: "/", component: Home },
 
 { path: "/albumsphoto", component: AlbumsPhotoPage },
 { path: "/albumsvideo", component: AlbumsVideo },
+{ path: "/myalbums", component: MyAlbums },
+
 
 { path: "/login", component: Login },
 { path: "/signup", component: SignUp },

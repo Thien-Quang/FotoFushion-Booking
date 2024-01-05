@@ -1,17 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import * as price from '../../apis/priceList'
 import BookingAlbums from '../Booking/bookingAlbums';
 import { formatCurrency } from '../helples/Format'
-
+import AuthContext from '../../context/authProvider';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ComboTakePhoto = () => {
-
+    const notify = (message, type) => {
+        const toastType = type === 'success' ? toast.success : toast.error;
+        return toastType(message, {
+            position: 'top-right',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+        });
+    };
+    const { auth } = useContext(AuthContext);
     const [priceLists, setPriceLists] = useState([])
     const [selectedItem, setSelectedItem] = useState(null);
 
     const openBookingModal = (priceList) => {
-        setSelectedItem(priceList);
-        document.getElementById('my_modal_1').showModal()
+        if (auth && Object.keys(auth).length > 0) {
+            setSelectedItem(priceList);
+            document.getElementById('my_modal_1').showModal()
+        } else {
+            notify("Bạn phải đăng nhập để sử dụng dịch vụ này")
+        }
+
     };
 
     useEffect(() => {
@@ -30,7 +49,7 @@ const ComboTakePhoto = () => {
     useEffect(() => { console.log(priceLists); }, [priceLists]);
     return (
         <div>
-
+            <ToastContainer />
             <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fbgprilice.png?alt=media&token=65e6f565-b049-44b1-adda-d888c962b1ab" alt="" />
             <div class="sm:flex sm:flex-col sm:align-center p-10 bg-black">
                 <div class="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-1 sm:gap-6 md:grid-cols-2 md:max-w-5xl md:mx-auto xl:grid-cols-2 ">

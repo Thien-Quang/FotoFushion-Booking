@@ -1,48 +1,56 @@
 import React, { useState } from 'react'
-import { icons } from "../../utils/icons";
 import HoSoCaNhan from './HoSoCaNhan';
 import bgProfile from '../../public/img/bgprofile.jpg'
+import ChangePassword from './ChangePassword';
+import MyOrder from './MyOrder';
 
 const Profile = () => {
 
     return (
-        <div>
-            <div class='flex items-center justify-center min-h-screen'>
-                <ul class="mx-auto grid max-w-full w-full grid-cols-3  ">
-                    <li class="">
-                        <input class="peer sr-only" type="radio" value="yes" name="answer" id="yes" checked />
-                        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="yes">Hồ Sơ Cá Nhân</label>
-                        <div class="h-auto">
+        <>
+            <img src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/FrojectImage%2Fbnfrofile.png?alt=media&token=d2ece141-080e-4095-89a1-300babedb448" alt="" />
+            <div className='flex items-center justify-center bg-black'>
+                <div role="tablist" className="tabs tabs-lifted w-[60%]">
+                    <input type="radio" name="my_tabs_2" role="tab" className="tab text-2xl p-8 m-2 text-blue-500 [--tab-bg:yellow]  [--tab-border-color:orange]" aria-label="Hồ Sơ Cá Nhân" checked />
+                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[600px] " style={{
+                        position: 'relative',
+                        backgroundImage: `url(${bgProfile})`,
+                        backgroundSize: '100% 100%', // Đặt backgroundSize
+                        backgroundPosition: 'center', // Đặt backgroundPosition
+                        backgroundRepeat: 'no-repeat',
+                    }}>
+                        <div className='flex items-center justify-center '>
                             <HoSoCaNhan />
                         </div>
-                    </li>
-
-                    <li class="">
-                        <input class="peer sr-only" type="radio" value="no" name="answer" id="no" />
-                        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="no">About</label>
-
-                        <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                    </div>
+                    <input type="radio" name="my_tabs_2" role="tab" className="tab text-2xl p-8 m-2 text-blue-500 [--tab-bg:yellow] [--tab-border-color:orange]" aria-label="Đổi Mật Khẩu" />
+                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[600px]" style={{
+                        position: 'relative',
+                        backgroundImage: `url(${bgProfile})`,
+                        backgroundSize: '100% 100%', // Đặt backgroundSize
+                        backgroundPosition: 'center', // Đặt backgroundPosition
+                        backgroundRepeat: 'no-repeat',
+                    }}>
+                        <div className='flex items-center justify-center '>
+                            <ChangePassword />
                         </div>
-                    </li>
+                    </div>
 
-                    <li class="">
-                        <input class="peer sr-only" type="radio" value="yesno" name="answer" id="yesno" />
-                        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out " for="yesno">Something</label>
-
-                        <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+                    <input type="radio" name="my_tabs_2" role="tab" className="tab text-2xl p-8 m-2 text-blue-500 [--tab-bg:yellow] [--tab-border-color:orange]" aria-label="Đơn Hàng" />
+                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6 h-[600px]" style={{
+                        position: 'relative',
+                        backgroundImage: `url(${bgProfile})`,
+                        backgroundSize: '100% 100%', // Đặt backgroundSize
+                        backgroundPosition: 'center', // Đặt backgroundPosition
+                        backgroundRepeat: 'no-repeat',
+                    }}>
+                        <div className='flex items-center justify-center '>
+                            <MyOrder />
                         </div>
-                    </li>
-                </ul>
-
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

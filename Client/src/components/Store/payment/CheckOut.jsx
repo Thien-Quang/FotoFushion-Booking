@@ -69,24 +69,12 @@ const CheckOut = () => {
         });
         setTotalAmount(calculatedTotal);
 
-
     }, [cartList]);
 
-    useEffect(() => {
-        const checkAddressAndNavigate = async () => {
-            if (!auth.address) {
-                await notify("Bạn cần phải thêm địa chỉ để có thể đặt hàng");
-                //navigation('/profile');
-            }
-        };
-
-        checkAddressAndNavigate();
-    }, [auth.address]);
-
     const handleCheckout = async () => {
-        if (auth.fullName === '' || /*auth.address === ''  || */ auth.phone === '') {
+        if (auth.fullName === '' || !auth.address || auth.phone === '') {
             notify("Vui lòng điền đầy đủ thông tin giao hàng");
-            // navigation('/profile', { state: { toastMessage: 'Bạn chưa có địa chỉ giao hàng!' } });
+            navigation('/profile', { state: { toastMessage: 'Bạn chưa có địa chỉ giao hàng!' } });
 
         } else {
             setLoading(true);

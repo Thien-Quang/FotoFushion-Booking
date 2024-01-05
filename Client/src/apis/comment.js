@@ -1,9 +1,9 @@
 import axiosClient from '../config/axios.config';
 
-const CreateACostumer = async (accessToken, name, category, price, quantity, rental_start_date) => {
+const CreateACommentForBlog = async (accessToken, user_id, blog_post_id, content) => {
 
     try {
-        const response = await axiosClient.post('/createNewCostume', { name: name, category: category, price: price, quantity: quantity, rental_start_date: rental_start_date }, {
+        const response = await axiosClient.post('/createNewComment', { user_id: user_id, blog_post_id: blog_post_id, content: content }, {
             headers: {
 
                 Authorization: `Bearer ${accessToken}`,
@@ -44,9 +44,9 @@ const updateCostumer = async (accessToken, id, name, category, price, quantity, 
     }
 };
 
-const deleteCostumer = async (accessToken, id) => {
+const deleteComment = async (accessToken, id) => {
     try {
-        const response = await axiosClient.delete(`/deleteCostumeById/${id}`, {
+        const response = await axiosClient.delete(`/deleteCommentById/${id}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -65,9 +65,32 @@ const deleteCostumer = async (accessToken, id) => {
 const getAllCommentByBlogPostID = async (id) => {
     try {
         const response = await axiosClient.get(`/getAllCommentsByBlogId/${id}`)
-        if (response.data) {
-            return response.data;
-        }
+
+        const processedData = response.data.map((commentDetail) => {
+            // Trích xuất tất cả các trường
+            const {
+                id,
+                blog_post_id,
+                content,
+                phoab_id,
+                prod_id,
+                user_id,
+                user: { avatar_url, name },
+            } = commentDetail;
+
+            return {
+                id,
+                blog_post_id,
+                content,
+                phoab_id,
+                prod_id,
+                user_id,
+                avatar_url,
+                name
+            };
+        });
+
+        return processedData;
     } catch (error) {
         console.error('Lỗi khi lấy danh sách ảnh:', error);
         throw error;
@@ -76,9 +99,9 @@ const getAllCommentByBlogPostID = async (id) => {
 
 
 export {
-    //CreateACostumer,
+    CreateACommentForBlog,
     getAllCommentByBlogPostID,
-    //updateCostumer,
+    deleteComment
     // deleteCostumer,
     //getAllCategoryOfCostumes,
     // getAllCostumerById

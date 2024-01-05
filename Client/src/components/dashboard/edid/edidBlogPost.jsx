@@ -4,6 +4,7 @@ import * as blogpostApi from '../../../apis/blogpost'
 import AuthContext from '../../../context/authProvider';
 import { Spinner } from '@material-tailwind/react';
 import { ToastContainer, toast } from 'react-toastify';
+import { formatCurrency, formatDateTime } from '../../helples/Format'
 
 
 
@@ -77,8 +78,6 @@ const EdidBlogPost = (item) => {
             fetchAdd();
         }
     }, [submit]);
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmit(true);
@@ -94,7 +93,6 @@ const EdidBlogPost = (item) => {
             <ToastContainer />
             <div className='w-full'>
                 <div className="card card-side bg-base-100 shadow-xl">
-
                     {isEditing ? (
                         <form onSubmit={handleSubmit}>
                             <div className="card-body ">
@@ -154,10 +152,9 @@ const EdidBlogPost = (item) => {
                     ) : (
                         <div className="card-body">
                             <h2 className="card-title">Tiêu đề : {title} </h2>
-
                             <p style={{ whiteSpace: 'pre-line' }}>Nội dung :{content} </p>
                             <p>Tác giả:{author} </p>
-                            <p>Ngày tạo :{date} </p>
+                            <p>Ngày tạo :{formatDateTime(date)} </p>
                             <div className="card-actions justify-end">
                                 <button onClick={handleEditClick} className="btn btn-primary">Chỉnh Sửa</button>
                             </div>

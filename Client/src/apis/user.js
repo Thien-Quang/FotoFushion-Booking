@@ -53,6 +53,88 @@ const updateAddress = async (accessToken, id, address) => {
         };
     }
 };
+const updateGender = async (accessToken, id, gender) => {
+
+    try {
+        const response = await axiosClient.put(`/updateUser/${id}`, { gender: gender }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            id: response.data.id,
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updatePhoneNumber = async (accessToken, email, phone_number) => {
+
+    try {
+        const response = await axiosClient.put(`/updateAccountByEmail/${email}`, { phone_number: phone_number }, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            id: response.data.id,
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updateImformationIncludeAvatar = async (accessToken, id, name, avatar_url) => {
+
+    try {
+        const response = await axiosClient.put(`/updateUser/${id}`, { name: name, avatar_url: avatar_url }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            id: response.data.id,
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
+const updateName = async (accessToken, id, name) => {
+
+    try {
+        const response = await axiosClient.put(`/updateUser/${id}`, { name: name }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            id: response.data.id,
+            response: response.data,
+            statusCode: response.status,
+        };
+    } catch (e) {
+        return {
+            error: e.response.data,
+            status: e.response.status,
+        };
+    }
+};
 const deleteUserByEmail = async (accessToken, email) => {
     try {
         const response = await axiosClient.delete(`/deleteUserByEmail/${email}`, {
@@ -72,5 +154,9 @@ export {
     getAllUser,
     deleteUserByEmail,
     getAllUsersIsCustomer,
-    updateAddress
+    updateAddress,
+    updateImformationIncludeAvatar,
+    updatePhoneNumber,
+    updateGender,
+    updateName
 };

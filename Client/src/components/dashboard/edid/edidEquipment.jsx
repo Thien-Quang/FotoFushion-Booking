@@ -94,7 +94,7 @@ const EdidEquipment = (equipment) => {
             <ToastContainer />
             <div className='w-full'>
                 <div className="card card-side bg-base-100 shadow-xl">
-                    <figure><img className='w-64 h-64' src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/RentalProducts%2FCostomer%2FCosplay%2F1b7c0af57d273bbb34f95005750f6ac3.jpg?alt=media&token=e5d80974-580f-4126-90eb-e4fbf1023707" alt="Movie" /></figure>
+
                     {isEditing ? (
                         <form onSubmit={handleSubmit}>
                             <div className="card-body ">

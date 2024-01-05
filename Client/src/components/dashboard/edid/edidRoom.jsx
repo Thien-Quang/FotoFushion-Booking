@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import * as roomApi from '../../../apis/room'
-
 import AuthContext from '../../../context/authProvider';
 import { Spinner } from '@material-tailwind/react';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { formatCurrency } from '../../helples/Format'
 
 
 const EdidRoomPhoto = (item) => {
@@ -13,17 +12,12 @@ const EdidRoomPhoto = (item) => {
     const [is_status, setIs_status] = useState('');
     const [category, setCategory] = useState('');
     const [price, setPrice] = useState('');
-
-
-
-
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false); // Add state to manage editing mode
     const { auth } = useContext(AuthContext);
 
     useEffect(() => {
-
         // Update state only if costumer object is not null
         if (item?.item) {
             setId(item.item.id || '')
@@ -75,7 +69,6 @@ const EdidRoomPhoto = (item) => {
                 setSubmit(false);
             }
         };
-
         if (submit && auth.accessToken !== undefined) {
             fetchAdd();
         }
@@ -97,7 +90,6 @@ const EdidRoomPhoto = (item) => {
             <ToastContainer />
             <div className='w-full'>
                 <div className="card card-side bg-base-100 shadow-xl">
-                    <figure><img className='w-64 h-64' src="https://firebasestorage.googleapis.com/v0/b/fotofushion-51865.appspot.com/o/RentalProducts%2FCostomer%2FCosplay%2F1b7c0af57d273bbb34f95005750f6ac3.jpg?alt=media&token=e5d80974-580f-4126-90eb-e4fbf1023707" alt="Movie" /></figure>
                     {isEditing ? (
                         <form onSubmit={handleSubmit}>
                             <div className="card-body ">
@@ -162,11 +154,11 @@ const EdidRoomPhoto = (item) => {
                     ) : (
                         <div className="card-body">
                             <h2 className="card-title">Tên phòng concept : {name} </h2>
-                            <h2 className="card-title">Loại phòng : {category} VND</h2>
+                            <h2 className="card-title">Loại phòng : {category} </h2>
                             <p>
                                 Trạng thái: {is_status ? 'Đang sử dụng' : 'Phòng trống'}
                             </p>
-                            <p>Giá phòng :{price} / 2h </p>
+                            <p>Giá phòng :{formatCurrency(price)} / 2h </p>
                             <div className="card-actions justify-end">
                                 <button onClick={handleEditClick} className="btn btn-primary">Chỉnh Sửa</button>
                             </div>

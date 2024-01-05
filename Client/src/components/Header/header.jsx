@@ -6,12 +6,12 @@ import AuthContext from '../../context/authProvider';
 
 import { Avatar, Dropdown, Navbar, Button } from 'flowbite-react';
 
-
 function Header() {
   const navigate = useNavigate();
-
   const { auth, setAuth } = useContext(AuthContext);
   const [hasUser, setHasUser] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     if (Object.keys(auth).length === 0) {
@@ -19,8 +19,28 @@ function Header() {
     } else {
       setHasUser(true);
     }
-
   }, [auth]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const isScrolledDown = currentScrollPos > prevScrollPos;
+
+      setPrevScrollPos(currentScrollPos);
+
+      if (isScrolledDown && isVisible) {
+        setIsVisible(false);
+      } else if (!isScrolledDown && !isVisible) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isVisible, prevScrollPos]);
 
   const handleLogOut = () => {
     setAuth({});
@@ -29,7 +49,7 @@ function Header() {
     navigate('/');
   };
   return (
-    <div className="fixed top-0 left-0 right-0 w-full z-50 ">
+    <div className={`fixed top-0 left-0 right-0 w-full z-50 transition-transform transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="w-full flex p-2 bg-black text-white bg-opacity-50">
 
         <div className="w-1/2 flex justify-center items-center font-sans text-xs">
@@ -151,6 +171,7 @@ function Header() {
 
               {hasUser ? (
                 <div className="flex md:order-2 text-white">
+
                   <div className="flex items-center justify-center">
                     <Link to='/cart' >
                       <div className="w-10 h-10 rounded-full border border-white flex items-center justify-center mr-2 hover:bg-btnprimary hover:text-white ">
@@ -162,7 +183,7 @@ function Header() {
                     arrowIcon={true}
                     inline
                     label={
-                      <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />
+                      <Avatar alt="User settings" img={auth.avatar} rounded />
                     }
                   >
                     <Dropdown.Header>
@@ -183,14 +204,12 @@ function Header() {
                       <Dropdown.Item>Thông Tin cá Nhân</Dropdown.Item>
                     </Link>
                     <Link to='/' >
-                      <Dropdown.Item>Thông Báo</Dropdown.Item>
+                      <Dropdown.Item>Thông Báo </Dropdown.Item>
                     </Link>
-                    <Link to='/' >
+                    <Link to='/myalbums' >
                       <Dropdown.Item>Albums Của Tôi</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Đơn Hàng</Dropdown.Item>
-                    </Link>
+
                     <Link to='/' >
                       <Dropdown.Item>Voucher Của Tôi</Dropdown.Item>
                     </Link>

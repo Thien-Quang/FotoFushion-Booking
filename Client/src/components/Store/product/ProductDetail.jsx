@@ -52,7 +52,7 @@ const ProductDetailForm = () => {
     };
 
     const handleAddProducts = () => {
-        auth.accessToken !== undefined ? addProduct(product.id, count) : navigate('/login');
+        auth.accessToken !== undefined ? addProduct(product.id, count) : navigate('/login', { state: { toastMessage: "Bạn Phải Đăng Nhập Để Sử Dụng Dịch Vụ Này" } });
     };
 
     const decrement = () => {

@@ -27,9 +27,7 @@ const Login = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
-
     const [headings, setHeadings] = useState(['Chụp Ảnh', 'Mua Bán', 'Chỉnh Sửa']);
-
     const [visibleIndex, setVisibleIndex] = useState(0);
     const switchHeading = () => {
         setVisibleIndex((prevIndex) => (prevIndex + 1) % headings.length);
@@ -83,7 +81,7 @@ const Login = () => {
                     const address = getUser.address;
                     const role = authorization.roles
                     const gender = getUser.gender
-                    const avatar = getUser.avatar_url
+                    const avatar = getUser.avatar
 
                     setAuth({ id, email, password, accessToken, fullName, phone, address, role, gender, avatar });
                     localStorage.setItem('auth', JSON.stringify({ id, email, password, accessToken, fullName, phone, address, role, gender, avatar }));
