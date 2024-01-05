@@ -14,6 +14,7 @@ class PhotoService {
         }
     }
 
+
     async getAllPhotos() {
         try {
             const photos = await Photo.findAll();

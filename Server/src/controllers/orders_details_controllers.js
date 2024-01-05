@@ -91,12 +91,26 @@ const deleteOrderDetailById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa chi tiết đơn hàng.' });
     }
 };
+const deleteAllOrderByOrderId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const deleteResult = await OrderDetailService.deleteAllOrderByOrderId(id)
+        if (!deleteResult) {
+            return res.status(404).json({ error: 'Không tìm thấy chi tiết đơn hàng.' });
+        }
 
+        res.sendStatus(204);
+    } catch (error) {
+        console.error('Lỗi khi xóa chi tiết đơn hàng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa chi tiết đơn hàng.' });
+    }
+}
 module.exports = {
     getAllOrderDetails,
     getOrderDetailById,
     createNewOrderDetail,
     updateOrderDetailById,
     deleteOrderDetailById,
-    getOrderDetailByOrderId
+    getOrderDetailByOrderId,
+    deleteAllOrderByOrderId
 };

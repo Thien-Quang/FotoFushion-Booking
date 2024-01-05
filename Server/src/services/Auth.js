@@ -242,6 +242,31 @@ const resetPassword = async ({ password, otp }, res) => {
         throw new Error(error);
     }
 };
+const changePassword = async ({ email, oldPassword, newPassword }, res) => {
+    try {
+        const account = await Account.findOne({ where: { email } });
+
+        if (!account) {
+            return res.status(404).json({ message: "Email hasn't been registered" });
+        }
+
+        const isPasswordValid = bcrypt.compareSync(oldPassword, account.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Old password is incorrect" });
+        }
+
+        const hashNewPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(8));
+
+        await Account.update({ password: hashNewPassword }, { where: { email } });
+
+        return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error('Error during password change:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 
 module.exports = {
     login,
@@ -250,5 +275,6 @@ module.exports = {
     refreshToken,
     logout,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    changePassword
 };

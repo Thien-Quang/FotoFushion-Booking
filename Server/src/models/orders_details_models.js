@@ -18,7 +18,7 @@ const OrderDetail = sequelize.define('OrderDetail', {
 });
 
 OrderDetail.belongsTo(Order, { foreignKey: 'order_id', targetKey: 'id' });
-OrderDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id' });
+OrderDetail.belongsTo(Product, { foreignKey: 'prod_id', targetKey: 'id', as: 'product' });
 
 OrderDetail.sync()
     .then(() => {

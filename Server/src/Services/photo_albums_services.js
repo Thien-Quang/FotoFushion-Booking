@@ -10,6 +10,17 @@ class PhotoAlbumService {
             throw error;
         }
     }
+    async getPhotoAlbumByUserId(id) {
+        try {
+            const photoAlbum = await PhotoAlbum.findOne({
+                where: { user_id: id }
+            });
+            return photoAlbum;
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin album ảnh:', error);
+            throw error;
+        }
+    }
 
     async getAllPhotoAlbums() {
         try {

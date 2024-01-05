@@ -1,5 +1,5 @@
 const OrderDetail = require('../models/orders_details_models');
-
+const Product = require('../models/product_models')
 class OrderDetailService {
     async getOrderDetailById(id) {
         try {
@@ -25,7 +25,13 @@ class OrderDetailService {
             const orders = await OrderDetail.findAll({
                 where: {
                     order_id: order_id
-                }
+                },
+                include: [
+                    {
+                        model: Product,
+                        as: 'product',
+                    },
+                ],
             });
             return orders;
         } catch (error) {
@@ -69,6 +75,26 @@ class OrderDetailService {
             }
 
             await orderDetail.destroy();
+            return true;
+        } catch (error) {
+            console.error('Lỗi khi xóa chi tiết đơn hàng:', error);
+            throw error;
+        }
+    }
+    async deleteAllOrderByOrderId(id) {
+        try {
+            const orderDetails = await OrderDetail.findAll({
+                where: {
+                    order_id: id
+                }
+            });
+            if (!orderDetails || orderDetails.length === 0) {
+                return false;
+            }
+            for (const orderDetailInstance of orderDetails) {
+                await orderDetailInstance.destroy();
+            }
+
             return true;
         } catch (error) {
             console.error('Lỗi khi xóa chi tiết đơn hàng:', error);

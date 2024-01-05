@@ -1,5 +1,5 @@
 const Comment = require('../models/comment_models');
-
+const Users = require('../models/users_models')
 class CommentService {
     async getCommentById(id) {
         try {
@@ -24,6 +24,12 @@ class CommentService {
         try {
             const comments = await Comment.findAll({
                 where: { blog_post_id: id },
+                include: [
+                    {
+                        model: Users,
+                        as: 'user',
+                    },
+                ],
             });
             return comments;
         } catch (error) {

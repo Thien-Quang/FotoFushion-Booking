@@ -149,6 +149,25 @@ const resetPassword = async (req, res) => {
         throw new Error(error);
     }
 };
+const changePassword = async (req, res) => {
+    try {
+
+        const email = req.params.email;
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.newPassword;
+        if (!email || !oldPassword || !newPassword) {
+            return res.status(400).json({
+                message: "newPassword || oldPassword || email is required",
+            });
+        }
+
+        const changepw = await authServices.changePassword({ email, oldPassword, newPassword }, res);
+        return changepw
+    } catch (error) {
+        console.error('Lỗi thay đổi mật khẩu:', error);
+        res.status(500).json({ error: 'Lỗi thay đổi mật khẩu.' });
+    }
+};
 
 module.exports = {
     login,
@@ -157,5 +176,6 @@ module.exports = {
     refreshTokenCrl,
     logout,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    changePassword
 };

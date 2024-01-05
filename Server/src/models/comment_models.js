@@ -26,7 +26,7 @@ const Comment = sequelize.define('Comment', {
     timestamps: false,
 });
 
-Comment.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
+Comment.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id', as: 'user' });
 Comment.belongsTo(VideoAlbum, { foreignKey: 'vidab_id', targetKey: 'id' });
 Comment.belongsTo(PhotoAlbum, { foreignKey: 'phoab_id', targetKey: 'id' });
 Comment.belongsTo(BlogPost, { foreignKey: 'blog_post_id', targetKey: 'id' });

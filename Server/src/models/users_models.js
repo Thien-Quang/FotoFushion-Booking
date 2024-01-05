@@ -24,7 +24,9 @@ const User = sequelize.define('User', {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
     },
-
+    avatar_url: {
+        type: DataTypes.STRING(255),
+    }
 }, {
     tableName: 'users',
     timestamps: false,

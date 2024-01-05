@@ -103,7 +103,7 @@ const createPayment = async (req, res) => {
 const vnp_Return = async (req, res) => {
     let vnp_Params = req.query;
 
-    const amount = vnp_Params['vnp_Amount']
+    const amount = vnp_Params['vnp_Amount'] / 100;
 
     const order_inf = vnp_Params['vnp_OrderInfo'];
     let secureHash = vnp_Params['vnp_SecureHash'];
@@ -145,7 +145,7 @@ const vnp_Return = async (req, res) => {
     const user_id = user.id;
     if (payment_type == "fotofushion1") {
         //console.log("theem du lieu vao bang order");
-        PaymentService.sucessPaymentForStore(user_id);
+        PaymentService.sucessPaymentForStore(user_id, amount);
     } else if (payment_type == "fotofushion2") {
         //console.log("theem du lieu vao bang reques");
         PaymentService.sucessPaymentForRequest(user_id, img_url_old, request);
@@ -167,7 +167,7 @@ const vnp_Return = async (req, res) => {
                 justify-content: center;
                 flex-direction: column;
                 height: 100vh;
-                margin: 0;
+margin: 0;
 font-family: 'Arial', sans-serif;
                 background-color: #f4f4f4;
             }
