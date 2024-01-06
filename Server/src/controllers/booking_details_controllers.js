@@ -29,6 +29,20 @@ const getBookingDetailById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin chi tiết đặt hàng.' });
     }
 };
+const getBookingDetailByUserId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const bookingDetail = await BookingDetailService.getBookingDetailByUserId(id);
+        if (!bookingDetail) {
+            return res.status(404).json({ error: 'Không tìm thấy chi tiết đặt hàng.' });
+        }
+
+        res.json(bookingDetail);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin chi tiết đặt hàng:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin chi tiết đặt hàng.' });
+    }
+};
 
 // Tạo chi tiết đặt hàng mới
 const createNewBookingDetail = async (req, res) => {
@@ -152,5 +166,6 @@ module.exports = {
     createNewBookingDetail,
     updateBookingDetailById,
     deleteBookingDetailById,
-    sendMailConfirmBooking
+    sendMailConfirmBooking,
+    getBookingDetailByUserId
 };

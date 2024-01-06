@@ -15,7 +15,7 @@ const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
 
 router.get('/api/getAllOrders', verifyToken, isAdminSystem, getAllOrders);
 router.get('/api/getOrderById/:id', verifyToken, getOrderById);
-router.get('/api/getOrderById/:id', verifyToken, getOrderByUserId);
+router.get('/api/getOrderByUserId/:id', verifyToken, getOrderByUserId);
 
 router.post('/api/createOrder', verifyToken, createNewOrder);
 //router.put('/api/updateOrder/:id', verifyToken, isAdminSystem, updateOrderById);
