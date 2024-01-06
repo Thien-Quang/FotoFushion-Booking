@@ -1,60 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react'
-import * as requestApi from '../../../apis/request'
-import AuthContext from '../../../context/authProvider';
-import { ToastContainer, toast } from 'react-toastify';
+import { formatDateTime, formatCurrency } from '../helples/Format'
+import * as requestApi from '../../apis/request'
+import AuthContext from '../../context/authProvider';
 
-const EditPhoto = () => {
+const ListRequest = () => {
+    const [listRequest, setListRequest] = useState([])
     const { auth } = useContext(AuthContext);
-    const [requests, setRequests] = useState([])
-    const [openModal, setOpenModal] = useState(false);
-    const notify = (message, type) => {
-        const toastType = type === 'success' ? toast.success : toast.error;
-        return toastType(message, {
-            position: 'top-right',
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored',
-        });
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const openModal = (item) => {
+        setSelectedItem(item);
+
+        document.getElementById('my_modal_2').showModal();
     };
     useEffect(() => {
-        const fetchAdd = async () => {
+        const fetchData = async () => {
             try {
-                const request = await requestApi.getRequest(auth.accessToken);
-                console.log(request);
-                setRequests(request)
+                const response = await requestApi.getRequestByUserId(auth.accessToken, auth.id);
+                setListRequest(response);
             } catch (error) {
-                console.error('Error in fetchAdd:', error);
+                console.error('Lỗi khi lấy danh sách yêu cầu:', error);
             }
         };
-        if (auth.accessToken !== undefined) {
-            fetchAdd();
+        if (auth.accessToken && auth.id) {
+            fetchData();
         }
-    }, [auth.accessToken])
-    const handleDeleteReques = async (id) => {
-        if (auth.accessToken) {
-            try {
-                const deleteR = await requestApi.deleteRequest(auth.accessToken, id)
-
-                if (deleteR.statusCode === 204) {
-                    await window.location.reload();
-                    notify("Xóa yêu cầu thành công", "success")
-
-                }
-                else {
-                    notify("Xóa yêu cầu không thành công")
-                }
-            } catch (error) {
-
-            }
-        }
-    }
-
+    }, [auth]);
     return (
-        <div className='w-full'>
+        <div className='w-full bg-white'>
             <div className='flex items-center justify-center'>
                 <h1 className='font-bold text-5xl m-10'>Bảng Yêu Cầu Chỉnh Sửa Hình Ảnh</h1>
             </div>
@@ -72,7 +45,7 @@ const EditPhoto = () => {
                             </thead>
                             <tbody>
                                 {/* row 1 */}
-                                {requests.map((item) => {
+                                {listRequest.map((item) => {
                                     return (
                                         <tr>
 
@@ -94,10 +67,26 @@ const EditPhoto = () => {
 
                                             </td>
                                             <th>
-                                                <button className="btn btn-success"
-                                                    onClick={() => handleDeleteReques(item.id)}
-                                                >Xóa</button>
+                                                {item.status === "Hoàn Thành" && (
+                                                    <button className="btn btn-success"
+                                                        onClick={() => openModal(item)}
+                                                    >Xem Chi Tiết</button>
+                                                )}
                                             </th>
+                                            <dialog id="my_modal_2" className="modal">
+                                                <div className="modal-box">
+                                                    <p>Hình ảnh nhận được</p>
+                                                    <img className="mask mask-decagon" src={selectedItem ? selectedItem.img_url_old : "https://daisyui.com/images/stock/photo-1567653418876-5bb0e566e1c2.jpg"} />
+                                                    <p className="py-4">Yêu cầu chỉnh Sửa : {selectedItem ? selectedItem.request : ''}</p>
+                                                    <p>Hình ảnh sau khi đã chỉnh sửa : </p>
+                                                    <img className="" src={selectedItem ? selectedItem.img_url_new : "https://daisyui.com/images/stock/photo-1567653418876-5bb0e566e1c2.jpg"} />
+
+                                                </div>
+                                                <form method="dialog" className="modal-backdrop">
+                                                    <button>close</button>
+                                                </form>
+                                            </dialog>
+
                                         </tr>
                                     )
                                 })}
@@ -112,4 +101,4 @@ const EditPhoto = () => {
     )
 }
 
-export default EditPhoto
+export default ListRequest

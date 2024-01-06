@@ -5,17 +5,12 @@ const AlbumsVideo = () => {
 
     const getVideosFromDatabase = async () => {
         try {
-            // Fetch videos from the database
             const response = await videoApi.getListVideo();
             console.log(response);
-
-            // Map the data to the format expected by your component
             const formattedVideos = response.map((video) => ({
                 src: video.url_video,
                 ref: React.createRef(),
             }));
-
-            // Set the videos state
             setVideos(formattedVideos);
         } catch (error) {
             console.error('Error fetching videos from the database:', error);
@@ -23,7 +18,6 @@ const AlbumsVideo = () => {
     };
 
     useEffect(() => {
-        // Fetch videos when the component mounts
         getVideosFromDatabase();
     }, []);
     useEffect(() => {
@@ -67,7 +61,6 @@ const AlbumsVideo = () => {
             });
         };
     }, [videos]);
-
     return (
         <div className='bg-black'>
             <div className='w-full'>
@@ -80,7 +73,6 @@ const AlbumsVideo = () => {
                             className='border border-white p-4 m-8'
                             ref={video.ref}
                             controls
-                            autoPlay
                             style={{ objectFit: 'cover' }}
                         >
                             <source src={video.src} type="video/mp4" />

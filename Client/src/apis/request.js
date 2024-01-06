@@ -34,6 +34,21 @@ const getRequest = async (accessToken) => {
         throw error;
     }
 };
+const getRequestByUserId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.get(`/getRequestByUserId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        //console.log(response);
+        return response.data
+
+    } catch (error) {
+        console.error('Lỗi khi lấy yêu cầu:', error);
+        throw error;
+    }
+};
 const updateStatus = async (accessToken, id, status) => {
     try {
         const response = await axiosClient.put(`/updateRequest/${id}`, { status: status }, {
@@ -59,18 +74,33 @@ const updateNewPhoto = async (accessToken, id, img_url_new, status) => {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        return {
-            statusCode: response.status,
-        };
+        return response
     } catch (e) {
         return {
             status: e.response.status,
         };
     }
 };
+const deleteRequest = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.delete(`/deleteRequest/${id}`, {
+            headers: {
+
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return {
+            statusCode: response.status,
+        };
+    } catch (error) {
+
+    }
+}
 export {
     createRequest,
     getRequest,
     updateStatus,
-    updateNewPhoto
+    updateNewPhoto,
+    getRequestByUserId,
+    deleteRequest
 }

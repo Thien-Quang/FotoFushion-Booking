@@ -122,6 +122,61 @@ const getAllBookingDetails = async (accessToken) => {
         };
     }
 };
+const getAllBookingDetailsByUserId = async (accessToken, id) => {
+    try {
+        const response = await axiosClient.get(`/getBookingDetailByUserId/${id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        // Xử lý dữ liệu trả về từ API
+        const processedData = response.data.map((bookingDetail) => {
+            // Trích xuất tất cả các trường
+            const {
+                id,
+                booking_time,
+                costume_id,
+                equipment_id,
+                price,
+                price_list_id,
+                status,
+                messenger,
+                location,
+                locations_id,
+                time_try_customer,
+                albums_id,
+                payment_status,
+                room_id,
+
+            } = bookingDetail;
+
+            return {
+                id,
+                booking_time,
+                costume_id,
+                equipment_id,
+                price,
+                price_list_id,
+                status,
+                messenger,
+                location,
+                locations_id,
+                time_try_customer,
+                albums_id,
+                payment_status,
+                room_id,
+
+            };
+        });
+        return processedData;
+    } catch (error) {
+        return {
+            error,
+            statusCode: error.status,
+        };
+    }
+};
 const updateStatus = async (accessToken, id) => {
     try {
         const response = await axiosClient.put(`/updateBookingDetailById/${id}`, { status: "Xác Nhận" }, {
@@ -216,5 +271,7 @@ export {
     updatePaymentStatus,
     updateDate,
     sendMailConfirmBooking,
-    deleteBooking
+    deleteBooking,
+    getAllBookingDetailsByUserId
+
 };

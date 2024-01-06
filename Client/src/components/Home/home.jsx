@@ -113,20 +113,22 @@ const Home = () => {
       </div>
       <div className='w-full m-4'>
         <div className='flex items-center justify-center text-3xl m-6 font-bold'>
-          <span className=' text-white '>THỢ</span>
-          <span className=' text-orange-500 ml-2'>CHỤP ẢNH</span>
+          <span className=' text-white '>CONCEPT</span>
+          <span className=' text-orange-500 ml-2'>NHIỀU NGƯỜI CHỤP</span>
         </div>
         <div className='w-full flex items-center justify-center'>
           <div className='grid grid-cols-3 max-sm:grid-cols-1 max-lg:grid-cols-2 gap-8'>
             {albums.slice(0, 3).map((album, index) => (
-              <div className='h-auto w-64 bg-white mb-4 rounded-lg shadow-2xl cursor-pointer duration-500 hover:scale-105 hover:shadow-xl'>
-                <img src={album.cover_photo} alt="" className='h-80 w-64 object-cover rounded-lg' />
-                <div className='flex items-center justify-center'>
-                  <div className='h-16 w-[80%] bg-black mt-[-30%] border opacity-80 flex items-center justify-center shadow-xl rounded-md'>
-                    <span className='text-white text-xl '>{album.name}</span>
+              <Link to={`/photoofalbums/${album.id}`}>
+                <div className='h-auto w-64 bg-white mb-4 rounded-lg shadow-2xl cursor-pointer duration-500 hover:scale-105 hover:shadow-xl'>
+                  <img src={album.cover_photo} alt="" className='h-80 w-64 object-cover rounded-lg' />
+                  <div className='flex items-center justify-center'>
+                    <div className='h-16 w-[80%] bg-black mt-[-30%] border opacity-80 flex items-center justify-center shadow-xl rounded-md'>
+                      <span className='text-white text-xl '>{album.name}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
