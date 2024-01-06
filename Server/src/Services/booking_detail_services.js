@@ -47,6 +47,46 @@ class BookingDetailService {
             throw error;
         }
     }
+    async getBookingDetailByUserId(id) {
+        try {
+            const bookingDetail = await BookingDetail.findAll({
+                where: {
+                    user_id: id
+                },
+                include: [
+                    {
+                        model: Costume,
+                        as: 'costumes',
+                    },
+                    {
+                        model: Equipment,
+                        as: 'equipment',
+                    },
+                    {
+                        model: PhotographyRoom,
+                        as: 'room',
+                    },
+                    {
+                        model: Location,
+                        as: 'location',
+                    },
+                    {
+                        model: Price_List,
+                        as: 'pricelist',
+                    },
+                    {
+                        model: PhotoAlbums,
+                        as: 'albums',
+                    },
+                ],
+            });
+            return bookingDetail
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin chi tiết đặt lịch:', error);
+            throw error;
+        }
+    }
+
 
     async getAllBookingDetails() {
         try {

@@ -27,6 +27,21 @@ const getRequestById = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin yêu cầu.' });
     }
 };
+const getRequestByUserId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const request = await RequestService.getAllRequestsByUserId(id);
+        if (!request) {
+            return res.status(404).json({ error: 'Không tìm thấy yêu cầu.' });
+        }
+
+        res.json(request);
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin yêu cầu:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy thông tin yêu cầu.' });
+    }
+};
+
 
 // Tạo yêu cầu mới
 const createNewRequest = async (req, res) => {
@@ -83,5 +98,6 @@ module.exports = {
     getRequestById,
     createNewRequest,
     updateRequestById,
-    deleteRequestById
+    deleteRequestById,
+    getRequestByUserId
 };

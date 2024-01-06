@@ -151,7 +151,7 @@ const vnp_Return = async (req, res) => {
         PaymentService.sucessPaymentForRequest(user_id, img_url_old, request);
     } else {
         //console.log("theem du lieu vao bang booking details");
-        PaymentService.sucessPaymentForBookingdetails(id, user_id, amount);
+        PaymentService.sucessPaymentForBookingdetails(user_id, amount);
     }
 
     const htmlReport = `<!DOCTYPE html>

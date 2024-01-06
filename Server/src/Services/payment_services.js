@@ -31,11 +31,11 @@ class PaymentService {
             throw error;
         }
     }
-    async sucessPaymentForBookingdetails(id, user_id) {
+    async sucessPaymentForBookingdetails(user_id) {
         try {
             BookingDetail.update(
                 { payment_status: 'Đã thanh toán' },
-                { where: { id, user_id } }
+                { where: { user_id } }
             )
                 .then((result) => {
                     console.log(`Số dòng được cập nhật: ${result[0]}`);

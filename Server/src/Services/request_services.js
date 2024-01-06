@@ -20,6 +20,19 @@ class RequestService {
             throw error;
         }
     }
+    async getAllRequestsByUserId(id) {
+        try {
+            const requests = await Request.findAll({
+                where: {
+                    user_id: id
+                }
+            });
+            return requests;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách yêu cầu:', error);
+            throw error;
+        }
+    }
 
     async createRequest(requestData) {
         try {
