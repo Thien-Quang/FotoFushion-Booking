@@ -19,6 +19,8 @@ const BookingAlbums = ({ priceList }) => {
     };
 
     useEffect(() => {
+        setMessage(null)
+        setdateTaking(null)
         console.log(priceList);
     }, [priceList])
 

@@ -13,7 +13,7 @@ export function formatDateTime(dateTimeString) {
     const minutes = dateTime.getMinutes().toString().padStart(2, '0');
 
     // Tạo chuỗi định dạng
-    const formattedDateTime = `${month}-${day}-${year} ${hours} giờ ${minutes} phút`;
+    const formattedDateTime = `${day}-${month}-${year} ${hours} giờ ${minutes} phút`;
 
     return formattedDateTime;
 }

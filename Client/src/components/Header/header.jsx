@@ -72,22 +72,22 @@ function Header() {
         <div className="w-1/2 text-white flex justify-center items-center font-sans text-xs">
           <ul className="flex justify-center items-center cursor-pointer">
             <li className="flex justify-center items-center mr-1 ">
-              <a>
+              <a href="https://www.facebook.com/studiofotofusion">
                 <icons.BsInstagram />
               </a>
             </li>
             <li className="flex justify-center items-center mr-1 ">
-              <a>
+              <a href="https://www.facebook.com/studiofotofusion">
                 <icons.AiOutlineFacebook />
               </a>
             </li>
             <li className="flex justify-center items-center mr-1 ">
-              <a>
+              <a href="https://www.facebook.com/studiofotofusion">
                 <icons.BsTwitter />
               </a>
             </li>
             <li className="flex justify-center items-center mr-1 ">
-              <a>
+              <a href="https://www.facebook.com/studiofotofusion">
                 <icons.AiOutlineYoutube />
               </a>
             </li>
@@ -203,16 +203,11 @@ function Header() {
                     <Link to='/profile' >
                       <Dropdown.Item>Thông Tin cá Nhân</Dropdown.Item>
                     </Link>
-                    <Link to='/' >
-                      <Dropdown.Item>Thông Báo </Dropdown.Item>
-                    </Link>
+
                     <Link to='/myalbums' >
                       <Dropdown.Item>Albums Của Tôi</Dropdown.Item>
                     </Link>
 
-                    <Link to='/' >
-                      <Dropdown.Item>Voucher Của Tôi</Dropdown.Item>
-                    </Link>
                     <Dropdown.Divider />
                     <Link to='/' onClick={handleLogOut}>
                       <Dropdown.Item>Đăng Xuất</Dropdown.Item>
@@ -226,9 +221,9 @@ function Header() {
                     <ul className="flex justify-center items-center ">
                       <li>
                         <Link to="/login">
-                          <a className="text-red-500 mr-5 " href="">
+                          <button className="text-red-500 mr-5 " href="">
                             ĐĂNG NHẬP
-                          </a>
+                          </button>
                         </Link>
                       </li>
                       <li>

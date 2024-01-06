@@ -70,9 +70,18 @@ const CheckOut = () => {
         setTotalAmount(calculatedTotal);
 
     }, [cartList]);
+    useEffect(() => {
+        console.log(auth.address);
+        if (!auth.fullName || !auth.address || !auth.phone) {
+            notify("Vui lòng điền đầy đủ thông tin giao hàng");
+            navigation('/profile', { state: { toastMessage: 'Bạn chưa có địa chỉ giao hàng!' } });
+
+        }
+
+    }, [auth])
 
     const handleCheckout = async () => {
-        if (auth.fullName === '' || !auth.address || auth.phone === '') {
+        if (auth.fullName === '' || auth.address === '' || auth.phone === '') {
             notify("Vui lòng điền đầy đủ thông tin giao hàng");
             navigation('/profile', { state: { toastMessage: 'Bạn chưa có địa chỉ giao hàng!' } });
 
