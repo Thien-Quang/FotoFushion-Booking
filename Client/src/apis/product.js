@@ -69,11 +69,28 @@ const getAllProduct = async () => {
     };
   }
 };
+const deleteProduct = async (accessToken, id) => {
+  try {
+    const response = await axiosClient.delete(`/deleteProduct/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return {
+      statusCode: response.status
+    }
+
+  } catch (error) {
+    console.error('Lỗi khi lấy danh sách ảnh:', error);
+    throw error;
+  }
+};
 
 export {
   addAProduct,
   createProductApi,
   getListProductsByStoreApi,
   getListProductsByUserApi,
-  getAllProduct
+  getAllProduct,
+  deleteProduct
 };
