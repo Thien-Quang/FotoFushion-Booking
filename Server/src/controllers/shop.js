@@ -108,6 +108,7 @@ const deleteProduct = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi xoá mặt hàng.' });
     }
 };
+
 module.exports = {
     getAllProductAndImg,
     addProductToCart,

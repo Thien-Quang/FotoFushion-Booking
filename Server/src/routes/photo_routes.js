@@ -3,7 +3,7 @@ const router = express.Router();
 const { getAllPhotos, getPhotoById, createNewPhoto, updatePhotoById, deletePhotoById, getAllPhotosByLocationId, deletePhotoByLocationId,
     getAllPhotosByAlbumsId, getAllPhotosByCostumerId, getAllPhotosByProductId,
     getAllPhotosByBlogId, getAllPhotosByRoomId, getAllPhotosByEquipmentId, deletePhotoByCostumerId, getAllPhotosByEvenId, getAllPhotosByUserId,
-    deletePhotoByEquipmentId, deletePhotoByRoomId, deletePhotoByBlogId, deletePhotoByUserId, deletePhotoByAlbumId, deletePhotoByEventId, deletePhotoByProductId, }
+    deletePhotoByEquipmentId, getAllPhotosByProductId1, deletePhotoByRoomId, deletePhotoByBlogId, deletePhotoByUserId, deletePhotoByAlbumId, deletePhotoByEventId, deletePhotoByProductId, }
     = require('../controllers/photo_controllers');
 const { verifyToken, isAdminSystem } = require('../middlewares/verifyToken')
 
@@ -18,6 +18,8 @@ router.delete('/api/deletePhoto/:id', verifyToken, isAdminSystem, deletePhotoByI
 router.get('/api/getAllPhotosByAlbumsId/:albums_id', getAllPhotosByAlbumsId);
 router.get('/api/getAllPhotosByCostumerId/:costumer_id', getAllPhotosByCostumerId)
 router.get('/api/getAllPhotosByRoomId/:room_id', getAllPhotosByRoomId)
+router.get('/api/getAllPhotosByProductId1/:id', getAllPhotosByProductId1)
+
 router.get('/api/getAllPhotosByProductId', getAllPhotosByProductId)
 router.get('/api/getAllPhotosByBlogId/:blog_id', getAllPhotosByBlogId)
 router.get('/api/getAllPhotosByEquipmentId/:equip_id', getAllPhotosByEquipmentId)
@@ -34,6 +36,7 @@ router.delete('/api/deletePhotoByBlogId/:id', verifyToken, isAdminSystem, delete
 router.delete('/api/deletePhotoByUserId/:id', verifyToken, isAdminSystem, deletePhotoByUserId);
 router.delete('/api/deletePhotoByAlbumId/:id', verifyToken, isAdminSystem, deletePhotoByAlbumId);
 router.delete('/api/deletePhotoByEventId/:id', verifyToken, isAdminSystem, deletePhotoByEventId);
+
 router.delete('/api/deletePhotoByProductId/:id', verifyToken, isAdminSystem, deletePhotoByProductId);
 router.delete('/api/deletePhotoByLocationId/:id', verifyToken, isAdminSystem, deletePhotoByLocationId);
 

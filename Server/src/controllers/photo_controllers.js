@@ -95,6 +95,19 @@ const getAllPhotosByProductId = async (req, res) => {
         res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
     }
 };
+const getAllPhotosByProductId1 = async (req, res) => {
+    try {
+        const prod_id = req.params.id;
+        // console.log(prod_id);
+        //const albumId = 'ef8440bc-e6b3-42e0-9c9b-b8c7366ce168'
+
+        const photos = await PhotoService.getPhotosByProductId(prod_id);
+        res.json(photos);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách ảnh:', error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi lấy danh sách ảnh.' });
+    }
+};
 // Lấy danh sách tất cả các ảnh theo blog id
 const getAllPhotosByBlogId = async (req, res) => {
     try {
@@ -347,7 +360,7 @@ const deletePhotoByProductId = async (req, res) => {
 };
 module.exports = {
     getAllPhotos, getPhotoById, createNewPhoto,
-    updatePhotoById, deletePhotoById,
+    updatePhotoById, deletePhotoById, getAllPhotosByProductId1,
     getAllPhotosByAlbumsId, getAllPhotosByCostumerId, getAllPhotosByRoomId, getAllPhotosByProductId,
     getAllPhotosByBlogId, getAllPhotosByEquipmentId, getAllPhotosByEvenId, getAllPhotosByUserId,
     deletePhotoByCostumerId, deletePhotoByEquipmentId, deletePhotoByRoomId, deletePhotoByBlogId, deletePhotoByLocationId,

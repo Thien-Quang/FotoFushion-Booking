@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const OrderDetailService = require('../services/orders_details_services');
-
+const ShopServer = require('../Services/shop')
 // Lấy danh sách tất cả các chi tiết đơn hàng
 const getAllOrderDetails = async (req, res) => {
     try {
@@ -51,6 +51,7 @@ const createNewOrderDetail = async (req, res) => {
         const orderDetailData = { id, ...inputData };
         const orderDetail = await OrderDetailService.createOrderDetail(orderDetailData);
         res.status(201).json(orderDetail);
+
     } catch (error) {
         console.error('Lỗi khi tạo chi tiết đơn hàng mới:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi tạo chi tiết đơn hàng mới.' });
