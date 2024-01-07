@@ -229,6 +229,8 @@ const Albums = () => {
                                         <PhotoOfAlbums item={selectedCustomer} />
                                         <div className="modal-action">
                                             <form method="dialog">
+
+                                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                                 <button className="btn">Close</button>
                                             </form>
                                         </div>

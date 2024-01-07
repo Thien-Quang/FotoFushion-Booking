@@ -75,6 +75,17 @@ class PhotoService {
             throw error;
         }
     }
+    async getPhotosByProductId(prod_id) {
+        try {
+            const photos = await Photo.findAll({
+                where: { prod_id: prod_id },
+            });
+            return photos;
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách ảnh theo albumId:', error);
+            throw error;
+        }
+    }
     //lấy tất cả hình ảnh theo costumer id
     async getPhotosByCostumerId(albumId) {
         try {
@@ -383,26 +394,25 @@ class PhotoService {
         }
     }
     // xóa tất cả hình ảnh theo product_id
-    async deletePhotoByProductId(productid) {
+    async deletePhotoByProductId(id) {
         try {
-            // Tìm ảnh đầu tiên có costume_id bằng giá trị được cung cấp
-            const photoToDelete = await Photo.findAll({
+            // Tìm ảnh đầu tiên có prod_id bằng giá trị được cung cấp
+            const photosToDelete = await Photo.findAll({
                 where: {
-                    prod_id: productid,
+                    prod_id: id,
                 },
             });
-
-            if (photoToDelete.length === 0) {
+            if (photosToDelete.length === 0) {
                 console.log('Không tìm thấy ảnh để xóa.');
                 return false;
             }
-
             // Xóa ảnh
-            for (const photo of photosToDelete) {
-                await photo.destroy();
+            for (const photoToDelete of photosToDelete) {
+                await photoToDelete.destroy();
             }
-            console.log('Đã xóa ảnh đầu tiên thành công.');
+            console.log('Đã xóa ảnh thành công.');
             return true;
+
         } catch (error) {
             console.error('Lỗi khi xóa ảnh:', error);
             throw error;

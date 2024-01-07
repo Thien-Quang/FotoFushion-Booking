@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import * as costumerApi from '../../../apis/costumer'
+import * as productApi from '../../../apis/product'
 import * as photo from '../../../apis/photo'
 import * as firebase from '../../../apis/firebase'
 
-import AddCostumer from '../add/AddCostumer';
-import EdidCostumer from '../edid/edidCostumer';
+
+import AddProduct from '../add/AddProduct'
+
+
 import AuthContext from '../../../context/authProvider';
 import ProductContext from '../../../context/productProvider';
 
@@ -15,11 +17,11 @@ import { formatCurrency, formatDateTime } from '../../helples/Format'
 
 
 const Product = () => {
+
     const [costumers, setCostumers] = useState([])
     const { auth } = useContext(AuthContext);
     const { productsList } = useContext(ProductContext);
 
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [costume_id, setCostume_id] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [delete_costumer, setDelete_costumer] = useState(false);
@@ -32,6 +34,7 @@ const Product = () => {
         if (!isModalOpen && reloadPage) {
             window.location.reload();
         }
+        console.log(productsList);
     }, [isModalOpen, reloadPage]);
 
     const notify = (message, type) => {
@@ -47,72 +50,25 @@ const Product = () => {
             theme: 'colored',
         });
     };
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await costumerApi.getAllCostumer(auth.accessToken);
-                setCostumers(response);
-            } catch (error) {
-                console.error('Lỗi khi lấy danh sách ảnh:', error);
-            }
-        };
-        fetchData();
-    }, []);
 
-    const fetchDataUrl = async () => {
-        try {
-            const dataPhoto = await photo.getListPhotoByCostumerId({ costume_id });
-            setUrl_photo(dataPhoto.url_photo)
 
-        } catch (error) {
-            console.error('Lỗi khi lấy danh sách ảnh:', error);
-        }
-    };
 
     const handleDeleteImage = async () => {
         try {
             if (url_photo) {
                 const deleteSuccess = await firebase.deleteImage(url_photo);
-                if (deleteSuccess || !deleteSuccess) {
-                    // If image is not found in Firebase or deleted successfully
-                    const deletePhoto = await photo.deletePhotoByCostumerId(auth.accessToken, costume_id)
+                const deletePhoto = await photo.deletePhotoByProductId(auth.accessToken, costume_id)
+                const deleteCostumer = await productApi.deleteProduct(auth.accessToken, costume_id)
 
-                    if (deletePhoto.statusCode === 204 || !deletePhoto) {
-                        // If photo is not found or deleted successfully in the photo table
-                        const deleteCostumer = await costumerApi.deleteCostumer(auth.accessToken, costume_id)
-                        console.log();
-                        if (deleteCostumer.statusCode === 204) {
-                            // If costume is not found or deleted successfully in the costumer table
-                            notify("Xóa trang phục thành công", 'success');
-                            handleCloseModal();
-                        } else {
-                            notify("Xóa trang phục không thành công", 'error');
-                        }
-                    } else {
-                        notify("Xóa hình ảnh trang phục không thành công", 'error');
-                    }
-                } else {
-                    // Xóa không thành công trên Firebase, thực hiện xử lý tương ứng
-                    notify("Xóa hình ảnh trên firebase không thành công", 'error');
-                }
+
             }
         } catch (error) {
-            notify("Xóa trang phục không thành công", 'error');
+            notify("Xóa sản phẩm không thành công", 'error');
         }
     };
     if (delete_costumer) {
-        fetchDataUrl().then(() => {
-            handleDeleteImage();
-        }).catch((error) => {
-            console.error('Lỗi xử lý:', error);
-        });
+        handleDeleteImage();
     }
-
-
-    const openEditModal = (costumer) => {
-        setSelectedCustomer(costumer);
-        document.getElementById('my_modal_4 edit').showModal();
-    };
     const openDeleteModal = (id) => {
         setCostume_id(id)
         setOpenModal(true)
@@ -122,33 +78,9 @@ const Product = () => {
         setReloadPage(true);
 
     };
-    const [costumersCategory, setCostumersCategory] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
 
-    useEffect(() => {
-        const fetchData1 = async () => {
-            try {
-                const response = await costumerApi.getAllCategoryOfCostumes();
-                setCostumersCategory(response)
-            } catch (error) {
-                console.error('Lỗi khi lấy danh sách ảnh:', error);
-            }
-        };
-        fetchData1();
-    }, []);
-    const filteredStudios = costumers.filter((studio) => {
-        const lowerCaseName = studio.name.toLowerCase();
-        const lowerCaseSearchTerm = searchTerm.toLowerCase();
-        const isNameMatch = lowerCaseName.includes(lowerCaseSearchTerm);
-        if (selectedCategory) {
-            return isNameMatch && studio.category === selectedCategory;
-        }
-        return isNameMatch;
-    });
-    const handleSearchInputChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+
+
     return (
         <div>
             <ToastContainer />
@@ -157,33 +89,15 @@ const Product = () => {
             </div>
             <div className='flex items-center justify-center'>
                 <div className='w-3/5 h-10 m-4 flex items-center justify-center'>
-                    <div class='w-1/2 mx-auto'>
-                        <div className="join">
-                            <div>
-                                <div>
-                                    <input className="input input-bordered join-item" placeholder="Nhập tên trang phục bạn cần tìm" onChange={handleSearchInputChange} />
-                                </div>
-                            </div>
-                            <select className="select select-bordered join-item"
-                                value={selectedCategory}
-                                onChange={(e) => setSelectedCategory(e.target.value)}>
-                                <option disabled selected>Lựa chọn</option>
-                                {costumersCategory.map((item) => {
-                                    return (
-                                        <option>{item}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-                    </div>
+
                     <div className='flex items-center justify-center'>
-                        <Button gradientMonochrome="lime" onClick={() => document.getElementById('my_modal_4_1').showModal()}>Thêm Trang Phục Mới</Button>
+                        <Button gradientMonochrome="lime" onClick={() => document.getElementById('my_modal_4_1').showModal()}>Thêm Sản Phẩm Mới</Button>
                     </div>
                 </div>
             </div>
             <dialog id="my_modal_4_1" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
-                    <AddCostumer />
+                    <AddProduct />
                     <div className="modal-action">
                         <form method="dialog">
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
@@ -219,36 +133,22 @@ const Product = () => {
                                         <Table.Cell>{product.description}</Table.Cell>
 
                                         <Table.Cell>
-                                            <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1 "
-                                                onClick={() => openEditModal(product)}>
-                                                Sửa
-                                            </button>
                                             <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 m-1"
-                                                onClick={() => openDeleteModal(product.id)}>
+                                                onClick={() => { setUrl_photo(product.url_photo); openDeleteModal(product.id) }}>
                                                 Xóa
                                             </button>
                                         </Table.Cell>
                                     </Table.Row>
                                 )
                             })}
-                            <dialog id="my_modal_4 edit" className="modal">
-                                <div className="modal-box w-11/12 max-w-5xl">
-                                    <EdidCostumer costumer={selectedCustomer} />
-                                    <div className="modal-action">
-                                        <form method="dialog">
-                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => handleCloseModal()}>✕</button>
-                                            <button className="btn" onClick={() => handleCloseModal()}>Close</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </dialog>
+
                             <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
                                 <Modal.Header />
                                 <Modal.Body>
                                     <div className="text-center">
                                         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                            Bạn có chắc rằng bạn muốn xóa trang phục này?
+                                            Bạn có chắc rằng bạn muốn xóa sản phẩm này?
                                         </h3>
                                         <div className="flex justify-center gap-4">
                                             <Button color="failure" onClick={() => { setOpenModal(false); setDelete_costumer(true) }}>
